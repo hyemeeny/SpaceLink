@@ -2,7 +2,6 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
@@ -19,8 +18,12 @@ const config: Config = {
         gray03: "#ccd5e3",
         gray04: "#9fa6b2",
         gray05: "#3e3e43",
+        gray06: "#373740",
         purple01: "#6d6afe",
         sky01: "#6AE3FE",
+      },
+      backgroundImage: {
+        gradient: "linear-gradient(90.99deg, var(--tw-gradient-stops))",
       },
     },
   },
