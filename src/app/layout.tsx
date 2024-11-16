@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "Linkbrary",
@@ -13,7 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-gray01">{children}</body>
+      <body className="bg-gray01">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
