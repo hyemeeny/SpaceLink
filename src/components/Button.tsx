@@ -34,6 +34,7 @@ const Button = ({
         disabled && "opacity-50 cursor-not-allowed",
         className
       )}
+      disabled={disabled}
     >
       {children}
     </button>
