@@ -1,15 +1,17 @@
 import { create } from "zustand";
 
 interface AuthState {
-  user: { id: string; name: string } | null;
+  user: { name: string; email: string } | null;
   token: string | null;
-  setUser: (user: { id: string; name: string }, token: string) => void;
+  setUser: (user: { name: string; email: string }, token: string) => void;
   logout: () => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
+const useAuthStore = create<AuthState>((set) => ({
   user: null,
   token: null,
   setUser: (user, token) => set({ user, token }),
   logout: () => set({ user: null, token: null }),
 }));
+
+export default useAuthStore;

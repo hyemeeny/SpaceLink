@@ -8,9 +8,9 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Image from "next/image";
 import Link from "next/link";
-import { useSignup } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { axiosInstance } from "@/lib/axiosInstance";
+import axios from "axios";
 
 // 비밀번호 조건 정규표현식
 const passwordRegex =
@@ -35,13 +35,12 @@ const SignupSchema = z.object({
 type SignupFormValues = z.infer<typeof SignupSchema>;
 
 const SignupPage = () => {
-  const { mutate: signup, isPending, isError } = useSignup();
   const router = useRouter();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors, isValid },
   } = useForm<SignupFormValues>({
     resolver: zodResolver(SignupSchema),
     mode: "onChange",
@@ -56,24 +55,14 @@ const SignupPage = () => {
     console.log("폼 제출 데이터", data);
 
     try {
-      confirm("회원가입이 완료되었습니다!🎉");
-      signup(data, {
-        onSuccess: () => router.push("/login"),
-      });
+      console.log("API 요청 데이터", data);
+      const response = await axios.post("/api/auth/sign-up", data);
+      console.log("회원가입 성공", response);
+      router.push("/login");
     } catch (error) {
       console.error("회원가입에 실패하였습니다.", error);
     }
-    // try {
-    //   await axiosInstance.post("/auth/sign-up", data);
-    //   router.push("/login");
-    //   confirm("회원가입이 완료되었습니다!🎉");
-    // } catch (error) {
-    //   console.error("회원가입에 실패하였습니다.", error);
-    // }
   };
-
-  console.log(isValid);
-  console.log(errors);
 
   return (
     <section className="flex flex-col gap-6 px-5 min-w-[325px] md:w-[400px] mx-auto mt-[10vh]">
@@ -119,14 +108,14 @@ const SignupPage = () => {
           errors={errors.password?.message}
           {...register("password")}
         />
-        <Input
+        {/* <Input
           label="비밀번호 확인"
           id="password"
           type="password"
           placeholder="비밀번호를 다시 입력해주세요."
           errors={errors.password?.message}
           {...register("password")}
-        />
+        /> */}
 
         <Button type="submit" height="h-[53px]" disabled={!isValid}>
           회원가입

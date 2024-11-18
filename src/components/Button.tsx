@@ -13,29 +13,11 @@ interface ButtonProps {
   className?: string;
 }
 
-const Button = ({
-  children,
-  width = "w-full",
-  height = "h-full",
-  type = "button",
-  disabled = false,
-  className,
-}: ButtonProps) => {
-  const baseStyle =
-    "bg-gradient from-purple01 to-sky01 rounded-lg text-white text-lg font-semibold transition duration-300 ease-in-out";
+const Button = ({ children, width = "w-full", height = "h-full", type = "button", disabled = false, className }: ButtonProps) => {
+  const baseStyle = "bg-gradient from-purple01 to-sky01 rounded-lg text-white text-sm md:text-lg font-semibold transition duration-300 ease-in-out";
 
   return (
-    <button
-      type={type}
-      className={clsx(
-        baseStyle,
-        width,
-        height,
-        disabled && "opacity-50 cursor-not-allowed",
-        className
-      )}
-      disabled={disabled}
-    >
+    <button type={type} className={clsx(baseStyle, width, height, disabled && "opacity-50 cursor-not-allowed", className)} disabled={disabled}>
       {children}
     </button>
   );
