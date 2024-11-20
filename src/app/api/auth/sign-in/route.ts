@@ -22,7 +22,7 @@ export const POST = async (req: NextRequest) => {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
-        maxAge: 3600, // 1시간
+        maxAge: 24 * 60 * 60, // 24시간
         path: "/",
       });
 

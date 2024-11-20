@@ -1,5 +1,3 @@
-"use client";
-
 import { ReactNode } from "react";
 import clsx from "clsx";
 
@@ -13,7 +11,7 @@ interface ButtonProps {
   className?: string;
 }
 
-const Button = ({ children, width = "w-full", height = "h-full", type = "button", disabled = false, className }: ButtonProps) => {
+const CtaButton = ({ children, width = "w-full", height = "h-full", type = "button", disabled = false, className }: ButtonProps) => {
   const baseStyle = "bg-gradient from-purple01 to-sky01 rounded-lg text-white text-sm md:text-lg font-semibold transition duration-300 ease-in-out";
 
   return (
@@ -23,4 +21,4 @@ const Button = ({ children, width = "w-full", height = "h-full", type = "button"
   );
 };
 
-export default Button;
+export default CtaButton;

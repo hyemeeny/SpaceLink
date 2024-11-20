@@ -4,25 +4,20 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import Button from "@/components/Button";
+import Button from "@/components/Button/CtaButton";
 import Input from "@/components/Input";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { axiosInstance } from "@/lib/axiosInstance";
 import axios from "axios";
 
 // 비밀번호 조건 정규표현식
-const passwordRegex =
-  /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$&*?!%])[A-Za-z\d!@$%&*?]{8,15}$/;
+const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$&*?!%])[A-Za-z\d!@$%&*?]{8,15}$/;
 
 // 로그인 스키마 정의
 const SignupSchema = z.object({
   name: z.string().min(1, { message: "이름을 입력해주세요." }),
-  email: z
-    .string()
-    .min(1, { message: "이메일을 입력해주세요." })
-    .email({ message: "유효한 이메일을 입력해주세요." }),
+  email: z.string().min(1, { message: "이메일을 입력해주세요." }).email({ message: "유효한 이메일을 입력해주세요." }),
   password: z
     .string()
     .min(8, { message: "비밀번호를 8자리 이상 입력해 주세요." })
@@ -74,32 +69,15 @@ const SignupPage = () => {
         </h1>
         <p className="text-black text-base">
           이미 회원이신가요?
-          <Link
-            href={"/login"}
-            className="text-purple01 font-semibold border-b-[1px] border-purple01 ml-3"
-          >
+          <Link href={"/login"} className="text-purple01 font-semibold border-b-[1px] border-purple01 ml-3">
             로그인 하기
           </Link>
         </p>
       </div>
 
       <form className="grid gap-6" onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          label="이메일"
-          id="email"
-          type="email"
-          placeholder="test@test.com"
-          errors={errors.email?.message}
-          {...register("email")}
-        />
-        <Input
-          label="이름"
-          id="name"
-          type="text"
-          placeholder="이름을 입력해주세요."
-          errors={errors.name?.message}
-          {...register("name")}
-        />
+        <Input label="이메일" id="email" type="email" placeholder="test@test.com" errors={errors.email?.message} {...register("email")} />
+        <Input label="이름" id="name" type="text" placeholder="이름을 입력해주세요." errors={errors.name?.message} {...register("name")} />
         <Input
           label="비밀번호"
           id="password"
@@ -126,12 +104,7 @@ const SignupPage = () => {
         <p className="text-gray05 text-sm">소설 로그인</p>
         <div className="flex gap-4">
           <Link href="#">
-            <Image
-              src="/icons/google.svg"
-              width={42}
-              height={42}
-              alt="Google"
-            />
+            <Image src="/icons/google.svg" width={42} height={42} alt="Google" />
           </Link>
           <Link href="#">
             <Image src="/icons/kakao.svg" width={42} height={42} alt="Kakao" />
