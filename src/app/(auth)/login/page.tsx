@@ -8,8 +8,8 @@ import Link from "next/link";
 import Image from "next/image";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
-import { useLogin } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 // 비밀번호 조건 정규표현식
 const passwordRegex =
@@ -33,7 +33,6 @@ const LoginSchema = z.object({
 type LoginFormValues = z.infer<typeof LoginSchema>;
 
 const LoginPage = () => {
-  const { mutate: login, isPending, isError } = useLogin();
   const router = useRouter();
 
   const {
@@ -51,9 +50,10 @@ const LoginPage = () => {
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
-      login(data, {
-        onSuccess: () => router.push("/"),
-      });
+      console.log(data);
+      const response = await axios.post("/api/auth/sign-in", data);
+      console.log("로그인 성공", response);
+      router.push("/");
     } catch (error) {
       console.error("로그인에 실패하였습니다.", error);
     }
