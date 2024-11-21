@@ -48,9 +48,6 @@ const LoginPage = () => {
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
-      // console.log(data);
-      // const response = await axios.post("/api/auth/sign-in", data);
-      // console.log("로그인 성공", response);
       await login(data);
       router.push("/");
     } catch (error) {
