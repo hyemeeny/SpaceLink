@@ -1,26 +1,8 @@
 "use client";
 
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import axios from "axios";
-
-// 유저 정보 조회
-const fetchUser = async () => {
-  const { data } = await axios.get("/api/user");
-  return data;
-};
-
-// 로그인 처리
-const loginUser = async (credentials: { email: string; password: string }) => {
-  const { data } = await axios.post("/api/auth/sign-in", credentials);
-  return data;
-};
-
-// 로그아웃 처리
-const logoutUser = async () => {
-  const { data } = await axios.get("/api/auth/logout");
-  return data;
-};
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { fetchUser, loginUser, logoutUser } from "@/lib/api";
 
 export const useAuth = () => {
   const queryClient = useQueryClient();
