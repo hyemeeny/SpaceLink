@@ -1,10 +1,10 @@
 "use client";
 
+import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { fetchFolders, createFolders } from "@/lib/api";
 import CtaButton from "@/components/Button/CtaButton";
 import Container from "@/components/Layout/Container";
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { useState } from "react";
 
 interface Folder {
   id: number;
@@ -13,26 +13,16 @@ interface Folder {
   linkCount: number;
 }
 
-const fetchFolders = async () => {
-  const { data } = await axios.get("/api/folders");
-  return data;
-};
-
-const createFolder = async (folderName: string) => {
-  const { data } = await axios.post("/api/folders", { folderName });
-  return data;
-};
-
 const LinksPage = () => {
   const { data: folders, isError, isPending } = useQuery<Folder[]>({ queryKey: ["folders"], queryFn: fetchFolders });
 
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
 
   const [folderName, setFolderName] = useState<string>("");
   const [error, setError] = useState<string>("");
 
   const mutation = useMutation({
-    mutationFn: createFolder,
+    mutationFn: createFolders,
     onSuccess: (data) => {
       // 리액트 쿼리 키는 객체 형태로 불러와야한다
       // 폴더 목록을 자동으로 업데이트 => 쿼리를 무효화하여 새 폴더 목록을 가져온다
