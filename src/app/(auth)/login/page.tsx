@@ -9,7 +9,6 @@ import Image from "next/image";
 import Button from "@/components/Button/CtaButton";
 import Input from "@/components/Input";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { useAuth } from "@/hooks/useAuth";
 
 // 비밀번호 조건 정규표현식
