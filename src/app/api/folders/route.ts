@@ -6,7 +6,7 @@ export const GET = async () => {
   try {
     const token = cookies().get("accessToken")?.value;
 
-    console.log("유저 토큰", token);
+    // console.log("유저 토큰", token);
 
     if (!token) {
       return NextResponse.json({ error: "로그인이 필요합니다." }, { status: 401 });
@@ -35,17 +35,15 @@ export const POST = async (request: NextRequest) => {
     }
 
     const body = await request.json();
-    console.log("Received body:", body);
     const { folderName } = body;
 
-    // name이 없으면 오류 응답
     if (!folderName) {
       return NextResponse.json({ error: "폴더 이름이 필요합니다." }, { status: 400 });
     }
 
     const response = await axiosInstance.post(
       "/folders",
-      { folderName },
+      { name: folderName }, // 폴더 이름 name 필드에 담아 JSON 객체로 보냄
       {
         headers: {
           Authorization: `Bearer ${token}`,
