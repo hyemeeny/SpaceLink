@@ -4,8 +4,7 @@
 
 @font-face {
   font-family: "Pretendard-Regular";
-  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
-    format("woff");
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff") format("woff");
   font-weight: 400;
   font-style: normal;
 }
@@ -41,4 +40,35 @@ em {
 
 input {
   outline: none;
+}
+
+/* 랜딩페이지 그라데이션 텍스트 */
+@layer utilities {
+  .gradient-main-text {
+    background: linear-gradient(91.26deg, #6d6afe 17.28%, #ff9f9f 74.98%);
+    background-clip: text;
+    color: transparent;
+  }
+
+  .gradient-sub-text1 {
+    background: linear-gradient(96.57deg, #fe8a8a 1.73%, #a4ceff 33.89%);
+    background-clip: text;
+    color: transparent;
+  }
+  .gradient-sub-text2 {
+    background: linear-gradient(277.01deg, #6fbaff 59.22%, #ffd88b 93.66%);
+
+    background-clip: text;
+    color: transparent;
+  }
+  .gradient-sub-text3 {
+    background: linear-gradient(99.5deg, #6d7ccd 19.76%, rgba(82, 136, 133, 0.22) 52.69%);
+    background-clip: text;
+    color: transparent;
+  }
+  .gradient-sub-text4 {
+    background: linear-gradient(271.36deg, #fe578f -9.84%, #68e8f9 107.18%);
+    background-clip: text;
+    color: transparent;
+  }
 }
