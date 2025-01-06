@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-gray01">
+      <body>
         <QueryClientProvider>
           <Header />
           {children}
