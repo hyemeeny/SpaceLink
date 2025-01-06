@@ -1,10 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: [
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: ["./src/components/**/*.{js,ts,jsx,tsx,mdx}", "./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       colors: {
@@ -19,6 +16,7 @@ const config: Config = {
         gray04: "#9fa6b2",
         gray05: "#3e3e43",
         gray06: "#373740",
+        gray07: "#6B6B6B",
         purple01: "#6d6afe",
         sky01: "#6AE3FE",
       },
