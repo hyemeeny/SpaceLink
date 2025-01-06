@@ -46,7 +46,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-gray02 flex justify-between items-center px-5 py-4 md:py-8">
+    <header className="bg-gray01 flex justify-between items-center px-5 py-4 md:py-8">
       <Link href={"/"}>
         <Image src={"/icons/logo.svg"} width={133} height={24} alt="Linkbrary" />
       </Link>
@@ -61,7 +61,6 @@ const Header = () => {
 
             {isDropdownOpen && (
               <div className="absolute top-8">
-                {/* <Dropdown items={["로그아웃"]} onItemClick={handleItemClick} /> */}
                 <button onClick={() => logout()}>로그아웃</button>
               </div>
             )}
