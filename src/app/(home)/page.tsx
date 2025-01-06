@@ -1,16 +1,13 @@
-import CtaButton from "@/components/Button/CtaButton";
 import Container from "@/components/Layout/Container";
-import Link from "next/link";
+import MainSection from "./components/MainSection";
+import SubSection from "./components/SubSection";
 
 export default function Home() {
   return (
     <main>
+      <MainSection />
       <Container>
-        <Link href={"/links"}>
-          <CtaButton width="w-[350px]" height="h-[53px]">
-            링크 추가하기
-          </CtaButton>
-        </Link>
+        <SubSection />
       </Container>
     </main>
   );
