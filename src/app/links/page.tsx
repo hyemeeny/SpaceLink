@@ -5,6 +5,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchFolders, createFolders } from "@/lib/api";
 import CtaButton from "@/components/Button/CtaButton";
 import Container from "@/components/Layout/Container";
+import { useModalStore } from "@/store/modalStore";
+import ModalContainer from "@/components/Modal/ModalContainer";
 
 interface Folder {
   id: number;
@@ -14,6 +16,17 @@ interface Folder {
 }
 
 const LinksPage = () => {
+  const { openModal } = useModalStore();
+
+  const handleOpenModal = () => {
+    openModal(
+      <div>
+        <h2>공용 모달</h2>
+        <p>이 모달은 Zustand로 관리됩니다!</p>
+      </div>
+    );
+  };
+
   const { data: folders, isError, isPending } = useQuery<Folder[]>({ queryKey: ["folders"], queryFn: fetchFolders });
 
   const queryClient = useQueryClient();
@@ -64,6 +77,14 @@ const LinksPage = () => {
           <li key={folder.id}>{folder.name}</li>
         ))}
       </ul>
+
+      <div>
+        <button onClick={handleOpenModal} style={{ padding: "10px 20px" }}>
+          모달 열기
+        </button>
+        {/* 공용 모달 */}
+        <ModalContainer />
+      </div>
     </Container>
   );
 };

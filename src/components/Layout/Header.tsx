@@ -20,14 +20,14 @@ const Header = () => {
   if (hideHeaderRoutes.includes(pathname)) return null;
 
   // 사용자 데이터를 로딩 중일 때 빈 상태로 유지
-  if (isPending) {
-    return (
-      <header className="bg-gray03 flex justify-between items-center px-5 py-3">
-        <div className="w-[133px] h-[24px] bg-gray-200 animate-pulse"></div>
-        <div className="w-[80px] h-[37px] bg-gray-200 animate-pulse"></div>
-      </header>
-    );
-  }
+  // if (isPending) {
+  //   return (
+  //     <header className="bg-gray03 flex justify-between items-center px-5 py-3">
+  //       <div className="w-[133px] h-[24px] bg-gray-200 animate-pulse"></div>
+  //       <div className="w-[80px] h-[37px] bg-gray-200 animate-pulse"></div>
+  //     </header>
+  //   );
+  // }
 
   // 사용자 데이터를 불러오는 데 실패했을 때
   // if (isError) {
