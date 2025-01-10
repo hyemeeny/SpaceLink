@@ -16,11 +16,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div id="modal-root"></div>
         <QueryClientProvider>
           <Header />
           {children}
         </QueryClientProvider>
+        <div id="modal-root"></div>
       </body>
     </html>
   );
