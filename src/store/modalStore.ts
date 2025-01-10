@@ -1,15 +1,13 @@
 import { create } from "zustand";
 
-interface ModalState {
-  isOpen: boolean; // 모달 열림 상태
-  content: React.ReactNode | null; // 모달의 동적 콘텐츠
-  openModal: (content: React.ReactNode) => void; // 모달 열기
-  closeModal: () => void; // 모달 닫기
+interface ModalStore {
+  isOpen: boolean;
+  openModal: (title: string, content: React.ReactNode) => void;
+  closeModal: () => void;
 }
 
-export const useModalStore = create<ModalState>((set) => ({
+export const useModalStore = create<ModalStore>((set) => ({
   isOpen: false,
-  content: null,
-  openModal: (content) => set({ isOpen: true, content }),
-  closeModal: () => set({ isOpen: false, content: null }),
+  openModal: () => set({ isOpen: true }),
+  closeModal: () => set({ isOpen: false }),
 }));

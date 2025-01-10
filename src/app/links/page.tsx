@@ -1,90 +1,40 @@
-"use client";
-
-import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchFolders, createFolders } from "@/lib/api";
-import CtaButton from "@/components/Button/CtaButton";
 import Container from "@/components/Layout/Container";
-import { useModalStore } from "@/store/modalStore";
-import ModalContainer from "@/components/Modal/ModalContainer";
+import FoldersForm from "@/components/Folders/FoldersForm";
+import API_URL from "@/constants/config";
+import { cookies } from "next/headers";
+import { FolderProps } from "@/types/folders";
 
-interface Folder {
-  id: number;
-  createdAt: Date;
-  name: string;
-  linkCount: number;
-}
+const getFolders = async () => {
+  const accessToken = cookies().get("accessToken")?.value;
 
-const LinksPage = () => {
-  const { openModal } = useModalStore();
+  console.log("Access Token: ", accessToken);
+  if (!accessToken) {
+    throw new Error("Access token is missing.");
+  }
 
-  const handleOpenModal = () => {
-    openModal(
-      <div>
-        <h2>공용 모달</h2>
-        <p>이 모달은 Zustand로 관리됩니다!</p>
-      </div>
-    );
-  };
+  try {
+    const response = await fetch(`${API_URL}/folders`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      next: { tags: ["folders"] },
+    });
 
-  const { data: folders, isError, isPending } = useQuery<Folder[]>({ queryKey: ["folders"], queryFn: fetchFolders });
+    return response.json();
+  } catch (error) {
+    console.error("폴더 조회 중 에러 발생", error);
+  }
+};
 
-  const queryClient = useQueryClient();
+const LinksPage = async () => {
+  const folders = await getFolders();
 
-  const [folderName, setFolderName] = useState<string>("");
-  const [error, setError] = useState<string>("");
-
-  const mutation = useMutation({
-    mutationFn: createFolders,
-    onSuccess: (data) => {
-      // 리액트 쿼리 키는 객체 형태로 불러와야한다
-      // 폴더 목록을 자동으로 업데이트 => 쿼리를 무효화하여 새 폴더 목록을 가져온다
-      queryClient.invalidateQueries({ queryKey: ["folders"] }); // 폴더 목록 쿼리 무효화
-      setFolderName("");
-    },
-    onError: (err: any) => {
-      console.error("폴더 생성 실패:", err);
-      setError("폴더 생성 실패: " + err?.response?.data?.error || "알 수 없는 오류");
-    },
-  });
-
-  const handleFolderCreate = () => {
-    if (!folderName) {
-      setError("폴더 이름을 입력하세요.");
-      return;
-    }
-
-    mutation.mutate(folderName); // 폴더 생성 요청
-  };
+  console.log("폴더 리스트", folders);
 
   return (
     <Container>
-      <input className="w-full h-[60px] ring-1 ring-inset px-4 ring-gray03 rounded-lg placeholder-gray04 text-gray06 text-base transition duration-500 ease-in-out focus-within:ring-purple01 focus-within:ring-2" />
-      <CtaButton width="w-[80px]" height="h-[37px]">
-        추가하기
-      </CtaButton>
-
-      <input id="name" name="name" type="text" value={folderName} onChange={(e) => setFolderName(e.target.value)} placeholder="폴더 이름" />
-      <button onClick={handleFolderCreate} disabled={mutation.isPending}>
-        {mutation.isPending ? "로딩 중..." : "폴더 생성"}
-      </button>
-
-      {mutation.isError && <div style={{ color: "red" }}>{error}</div>}
-      {mutation.isSuccess && <div style={{ color: "green" }}>폴더 생성 성공!</div>}
-
-      <ul>
-        {folders?.map((folder) => (
-          <li key={folder.id}>{folder.name}</li>
-        ))}
-      </ul>
-
-      <div>
-        <button onClick={handleOpenModal} style={{ padding: "10px 20px" }}>
-          모달 열기
-        </button>
-        {/* 공용 모달 */}
-        <ModalContainer />
-      </div>
+      <FoldersForm folders={folders} />
     </Container>
   );
 };
