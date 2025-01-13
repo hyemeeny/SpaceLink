@@ -4,7 +4,7 @@ import API_URL from "@/constants/config";
 import { cookies } from "next/headers";
 import { FolderProps } from "@/types/folders";
 
-const getFolders = async () => {
+const getAllCategories = async () => {
   const accessToken = cookies().get("accessToken")?.value;
 
   console.log("Access Token: ", accessToken);
@@ -21,6 +21,10 @@ const getFolders = async () => {
       next: { tags: ["folders"] },
     });
 
+    if (!response.ok) {
+      console.error("전체 카테고리를 가져오는 데 실패했습니다.");
+    }
+
     return response.json();
   } catch (error) {
     console.error("폴더 조회 중 에러 발생", error);
@@ -28,13 +32,13 @@ const getFolders = async () => {
 };
 
 const LinksPage = async () => {
-  const folders = await getFolders();
+  const allCategories = await getAllCategories();
 
-  console.log("폴더 리스트", folders);
+  console.log("폴더 리스트", allCategories);
 
   return (
     <Container>
-      <FoldersForm folders={folders} />
+      <FoldersForm allCategories={allCategories} />
     </Container>
   );
 };
