@@ -3,11 +3,11 @@
 import clsx from "clsx";
 import Image from "next/image";
 import {
+  useState,
+  forwardRef,
   ChangeEventHandler,
   FocusEventHandler,
-  forwardRef,
   KeyboardEventHandler,
-  useState,
 } from "react";
 
 interface InputProps {
@@ -18,12 +18,12 @@ interface InputProps {
   placeholder?: string;
   errors?: string;
   type?: string;
-  onChange: ChangeEventHandler;
+  onChange?: ChangeEventHandler;
   onKeyDown?: KeyboardEventHandler;
   onBlur?: FocusEventHandler;
 }
 
-const Input = forwardRef<HTMLInputElement, InputProps>(
+const BaseInput = forwardRef<HTMLInputElement, InputProps>(
   (
     {
       label,
@@ -37,7 +37,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       onBlur,
       onKeyDown,
     },
-    ref
+    ref,
   ) => {
     const [inputType, setInputType] = useState(type);
     const [password, setPassword] = useState(false);
@@ -61,7 +61,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               "w-full h-[60px] ring-1 ring-inset px-4 ring-gray03 rounded-lg placeholder-gray04 text-gray06 text-base transition duration-500 ease-in-out focus-within:ring-purple01 focus-within:ring-2",
               errors
                 ? "ring-red01 focus-within:ring-red01"
-                : "focus-within:ring-purple01"
+                : "focus-within:ring-purple01",
             )}
             id={id}
             name={name}
@@ -104,7 +104,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
-export default Input;
+export default BaseInput;
