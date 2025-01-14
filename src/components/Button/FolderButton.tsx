@@ -14,6 +14,7 @@ const FolderButton = ({
   type,
   isSelected,
   className,
+  onClick,
 }: ButtonProps) => {
   const baseStyle =
     "border-[1px] border-purple01 bg-transparent rounded p-1 md:p-2 text-sm md:text-md font-normal transition duration-300 ease-in-out";
@@ -23,10 +24,11 @@ const FolderButton = ({
       type={type}
       className={clsx(
         baseStyle,
-        isSelected && "bg-purple01 text-white",
+        isSelected && "bg-red01 text-white",
         className,
       )}
       aria-selected={isSelected}
+      onClick={onClick}
     >
       {children}
     </button>
