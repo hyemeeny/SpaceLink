@@ -3,6 +3,7 @@
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import API_URL from "@/constants/config";
+import { Link, LinkProps } from "@/types/links";
 
 // 폴더 생성
 export const postFolders = async (formData: FormData) => {
@@ -64,31 +65,9 @@ export const deleteFolders = async (folderId: number) => {
   }
 };
 
-// 폴더 카테고리
-export const getCategoriesByFolder = async (folderId: number) => {
+export const getLinksById = async (folderId: number): Promise<LinkProps> => {
   const accessToken = cookies().get("accessToken")?.value;
 
-  console.log("Access Token: ", accessToken);
-  if (!accessToken) {
-    throw new Error("Access token is missing.");
-  }
-
-  try {
-    const response = await fetch(`${API_URL}/folders/${folderId}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      next: { tags: ["folders"] },
-    });
-
-    return response.json();
-  } catch (error) {
-    console.error("폴더 조회 중 에러 발생", error);
-  }
-};
-
-export const getLinks = async (folderId: number) => {
-  const accessToken = cookies().get("accessToken")?.value;
   if (!accessToken) {
     throw new Error("Access token is missing.");
   }
@@ -96,13 +75,14 @@ export const getLinks = async (folderId: number) => {
   try {
     const response = await fetch(`${API_URL}/folders/${folderId}/links`, {
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      next: { tags: ["folders"] },
+      next: { tags: ["links"] },
     });
 
     if (!response.ok) {
-      throw new Error("링크를 조회하는 데 실패했습니다.");
+      console.error("링크를 조회하는 데 실패했습니다.");
     }
 
     return response.json();
