@@ -6,20 +6,22 @@ import { postFolders } from "@/actions/folders";
 import { getLinksById } from "@/actions/links";
 import { Folder } from "@/types/folders";
 import { Link } from "@/types/links";
-import CtaButton from "@/components/Button/CtaButton";
 import { ModalContainer, Content, Header } from "@/components/Modal/ModalContainer";
-import BaseInput from "@/components/Input/BaseInput";
-import FolderButton from "@/components/Button/FolderButton";
 import { FiPlus } from "react-icons/fi";
+import LinkList from "@/components/Links/LinkList";
+import LinkInput from "@/components/Input/LinkInput";
+import BaseInput from "@/components/Input/BaseInput";
+import CtaButton from "@/components/Button/CtaButton";
+import FolderButton from "@/components/Button/FolderButton";
 
 const ALL_FOLDERS_ID = 0; // "전체 선택"의 고유 ID
 
-interface FoldersForm {
+interface LinksForm {
   folders: Folder[];
   links: Link[];
 }
 
-const FoldersForm = ({ folders, links }: FoldersForm) => {
+const LinksForm = ({ folders, links }: LinksForm) => {
   const { openModal, closeModal } = useModalStore();
   const [folderId, setFolderId] = useState<number>(ALL_FOLDERS_ID);
   const [currentLinks, setCurrentLinks] = useState<Link[]>(links); // 현재 표시할 링크
@@ -43,13 +45,9 @@ const FoldersForm = ({ folders, links }: FoldersForm) => {
   // console.log("currentLinks", currentLinks);
 
   return (
-    <div>
-      <div className="flex">
-        <input className="w-full h-[60px] ring-1 ring-inset px-4 ring-gray03 rounded-lg placeholder-gray04 text-gray06 text-base transition duration-500 ease-in-out focus-within:ring-purple01 focus-within:ring-2" />
-        <CtaButton width="w-[80px]" height="h-[37px]">
-          추가하기
-        </CtaButton>
-      </div>
+    <section>
+      {/* 링크 추가 섹션 */}
+      <LinkInput />
 
       <div className="flex items-center justify-between">
         <ul className="flex items-center flex-wrap gap-3">
@@ -75,6 +73,7 @@ const FoldersForm = ({ folders, links }: FoldersForm) => {
           폴더 추가 <FiPlus />
         </button>
 
+        {/* 모달 */}
         <ModalContainer>
           <Header>폴더 추가</Header>
           <Content>
@@ -88,24 +87,15 @@ const FoldersForm = ({ folders, links }: FoldersForm) => {
         </ModalContainer>
       </div>
 
+      {/* 폴더 타이틀 */}
       <h2 className="text-2xl font-semibold">
         {folderId === ALL_FOLDERS_ID ? "전체" : folders.find((folder) => folder.id === folderId)?.name || "알 수 없는 폴더"}
       </h2>
 
       {/* 링크 목록 */}
-      <div>
-        {currentLinks.length > 0 ? (
-          <ul>
-            {currentLinks.map((link) => (
-              <li key={link.id}>{link.title}</li>
-            ))}
-          </ul>
-        ) : (
-          <p className="mt-4">링크가 없습니다.</p>
-        )}
-      </div>
-    </div>
+      <LinkList currentLinks={currentLinks} />
+    </section>
   );
 };
 
-export default FoldersForm;
+export default LinksForm;
