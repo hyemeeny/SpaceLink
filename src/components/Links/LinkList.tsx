@@ -1,12 +1,13 @@
-import { Link } from "@/types/links";
+import { LinkType } from "@/types/links";
+import LinkCard from "@/components/Links/LinkCard";
 
-const LinkList = ({ currentLinks }: { currentLinks: Link[] }) => {
+const LinkList = ({ currentLinks }: { currentLinks: LinkType[] }) => {
   return (
     <div>
       {currentLinks.length > 0 ? (
-        <ul>
+        <ul className="grid grid-flow-row grid-rows-1 lg:grid-flow-col md:grid-cols-2 lg:grid-cols-3 gap-5 justify-center">
           {currentLinks.map((link) => (
-            <li key={link.id}>{link.title}</li>
+            <LinkCard link={link} />
           ))}
         </ul>
       ) : (
