@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import API_URL from "@/constants/config";
 import Container from "@/components/Layout/Container";
-import FoldersForm from "@/components/Folders/FoldersForm";
+import LinksForm from "@/components/Links/LinksForm";
 
 const getAllFolders = async () => {
   const accessToken = cookies().get("accessToken")?.value;
@@ -64,7 +64,7 @@ const LinksPage = async () => {
 
   return (
     <Container>
-      <FoldersForm folders={folders} links={links.list} />
+      <LinksForm folders={folders} links={links.list} />
     </Container>
   );
 };
