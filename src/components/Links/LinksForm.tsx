@@ -5,7 +5,7 @@ import { useModalStore } from "@/store/modalStore";
 import { postFolders } from "@/actions/folders";
 import { getLinksById } from "@/actions/links";
 import { Folder } from "@/types/folders";
-import { Link } from "@/types/links";
+import { LinkType } from "@/types/links";
 import { ModalContainer, Content, Header } from "@/components/Modal/ModalContainer";
 import { FiPlus } from "react-icons/fi";
 import LinkList from "@/components/Links/LinkList";
@@ -18,13 +18,13 @@ const ALL_FOLDERS_ID = 0; // "전체 선택"의 고유 ID
 
 interface LinksForm {
   folders: Folder[];
-  links: Link[];
+  links: LinkType[];
 }
 
 const LinksForm = ({ folders, links }: LinksForm) => {
   const { openModal, closeModal } = useModalStore();
   const [folderId, setFolderId] = useState<number>(ALL_FOLDERS_ID);
-  const [currentLinks, setCurrentLinks] = useState<Link[]>(links); // 현재 표시할 링크
+  const [currentLinks, setCurrentLinks] = useState<LinkType[]>(links); // 현재 표시할 링크
 
   const handleFolderClick = async (id: number) => {
     setFolderId(id);

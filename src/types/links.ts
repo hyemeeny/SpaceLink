@@ -1,4 +1,4 @@
-export interface Link {
+export interface LinkType {
   id: number;
   favorite: boolean;
   url: string;
@@ -9,5 +9,5 @@ export interface Link {
 }
 
 export interface LinkProps {
-  list: Link[];
+  list: LinkType[];
 }

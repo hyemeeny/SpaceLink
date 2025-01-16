@@ -59,8 +59,8 @@ const LinksPage = async () => {
   const folders = await getAllFolders();
   const links = await getAllLinks();
 
-  //console.log("폴더 리스트", folders);
-  // console.log("전체 링크 리스트", links);
+  console.log("폴더 리스트", folders);
+  console.log("전체 링크 리스트", links);
 
   return (
     <Container>
