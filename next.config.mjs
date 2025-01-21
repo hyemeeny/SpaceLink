@@ -13,6 +13,11 @@ const nextConfig = {
         hostname: "s.pstatic.net",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "images.velog.io",
+        pathname: "/**",
+      },
     ],
   },
 };
