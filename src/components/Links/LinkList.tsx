@@ -5,9 +5,9 @@ const LinkList = ({ currentLinks }: { currentLinks: LinkType[] }) => {
   return (
     <div>
       {currentLinks.length > 0 ? (
-        <ul className="grid grid-flow-row grid-rows-1 lg:grid-flow-col md:grid-cols-2 lg:grid-cols-3 gap-5 justify-center">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 justify-center">
           {currentLinks.map((link) => (
-            <LinkCard link={link} />
+            <LinkCard key={link.id} link={link} />
           ))}
         </ul>
       ) : (

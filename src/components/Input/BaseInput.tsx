@@ -2,13 +2,7 @@
 
 import clsx from "clsx";
 import Image from "next/image";
-import {
-  useState,
-  forwardRef,
-  ChangeEventHandler,
-  FocusEventHandler,
-  KeyboardEventHandler,
-} from "react";
+import { useState, forwardRef, ChangeEventHandler, FocusEventHandler, KeyboardEventHandler } from "react";
 
 interface InputProps {
   label?: string;
@@ -24,21 +18,7 @@ interface InputProps {
 }
 
 const BaseInput = forwardRef<HTMLInputElement, InputProps>(
-  (
-    {
-      label,
-      id,
-      name,
-      value,
-      placeholder,
-      errors,
-      type = "text",
-      onChange,
-      onBlur,
-      onKeyDown,
-    },
-    ref,
-  ) => {
+  ({ label, id, name, value, placeholder, errors, type = "text", onChange, onBlur, onKeyDown }, ref) => {
     const [inputType, setInputType] = useState(type);
     const [password, setPassword] = useState(false);
 
@@ -48,7 +28,7 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
     };
 
     return (
-      <div className="relative grid gap-3">
+      <div className="relative grid gap-2">
         {label && (
           <label htmlFor={id} className="text-black text-sm">
             {label}
@@ -59,9 +39,7 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
           <input
             className={clsx(
               "w-full h-[60px] ring-1 ring-inset px-4 ring-gray03 rounded-lg placeholder-gray04 text-gray06 text-base transition duration-500 ease-in-out focus-within:ring-purple01 focus-within:ring-2",
-              errors
-                ? "ring-red01 focus-within:ring-red01"
-                : "focus-within:ring-purple01",
+              errors ? "ring-red01 focus-within:ring-red01" : "focus-within:ring-purple01",
             )}
             id={id}
             name={name}
@@ -74,34 +52,17 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
           />
           {type === "password" && (
-            <span
-              className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
-              onClick={handleIconClick}
-            >
+            <span className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer" onClick={handleIconClick}>
               {password ? (
-                <Image
-                  src="/icons/eye-on.svg"
-                  width={16}
-                  height={16}
-                  alt="OpenEyes"
-                />
+                <Image src="/icons/eye-on.svg" width={16} height={16} alt="OpenEyes" />
               ) : (
-                <Image
-                  src="/icons/eye-off.svg"
-                  width={16}
-                  height={16}
-                  alt="OpenEyes"
-                />
+                <Image src="/icons/eye-off.svg" width={16} height={16} alt="OpenEyes" />
               )}
             </span>
           )}
         </div>
 
-        {errors && (
-          <span className="pl-1 text-sm font-normal text-red01 md:text-base">
-            {errors}
-          </span>
-        )}
+        {errors && <span className="pl-1 text-sm font-normal text-red01">{errors}</span>}
       </div>
     );
   },
