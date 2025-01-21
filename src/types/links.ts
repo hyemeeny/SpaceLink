@@ -11,3 +11,8 @@ export interface LinkType {
 export interface LinkProps {
   list: LinkType[];
 }
+
+export interface LinkPost {
+  url: string;
+  folderId: number;
+}

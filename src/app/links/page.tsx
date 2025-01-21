@@ -1,6 +1,5 @@
 import { cookies } from "next/headers";
 import API_URL from "@/constants/config";
-import Container from "@/components/Layout/Container";
 import LinksForm from "@/components/Links/LinksForm";
 
 const getAllFolders = async () => {
@@ -59,14 +58,10 @@ const LinksPage = async () => {
   const folders = await getAllFolders();
   const links = await getAllLinks();
 
-  console.log("폴더 리스트", folders);
-  console.log("전체 링크 리스트", links);
+  // console.log("폴더 리스트", folders);
+  // console.log("전체 링크 리스트", links);
 
-  return (
-    <Container>
-      <LinksForm folders={folders} links={links.list} />
-    </Container>
-  );
+  return <LinksForm folders={folders} links={links.list} />;
 };
 
 export default LinksPage;

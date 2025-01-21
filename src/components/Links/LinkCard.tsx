@@ -18,7 +18,7 @@ const LinkCard = ({ link }: { link: LinkType }) => {
   return (
     <li
       key={link.id}
-      className="w-[325px] md:w-[340px] rounded-2xl overflow-hidden shadow-lg shadow-#00000014;
+      className="mx-auto w-[325px] md:w-[340px] rounded-2xl overflow-hidden shadow-lg shadow-#00000014;
 "
     >
       <Link href={link.url}>
