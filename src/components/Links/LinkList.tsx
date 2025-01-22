@@ -11,7 +11,7 @@ const LinkList = ({ currentLinks }: { currentLinks: LinkType[] }) => {
           ))}
         </ul>
       ) : (
-        <p className="mt-4">링크가 없습니다.</p>
+        <p className="">링크가 없습니다.</p>
       )}
     </div>
   );

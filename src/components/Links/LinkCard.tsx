@@ -18,18 +18,18 @@ const LinkCard = ({ link }: { link: LinkType }) => {
   return (
     <li
       key={link.id}
-      className="mx-auto w-[325px] md:w-[340px] rounded-2xl overflow-hidden shadow-lg shadow-#00000014;
+      className="mx-auto w-full md:w-[340px] rounded-2xl overflow-hidden shadow-custom bg-white;
 "
     >
       <Link href={link.url}>
-        <div className="relative w-[325px] h-[192px] md:w-[340px] md:h-[200px]">
-          <Image src={link.imageSource} fill alt={link.title} className="object-cover" />
+        <div className="relative w-full h-[192px] md:w-[340px] md:h-[200px]">
+          <Image src={link.imageSource || "/images/none_image.svg"} fill alt={link.title} className="object-cover" />
         </div>
       </Link>
-      <div className="relative px-4 py-2 flex flex-col gap-[10px]">
+      <div className="relative p-4 flex flex-col gap-[10px]">
         <div className="flex justify-between">
           <p className="text-gray07 text-sm">{formatRelativeTime(link.createdAt)}</p>
-          <button onClick={toggleDropdown} className="relative size-5 md:size-7">
+          <button onClick={toggleDropdown} className="relative w-[21px] h-[17px]">
             <GoKebabHorizontal />
           </button>
           {isOpen && <Dropdown />}

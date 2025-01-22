@@ -1,7 +1,17 @@
+import clsx from "clsx";
 import { ReactNode } from "react";
 
-const Container = ({ children }: { children: ReactNode }) => {
-  return <section className="w-full md:w-[704px] lg:w-[1060px] mx-auto px-4 box-border">{children}</section>;
+interface ContainerProps {
+  children: ReactNode;
+  className?: string;
+}
+
+const Container = ({ children, className }: ContainerProps) => {
+  return (
+    <section className={clsx("w-full md:w-[704px] lg:w-[1060px] mx-auto px-7 md:px-0 box-border", className)}>
+      {children}
+    </section>
+  );
 };
 
 export default Container;

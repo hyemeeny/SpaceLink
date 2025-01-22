@@ -27,7 +27,10 @@ const LinkInput = ({ folders }: { folders: Folder[] }) => {
 
   return (
     <div className="bg-gray01 flex justify-center pt-6 pb-10 md:pt-[60px] md:pb-[90px]">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex items-center justify-end relative w-[325px] h-[53px] md:w-[704px] md:h-[69px] lg:w-[800px]">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex items-center justify-end relative w-[325px] h-[53px] md:w-[704px] md:h-[69px] lg:w-[800px]"
+      >
         <input
           type="text"
           id="url"
@@ -37,7 +40,10 @@ const LinkInput = ({ folders }: { folders: Folder[] }) => {
         />
         {errors.url && <p className="mt-1 text-red-500 text-sm">{errors.url.message}</p>}
         <input type="text" id="folderId" {...register("folderId")} className="hidden" />
-        <button type="submit" className="w-[80px] h-[37px] absolute mr-4 bg-gradient from-purple01 to-sky01 rounded-lg text-white text-sm font-normal">
+        <button
+          type="submit"
+          className="w-[80px] h-[37px] absolute mr-2 md:mr-4 bg-gradient from-purple01 to-sky01 rounded-lg text-white text-sm font-normal"
+        >
           추가하기
         </button>
       </form>

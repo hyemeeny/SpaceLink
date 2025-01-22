@@ -28,7 +28,7 @@ const getAllFolders = async () => {
   }
 };
 
-export const getAllLinks = async () => {
+const getAllLinks = async () => {
   const accessToken = cookies().get("accessToken")?.value;
 
   if (!accessToken) {
