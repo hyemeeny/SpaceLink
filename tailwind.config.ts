@@ -23,6 +23,9 @@ const config: Config = {
       backgroundImage: {
         gradient: "linear-gradient(90.99deg, var(--tw-gradient-stops))",
       },
+      boxShadow: {
+        custom: "0px 5px 25px 0px #00000014",
+      },
     },
   },
   plugins: [],

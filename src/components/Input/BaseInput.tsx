@@ -68,4 +68,5 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
   },
 );
 
+BaseInput.displayName = "BaseInput";
 export default BaseInput;
