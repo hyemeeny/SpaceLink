@@ -1,6 +1,6 @@
 import Container from "@/components/Layout/Container";
-import MainSection from "./components/MainSection";
-import SubSection from "./components/SubSection";
+import MainSection from "@/components/Home/MainSection";
+import SubSection from "@/components/Home/SubSection";
 
 export default function Home() {
   return (
