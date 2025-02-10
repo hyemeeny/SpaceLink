@@ -8,12 +8,10 @@ import { formatDate, formatRelativeTime } from "@/utils/dateFormat";
 
 const LinkCard = ({ link }: { link: LinkType }) => {
   const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDropdown = () => {
-    setIsOpen((prev) => !prev);
+  const toggleDropdown = () => setIsOpen((prev) => !prev);
+  const handleItemClick = (item: string) => {
+    console.log(`선택한 항목: ${item}`);
   };
-
-  const handleClick = () => {};
 
   return (
     <li
@@ -32,7 +30,12 @@ const LinkCard = ({ link }: { link: LinkType }) => {
           <button onClick={toggleDropdown} className="relative w-[21px] h-[17px]">
             <GoKebabHorizontal />
           </button>
-          {isOpen && <Dropdown />}
+          <Dropdown
+            items={["수정하기", "삭제하기"]}
+            isOpen={isOpen}
+            onClose={() => setIsOpen(false)}
+            onItemClick={handleItemClick}
+          />
         </div>
         <div>
           <h3 className="text-base font-semibold">{link.title}</h3>

@@ -8,3 +8,11 @@ export interface SignUp {
   password: string;
   name: string;
 }
+
+export interface UserProps {
+  id: number;
+  name: string;
+  imageSource: string;
+  email: string;
+  createdAt: string;
+}
