@@ -10,18 +10,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { signUp } from "@/actions/auth";
+import toast from "react-hot-toast";
+import toastMessages from "@/lib/toastMessage";
 
 // 비밀번호 조건 정규표현식
-const passwordRegex =
-  /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$&*?!%])[A-Za-z\d!@$%&*?]{8,15}$/;
+const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$&*?!%])[A-Za-z\d!@$%&*?]{8,15}$/;
 
 // 로그인 스키마 정의
 const SignupSchema = z.object({
   name: z.string().min(1, { message: "이름을 입력해주세요." }),
-  email: z
-    .string()
-    .min(1, { message: "이메일을 입력해주세요." })
-    .email({ message: "유효한 이메일을 입력해주세요." }),
+  email: z.string().min(1, { message: "이메일을 입력해주세요." }).email({ message: "유효한 이메일을 입력해주세요." }),
   password: z
     .string()
     .min(8, { message: "비밀번호를 8자리 이상 입력해 주세요." })
@@ -54,12 +53,12 @@ const SignupPage = () => {
     console.log("폼 제출 데이터", data);
 
     try {
-      console.log("API 요청 데이터", data);
-      const response = await axios.post("/api/auth/sign-up", data);
-      console.log("회원가입 성공", response);
+      await signUp(data);
       router.push("/login");
+      toast.success(toastMessages.success.signUp);
     } catch (error) {
       console.error("회원가입에 실패하였습니다.", error);
+      toast.error(toastMessages.error.signUp);
     }
   };
 
@@ -73,10 +72,7 @@ const SignupPage = () => {
         </h1>
         <p className="text-black text-base">
           이미 회원이신가요?
-          <Link
-            href={"/login"}
-            className="text-purple01 font-semibold border-b-[1px] border-purple01 ml-3"
-          >
+          <Link href={"/login"} className="text-purple01 font-semibold border-b-[1px] border-purple01 ml-3">
             로그인 하기
           </Link>
         </p>
@@ -125,12 +121,7 @@ const SignupPage = () => {
         <p className="text-gray05 text-sm">소설 로그인</p>
         <div className="flex gap-4">
           <Link href="#">
-            <Image
-              src="/icons/google.svg"
-              width={42}
-              height={42}
-              alt="Google"
-            />
+            <Image src="/icons/google.svg" width={42} height={42} alt="Google" />
           </Link>
           <Link href="#">
             <Image src="/icons/kakao.svg" width={42} height={42} alt="Kakao" />
