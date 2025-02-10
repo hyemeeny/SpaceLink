@@ -3,14 +3,13 @@
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import API_URL from "@/constants/config";
-import { LinkProps } from "@/types/links";
 
 // 링크 조회
-export const getLinksById = async (folderId: number): Promise<LinkProps> => {
+export const getLinksById = async (folderId: number) => {
   const accessToken = cookies().get("accessToken")?.value;
 
   if (!accessToken) {
-    throw new Error("Access token is missing.");
+    throw new Error("인증 정보가 유효하지 않습니다.");
   }
 
   try {
@@ -23,22 +22,23 @@ export const getLinksById = async (folderId: number): Promise<LinkProps> => {
     });
 
     if (!response.ok) {
-      console.error("링크를 조회하는 데 실패했습니다.");
+      const errorData = await response.json();
+      throw new Error(errorData.message);
     }
 
-    return response.json();
+    return await response.json();
   } catch (error) {
-    throw new Error("링크 조회 중 에러 발생");
+    console.error("링크 조회 중 에러 발생", error);
   }
 };
 
 // 링크 생성
-export const postLinks = async (data: { url: string; folderId: number }) => {
+export const postLinks = async (linkData: { url: string; folderId: number }) => {
   const accessToken = cookies().get("accessToken")?.value;
   // const data = Object.fromEntries(formData.entries()); // Object.fromEntries는 키값 쌍의 목록을 객체로 바꿔준다
 
   if (!accessToken) {
-    throw new Error("Access token is missing.");
+    throw new Error("인증 정보가 유효하지 않습니다.");
   }
 
   try {
@@ -48,13 +48,16 @@ export const postLinks = async (data: { url: string; folderId: number }) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(linkData),
     });
 
-    console.log("링크 등록", data);
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message);
+    }
 
     revalidateTag("links");
   } catch (error) {
-    console.error(error);
+    console.error("링크 생성 중 에러 발생", error);
   }
 };

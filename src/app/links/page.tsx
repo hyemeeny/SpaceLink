@@ -6,7 +6,7 @@ const getAllFolders = async () => {
   const accessToken = cookies().get("accessToken")?.value;
 
   if (!accessToken) {
-    throw new Error("Access token is missing.");
+    throw new Error("인증 정보가 유효하지 않습니다.");
   }
 
   try {
@@ -19,12 +19,13 @@ const getAllFolders = async () => {
     });
 
     if (!response.ok) {
-      console.error("전체 폴더를 가져오는 데 실패했습니다.");
+      const errorData = await response.json();
+      throw new Error(errorData.message);
     }
 
     return response.json();
   } catch (error) {
-    console.error("폴더 조회 중 에러 발생", error);
+    console.error("전체 폴더 조회 중 에러 발생", error);
   }
 };
 
@@ -32,7 +33,7 @@ const getAllLinks = async () => {
   const accessToken = cookies().get("accessToken")?.value;
 
   if (!accessToken) {
-    throw new Error("Access token is missing.");
+    throw new Error("인증 정보가 유효하지 않습니다.");
   }
 
   try {
@@ -45,12 +46,13 @@ const getAllLinks = async () => {
     });
 
     if (!response.ok) {
-      console.error("전체 링크를 조회하는 데 실패했습니다.");
+      const errorData = await response.json();
+      throw new Error(errorData.message);
     }
 
     return response.json();
   } catch (error) {
-    throw new Error("전체 링크 조회 중 에러 발생");
+    console.error("전체 링크 조회 중 에러 발생", error);
   }
 };
 

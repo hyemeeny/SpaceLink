@@ -22,7 +22,12 @@ const getUser = async () => {
       return null;
     }
 
-    return response.json();
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message);
+    }
+
+    return await response.json();
   } catch (error) {
     console.error("유저 정보 조회 실패", error);
     return null;
