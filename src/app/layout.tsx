@@ -30,7 +30,7 @@ export default function RootLayout({
     <html lang="kr" className={`${pretendard.variable}`}>
       <body>
         <ToastProvider />
-        <ClientPathname hideRoutes={["/login", "signup"]}>
+        <ClientPathname hideRoutes={["/login", "/signup"]}>
           <Header />
         </ClientPathname>
         {children}

@@ -1,16 +1,14 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { signUp } from "@/actions/auth";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
+import Link from "next/link";
+import Image from "next/image";
 import Button from "@/components/Button/CtaButton";
 import BaseInput from "@/components/Input/BaseInput";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import axios from "axios";
-import { signUp } from "@/actions/auth";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
 
@@ -57,7 +55,6 @@ const SignupPage = () => {
       router.push("/login");
       toast.success(toastMessages.success.signUp);
     } catch (error) {
-      console.error("회원가입에 실패하였습니다.", error);
       toast.error(toastMessages.error.signUp);
     }
   };
