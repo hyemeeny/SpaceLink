@@ -1,26 +1,23 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { login } from "@/actions/auth";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
 import Link from "next/link";
 import Image from "next/image";
 import Button from "@/components/Button/CtaButton";
 import BaseInput from "@/components/Input/BaseInput";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/hooks/useAuth";
+import toast from "react-hot-toast";
+import toastMessages from "@/lib/toastMessage";
 
 // 비밀번호 조건 정규표현식
-const passwordRegex =
-  /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$&*?!%])[A-Za-z\d!@$%&*?]{8,15}$/;
+const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$&*?!%])[A-Za-z\d!@$%&*?]{8,15}$/;
 
 // 로그인 스키마 정의
 const LoginSchema = z.object({
-  email: z
-    .string()
-    .min(1, { message: "이메일을 입력해주세요." })
-    .email({ message: "유효한 이메일을 입력해주세요." }),
+  email: z.string().min(1, { message: "이메일을 입력해주세요." }).email({ message: "유효한 이메일을 입력해주세요." }),
   password: z
     .string()
     .min(8, { message: "비밀번호를 8자리 이상 입력해 주세요." })
@@ -34,12 +31,11 @@ type LoginFormValues = z.infer<typeof LoginSchema>;
 
 const LoginPage = () => {
   const router = useRouter();
-  const { login, isPending, isError } = useAuth();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors, isValid },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(LoginSchema),
     mode: "onChange",
@@ -53,8 +49,10 @@ const LoginPage = () => {
     try {
       await login(data);
       router.push("/");
+      toast.success(toastMessages.success.login);
     } catch (error) {
       console.error("로그인에 실패하였습니다.", error);
+      toast.error(toastMessages.error.login);
     }
   };
 
@@ -68,10 +66,7 @@ const LoginPage = () => {
         </h1>
         <p className="text-black text-base">
           회원이 아니신가요?
-          <Link
-            href={"/signup"}
-            className="text-purple01 font-semibold border-b-[1px] border-purple01 ml-3"
-          >
+          <Link href={"/signup"} className="text-purple01 font-semibold border-b-[1px] border-purple01 ml-3">
             회원 가입하기
           </Link>
         </p>
@@ -104,12 +99,7 @@ const LoginPage = () => {
         <p className="text-gray05 text-sm">소설 로그인</p>
         <div className="flex gap-4">
           <Link href="#">
-            <Image
-              src="/icons/google.svg"
-              width={42}
-              height={42}
-              alt="Google"
-            />
+            <Image src="/icons/google.svg" width={42} height={42} alt="Google" />
           </Link>
           <Link href="#">
             <Image src="/icons/kakao.svg" width={42} height={42} alt="Kakao" />
