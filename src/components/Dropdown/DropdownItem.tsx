@@ -6,7 +6,10 @@ type DropdownItemProps = {
 };
 
 const DropdownItem = ({ children, onClick }: DropdownItemProps) => (
-  <div onClick={onClick} className="px-4 py-2 text-blue-600 cursor-pointer hover:bg-blue-100">
+  <div
+    onClick={onClick}
+    className="w-max px-6 py-2 text-sm cursor-pointer hover:bg-gray01 hover:text-purple01 transition duration-500 ease-in-out"
+  >
     {children}
   </div>
 );
