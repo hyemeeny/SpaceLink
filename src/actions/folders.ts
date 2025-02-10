@@ -41,22 +41,25 @@ export const postFolders = async ({ name }: { name: string }) => {
     throw new Error("인증 정보가 유효하지 않습니다.");
   }
 
-  const response = await fetch(`${API_URL}/folders`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: JSON.stringify({ name }),
-  });
+  try {
+    const response = await fetch(`${API_URL}/folders`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ name }),
+    });
 
-  if (!response.ok) {
-    const errorResponse = await response.json();
-    return { status: response.status, message: errorResponse.message };
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message);
+    }
+
+    revalidateTag("folders");
+  } catch (error) {
+    console.error("폴더 생성 중 오류 발생", error);
   }
-
-  revalidateTag("folders");
-  //return { name, success: true, message: "폴더 생성 완료", isError: false };
 };
 
 // 폴더 수정
@@ -78,16 +81,13 @@ export const putFolders = async ({ name, folderId }: { name: string; folderId: n
     });
 
     if (!response.ok) {
-      const errorResponse = await response.json();
-      return { status: response.status, message: errorResponse.message };
+      const errorData = await response.json();
+      throw new Error(errorData.message);
     }
 
     revalidateTag("folders");
-    return { status: 201, message: "폴더 수정 완료" };
   } catch (error) {
-    if (error instanceof Error) {
-      return { status: 500, message: error.message };
-    }
+    console.error("폴더 수정 중 오류 발생", error);
   }
 };
 
@@ -95,11 +95,11 @@ export const putFolders = async ({ name, folderId }: { name: string; folderId: n
 export const deleteFolders = async (folderId: number) => {
   const accessToken = cookies().get("accessToken")?.value;
 
-  try {
-    if (!accessToken) {
-      throw new Error("인증 정보가 유효하지 않습니다.");
-    }
+  if (!accessToken) {
+    throw new Error("인증 정보가 유효하지 않습니다.");
+  }
 
+  try {
     const response = await fetch(`${API_URL}/folders/${folderId}`, {
       method: "DELETE",
       headers: {
@@ -109,15 +109,12 @@ export const deleteFolders = async (folderId: number) => {
     });
 
     if (!response.ok) {
-      const errorResponse = await response.json();
-      return { status: response.status, message: errorResponse.message };
+      const errorData = await response.json();
+      throw new Error(errorData.message);
     }
 
     revalidateTag("folders");
-    return { status: 204, message: "폴더 삭제 완료" };
   } catch (error) {
-    if (error instanceof Error) {
-      return { status: 500, message: error.message };
-    }
+    console.error("폴더 삭제 중 오류 발생", error);
   }
 };

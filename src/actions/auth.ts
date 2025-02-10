@@ -17,12 +17,11 @@ export const login = async (loginData: Login) => {
     });
 
     if (!response.ok) {
-      throw new Error("로그인 실패");
+      const errorData = await response.json();
+      throw new Error(errorData.message);
     }
 
     const data = await response.json();
-
-    console.log(data, "로그인 성공!");
 
     cookies().set({
       name: "accessToken",
@@ -62,12 +61,9 @@ export const signUp = async (signUpData: SignUp) => {
     });
 
     if (!response.ok) {
-      throw new Error("회원가입 실패");
+      const errorData = await response.json();
+      throw new Error(errorData.message);
     }
-
-    const data = await response.json();
-
-    console.log(data, "회원가입 성공!");
   } catch (error) {
     console.error("회원가입 중 오류 발생", error);
   }
