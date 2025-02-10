@@ -40,6 +40,16 @@ export const login = async (loginData: Login) => {
   }
 };
 
+// 로그아웃
+export const logout = async () => {
+  try {
+    cookies().delete("accessToken");
+    revalidateTag("users");
+  } catch (error) {
+    console.error("로그아웃 중 오류 발생", error);
+  }
+};
+
 // 회원가입
 export const signUp = async (signUpData: SignUp) => {
   try {
