@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useModalStore } from "@/store/modalStore";
+import { useModalStore } from "@/store/useModalStore";
 import { getLinksById } from "@/actions/links";
-import { Folder } from "@/types/folders";
+import { FolderType } from "@/types/folders";
 import { LinkType } from "@/types/links";
 import { FiPlus } from "react-icons/fi";
 import Image from "next/image";
@@ -12,14 +12,17 @@ import LinkList from "@/components/Links/LinkList";
 import LinkInput from "@/components/Input/LinkInput";
 import SearchInput from "@/components/Input/SearchInput";
 import FolderButton from "@/components/Button/FolderButton";
-import FolderUpdateModal from "@/components/Modal/FolderUpdateModal";
-import FolderDeleteModal from "@/components/Modal/FolderDeleteModal";
-import FolderAddModal from "@/components/Modal/FolderAddModal";
+import FolderUpdateModal from "@/components/Modal/FolderModal/FolderUpdateModal";
+import FolderDeleteModal from "@/components/Modal/FolderModal/FolderDeleteModal";
+import FolderAddModal from "@/components/Modal/FolderModal/FolderAddModal";
+import LinkUpdateModal from "../Modal/LinkModal/LinkUpdateModal";
+import DeleteModal from "../Modal/components/DeleteModal";
+import UpdateModal from "../Modal/components/UpdateModal";
 
 const ALL_FOLDERS_ID = 0; // "전체 선택"의 고유 ID
 
 interface LinksForm {
-  folders: Folder[];
+  folders: FolderType[];
   links: LinkType[];
 }
 
@@ -27,9 +30,9 @@ const LinksForm = ({ folders, links }: LinksForm) => {
   const { openModals, openModal, closeModal } = useModalStore();
   const [folderId, setFolderId] = useState<number>(ALL_FOLDERS_ID);
   const [currentLinks, setCurrentLinks] = useState<LinkType[]>(links); // 현재 표시할 링크
-  const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null); // 선택된 폴더
+  const [selectedFolder, setSelectedFolder] = useState<FolderType | null>(null); // 선택된 폴더
 
-  const handleFolderClick = async (id: number, folder: Folder | null) => {
+  const handleFolderClick = async (id: number, folder: FolderType | null) => {
     setFolderId(id);
     setSelectedFolder(folder); // 폴더 클릭 시 selectedFolder 상태 갱신
 
@@ -44,10 +47,20 @@ const LinksForm = ({ folders, links }: LinksForm) => {
     }
   };
 
+  const handleEditClick = (folder: FolderType) => {
+    setSelectedFolder(folder);
+    openModal(`folderUpdate-${folder.id}`);
+  };
+
+  const handleDeleteClick = (folder: FolderType) => {
+    setSelectedFolder(folder);
+    openModal(`folderDelete-${folder.id}`);
+  };
+
   // console.log("folders", folders);
   // console.log("links", links);
   // console.log("currentLinks", currentLinks);
-  console.log("선택된 폴더", selectedFolder);
+  // console.log("선택된 폴더", selectedFolder);
 
   const defaultName = folders.find((folder) => folder.id === folderId)?.name;
 
@@ -83,7 +96,7 @@ const LinksForm = ({ folders, links }: LinksForm) => {
 
           {/* 폴더 추가 버튼 */}
           <button
-            onClick={() => openModal("addFolder")}
+            onClick={() => openModal(`addFolder-${folderId}`)}
             className="flex items-center gap-1 text-base font-medium fixed bottom-8 z-[1] bg-purple01 text-white rounded-[20px] px-7 py-1 md:bg-transparent md:text-purple01 md:text-lg md:min-w-[90px] md:static md:rounded-none md:p-0"
           >
             폴더 추가 <FiPlus />
@@ -96,39 +109,35 @@ const LinksForm = ({ folders, links }: LinksForm) => {
             {folderId === ALL_FOLDERS_ID ? "전체" : defaultName || "알 수 없는 폴더"}
           </h2>
 
-          <div className="flex gap-3">
-            <button
-              onClick={() => openModal("shareFolder")}
-              className="flex items-center gap-1 text-gray04 text-sm font-medium"
-            >
-              <Image src={"/icons/share.svg"} width={18} height={18} alt="공유" />
-              공유
-            </button>
+          {folderId !== 0 && (
+            <div className="flex gap-3">
+              <button
+                onClick={() => openModal(`shareFolder-${folderId}`)}
+                className="flex items-center gap-1 text-gray04 text-sm font-medium"
+              >
+                <Image src={"/icons/share.svg"} width={18} height={18} alt="공유" />
+                공유
+              </button>
 
-            {/* 폴더 이름 변경 */}
-            <button
-              onClick={() => openModal("updateFolder")}
-              className="flex items-center gap-1 text-gray04 text-sm font-medium"
-            >
-              <Image src={"/icons/pen.svg"} width={18} height={18} alt="이름 변경" />
-              이름 변경
-            </button>
-            {openModals.has("updateFolder") && selectedFolder && (
-              <FolderUpdateModal selectedFolder={selectedFolder} closeModal={closeModal} defaultName={defaultName} />
-            )}
+              {/* 폴더 이름 변경 */}
+              <button
+                onClick={() => handleEditClick(selectedFolder!)}
+                className="flex items-center gap-1 text-gray04 text-sm font-medium"
+              >
+                <Image src={"/icons/pen.svg"} width={18} height={18} alt="이름 변경" />
+                이름 변경
+              </button>
 
-            {/* 폴더 삭제 */}
-            <button
-              onClick={() => openModal("deleteFolder")}
-              className="flex items-center gap-1 text-gray04 text-sm font-medium"
-            >
-              <Image src={"/icons/delete.svg"} width={18} height={18} alt="삭제" />
-              삭제
-            </button>
-            {openModals.has("deleteFolder") && selectedFolder && (
-              <FolderDeleteModal selectedFolder={selectedFolder} closeModal={closeModal} />
-            )}
-          </div>
+              {/* 폴더 삭제 */}
+              <button
+                onClick={() => handleDeleteClick(selectedFolder!)}
+                className="flex items-center gap-1 text-gray04 text-sm font-medium"
+              >
+                <Image src={"/icons/delete.svg"} width={18} height={18} alt="삭제" />
+                삭제
+              </button>
+            </div>
+          )}
         </div>
 
         {/* 링크 목록 */}
@@ -136,7 +145,22 @@ const LinksForm = ({ folders, links }: LinksForm) => {
       </Container>
 
       {/* 폴더 추가 모달 */}
-      {openModals.has("addFolder") && <FolderAddModal closeModal={closeModal} />}
+      {openModals.has(`addFolder-${folderId}`) && <FolderAddModal closeModal={closeModal} />}
+
+      {/* 폴더 수정 모달 */}
+      {selectedFolder && openModals.has(`folderUpdate-${selectedFolder.id}`) && (
+        <UpdateModal
+          selectedItem={selectedFolder}
+          closeModal={closeModal}
+          itemType="folder"
+          defaultName={defaultName}
+        />
+      )}
+
+      {/* 폴더 삭제 모달 */}
+      {selectedFolder && openModals.has(`folderDelete-${selectedFolder.id}`) && (
+        <DeleteModal selectedItem={selectedFolder} closeModal={closeModal} itemType="folder" />
+      )}
     </section>
   );
 };

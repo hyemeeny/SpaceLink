@@ -1,19 +1,21 @@
 import Modal from "react-modal";
 import Image from "next/image";
 import { ReactNode, useEffect } from "react";
-import { useModalStore } from "@/store/modalStore";
+import { useModalStore } from "@/store/useModalStore";
 import { Header } from "@/components/Modal/components/ModalHeader";
 import { Content } from "@/components/Modal/components/ModalContent";
 import { Button } from "@/components/Modal/components/ModalButton";
 
+Modal.setAppElement("#modal-root");
+
 interface ModalContainerProps {
   children: ReactNode;
-  modalId: string; // 각 모달을 식별하는 고유 ID
+  modalId: string | number;
 }
 
 const ModalContainer = ({ children, modalId, ...props }: ModalContainerProps) => {
   const { openModals, closeModal } = useModalStore();
-  const isOpen = openModals.has(modalId); // 현재 모달 ID가 열려 있는지 확인
+  const isOpen = openModals.has(modalId);
 
   useEffect(() => {
     if (isOpen) {
@@ -26,7 +28,7 @@ const ModalContainer = ({ children, modalId, ...props }: ModalContainerProps) =>
     };
   }, [isOpen]);
 
-  if (!isOpen) return null; // 모달이 열려 있지 않으면 렌더링하지 않음
+  if (!isOpen) return null;
 
   return (
     <Modal
