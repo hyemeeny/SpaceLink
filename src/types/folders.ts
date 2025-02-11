@@ -1,4 +1,4 @@
-export interface Folder {
+export interface FolderType {
   id: number;
   createdAt: string;
   name: string;
@@ -6,5 +6,5 @@ export interface Folder {
 }
 
 export interface FolderProps {
-  folders: Folder[];
+  folders: FolderType[];
 }
