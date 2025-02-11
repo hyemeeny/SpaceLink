@@ -66,11 +66,11 @@ export const postFolders = async ({ name }: { name: string }) => {
 export const putFolders = async ({ name, folderId }: { name: string; folderId: number }) => {
   const accessToken = cookies().get("accessToken")?.value;
 
-  try {
-    if (!accessToken) {
-      throw new Error("인증 정보가 유효하지 않습니다.");
-    }
+  if (!accessToken) {
+    throw new Error("인증 정보가 유효하지 않습니다.");
+  }
 
+  try {
     const response = await fetch(`${API_URL}/folders/${folderId}`, {
       method: "PUT",
       headers: {
