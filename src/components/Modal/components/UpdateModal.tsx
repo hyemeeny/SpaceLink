@@ -7,16 +7,7 @@ import { putLinks } from "@/actions/links";
 import { putFolders } from "@/actions/folders";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-// 링크와 폴더에 대한 별도의 유효성 검사 스키마
-const LinkUpdateSchema = z.object({
-  value: z.string().url({ message: "유효한 URL을 입력해주세요." }).min(1, { message: "링크 URL을 입력해주세요." }),
-});
-
-const FolderUpdateSchema = z.object({
-  value: z.string().min(1, { message: "폴더 이름을 입력해주세요." }).max(8, { message: "8자리 이내 입력해 주세요." }),
-});
+import { LinkUpdateSchema, FolderUpdateSchema } from "@/app/schema/zodSchema";
 
 interface FormValues {
   value: string;
@@ -26,7 +17,7 @@ interface FormValues {
 interface UpdateModalProps {
   selectedItem: { id: number; name?: string; url?: string } | null;
   closeModal: (modalId: string | number) => void;
-  itemType: "folder" | "link"; // 폴더와 링크 구분
+  itemType: "link" | "folder";
   defaultName?: string;
 }
 
@@ -49,7 +40,6 @@ const UpdateModal = ({ selectedItem, closeModal, itemType, defaultName }: Update
   const handleUpdate = async (data: FormValues) => {
     if (!selectedItem) return;
 
-    // 폴더 또는 링크 수정 API 호출
     if (itemType === "link") {
       await putLinks({ url: data.value, linkId: selectedItem.id });
       toast.success(toastMessages.success.updateLink);

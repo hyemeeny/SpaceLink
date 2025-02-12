@@ -1,34 +1,16 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { signUp } from "@/actions/auth";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { signUp } from "@/actions/auth";
 import Link from "next/link";
 import Image from "next/image";
 import Button from "@/components/Button/CtaButton";
 import BaseInput from "@/components/Input/BaseInput";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
-
-// 비밀번호 조건 정규표현식
-const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$&*?!%])[A-Za-z\d!@$%&*?]{8,15}$/;
-
-// 로그인 스키마 정의
-const SignupSchema = z.object({
-  name: z.string().min(1, { message: "이름을 입력해주세요." }),
-  email: z.string().min(1, { message: "이메일을 입력해주세요." }).email({ message: "유효한 이메일을 입력해주세요." }),
-  password: z
-    .string()
-    .min(8, { message: "비밀번호를 8자리 이상 입력해 주세요." })
-    .max(15, { message: "비밀번호를 15자리 이하로 입력해 주세요." })
-    .regex(passwordRegex, {
-      message: "영문, 숫자, 특수문자(~!@#$%^&*)를 모두 조합해 주세요.",
-    }),
-});
-
-type SignupFormValues = z.infer<typeof SignupSchema>;
+import { SignupSchema, SignupFormValues } from "@/app/schema/zodSchema";
 
 const SignupPage = () => {
   const router = useRouter();
@@ -48,8 +30,6 @@ const SignupPage = () => {
   });
 
   const onSubmit = async (data: SignupFormValues) => {
-    console.log("폼 제출 데이터", data);
-
     try {
       await signUp(data);
       router.push("/login");
