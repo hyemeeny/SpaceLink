@@ -1,3 +1,5 @@
+import { FolderLinkData, FolderType } from "./folders";
+
 export interface LinkType {
   id: number;
   favorite: boolean;
@@ -15,4 +17,10 @@ export interface LinkProps {
 export interface LinkPost {
   url: string;
   folderId: number;
+}
+
+export interface LinksFormProps {
+  folders: FolderType[];
+  links: LinkType[];
+  folderLinks: FolderLinkData[];
 }
