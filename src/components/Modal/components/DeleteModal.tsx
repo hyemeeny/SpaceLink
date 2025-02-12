@@ -1,25 +1,24 @@
 import { FormEvent } from "react";
-import { FolderType } from "@/types/folders";
 import { deleteFolders } from "@/actions/folders";
 import { ModalContainer, Content, Header } from "@/components/Modal/ModalContainer";
-import CtaButton from "@/components/Button/CtaButton";
+import { deleteLinks } from "@/actions/links";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
-import { deleteLinks } from "@/actions/links";
+import CtaButton from "@/components/Button/CtaButton";
 
 interface DeleteModalProps {
   selectedItem: { id: number; name?: string; url?: string } | null;
   closeModal: (modalId: string | number) => void;
-  itemType: "folder" | "link"; // 항목 종류 (폴더 또는 링크)
+  itemType: "folder" | "link";
+  onDelete?: (deletedFolderId: number) => void;
 }
 
-const DeleteModal = ({ selectedItem, closeModal, itemType }: DeleteModalProps) => {
+const DeleteModal = ({ selectedItem, closeModal, itemType, onDelete }: DeleteModalProps) => {
   const handleDelete = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!selectedItem) return;
 
-    // 삭제 API 호출
     if (itemType === "link") {
       await deleteLinks(selectedItem.id);
       toast.success(toastMessages.success.deleteLink);
@@ -29,6 +28,10 @@ const DeleteModal = ({ selectedItem, closeModal, itemType }: DeleteModalProps) =
     }
 
     closeModal(`${itemType}Delete-${selectedItem.id}`);
+
+    if (onDelete) {
+      onDelete(selectedItem.id);
+    }
   };
 
   if (!selectedItem) return null;
