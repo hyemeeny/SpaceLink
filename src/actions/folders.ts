@@ -9,31 +9,6 @@ import API_URL from "@/constants/config";
 //   const accessToken = cookies().get("accessToken")?.value;
 //   const data = Object.fromEntries(formData.entries());
 
-//   if (!accessToken) {
-//     throw new Error("인증 정보가 유효하지 않습니다.");
-//   }
-
-//   const response = await fetch(`${API_URL}/folders`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${accessToken}`,
-//     },
-//     body: JSON.stringify(data),
-//   });
-
-//   // if (!response.ok) {
-//   //   const errorResponse = await response.json();
-//   //   return {
-//   //     success: false,
-//   //     message: errorResponse?.message || "폴더 생성 실패",
-//   //   };
-//   // }
-
-//   revalidateTag("folders");
-//   //return { name, success: true, message: "폴더 생성 완료", isError: false };
-// };
-
 export const postFolders = async ({ name }: { name: string }) => {
   const accessToken = cookies().get("accessToken")?.value;
 
@@ -57,6 +32,7 @@ export const postFolders = async ({ name }: { name: string }) => {
     }
 
     revalidateTag("folders");
+    return await response.json();
   } catch (error) {
     console.error("폴더 생성 중 오류 발생", error);
   }
