@@ -1,9 +1,10 @@
-import { postLinks } from "@/actions/links";
-import CtaButton from "../Button/CtaButton";
-import { useForm } from "react-hook-form";
-import { Folder } from "@/types/folders";
+"use client";
 
-const LinkInput = ({ folders }: { folders: Folder[] }) => {
+import { postLinks } from "@/actions/links";
+import { useForm } from "react-hook-form";
+import { FolderType } from "@/types/folders";
+
+const LinkInput = ({ folders }: { folders: FolderType[] }) => {
   const {
     register,
     handleSubmit,
