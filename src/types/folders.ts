@@ -12,7 +12,7 @@ export interface FolderProps {
 }
 
 export interface FolderTitleProps {
-  defaultName: string;
+  defaultName?: string;
 }
 
 export interface FolderListProps {

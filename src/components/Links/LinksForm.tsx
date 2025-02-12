@@ -74,7 +74,7 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
     closeModal(`folderDelete-${deletedFolderId}`);
   };
 
-  const defaultName = folders.find((folder) => folder.id === folderId)!.name;
+  const defaultName = folders.find((folder) => folder.id === folderId)?.name;
 
   return (
     <section>
