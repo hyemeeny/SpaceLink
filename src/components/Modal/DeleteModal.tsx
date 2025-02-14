@@ -5,15 +5,17 @@ import { deleteLinks } from "@/actions/links";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
 import CtaButton from "@/components/Button/CtaButton";
+import { useModalStore } from "@/store/useModalStore";
 
 interface DeleteModalProps {
   selectedItem: { id: number; name?: string; url?: string } | null;
-  closeModal: (modalId: string | number) => void;
   itemType: "folder" | "link";
   onDelete?: (deletedFolderId: number) => void;
 }
 
-const DeleteModal = ({ selectedItem, closeModal, itemType, onDelete }: DeleteModalProps) => {
+const DeleteModal = ({ selectedItem, itemType, onDelete }: DeleteModalProps) => {
+  const { closeModal } = useModalStore();
+
   const handleDelete = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 

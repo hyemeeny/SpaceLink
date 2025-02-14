@@ -6,15 +6,13 @@ import { FolderLinkData, FolderType } from "@/types/folders";
 import { LinksFormProps, LinkType } from "@/types/links";
 import { useFolderStore } from "@/store/useFolderStore";
 import { ALL_FOLDERS_ID } from "@/constants/folderConstants";
-
 import Container from "@/components/Layout/Container";
 import SearchInput from "@/components/Input/SearchInput";
 import FolderSection from "@/components/Folders/FolderSection";
 import LinkList from "@/components/Links/LinkList";
-
-import FolderAddModal from "@/components/Modal/components/FolderAddModal";
-import DeleteModal from "@/components/Modal/components/DeleteModal";
-import UpdateModal from "@/components/Modal/components/UpdateModal";
+import FolderAddModal from "@/components/Modal/FolderAddModal";
+import DeleteModal from "@/components/Modal/DeleteModal";
+import UpdateModal from "@/components/Modal/UpdateModal";
 
 const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
   const { openModals, openModal, closeModal } = useModalStore();
@@ -94,26 +92,16 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
       </Container>
 
       {/* 폴더 추가 모달 */}
-      {openModals.has(`addFolder-${folderId}`) && <FolderAddModal folderId={folderId} closeModal={closeModal} />}
+      {openModals.has("addFolder") && <FolderAddModal />}
 
       {/* 폴더 수정 모달 */}
       {selectedFolder && openModals.has(`folderUpdate-${selectedFolder.id}`) && (
-        <UpdateModal
-          selectedItem={selectedFolder}
-          closeModal={closeModal}
-          itemType="folder"
-          defaultName={defaultName}
-        />
+        <UpdateModal selectedItem={selectedFolder} itemType="folder" defaultName={defaultName} />
       )}
 
       {/* 폴더 삭제 모달 */}
       {selectedFolder && openModals.has(`folderDelete-${selectedFolder.id}`) && (
-        <DeleteModal
-          selectedItem={selectedFolder}
-          closeModal={closeModal}
-          itemType="folder"
-          onDelete={handleFolderDelete}
-        />
+        <DeleteModal selectedItem={selectedFolder} itemType="folder" onDelete={handleFolderDelete} />
       )}
     </section>
   );

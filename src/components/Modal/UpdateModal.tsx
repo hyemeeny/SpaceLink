@@ -8,6 +8,7 @@ import { putFolders } from "@/actions/folders";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { LinkUpdateSchema, FolderUpdateSchema } from "@/app/schema/zodSchema";
+import { useModalStore } from "@/store/useModalStore";
 
 interface FormValues {
   value: string;
@@ -16,12 +17,12 @@ interface FormValues {
 
 interface UpdateModalProps {
   selectedItem: { id: number; name?: string; url?: string } | null;
-  closeModal: (modalId: string | number) => void;
   itemType: "link" | "folder";
   defaultName?: string;
 }
 
-const UpdateModal = ({ selectedItem, closeModal, itemType, defaultName }: UpdateModalProps) => {
+const UpdateModal = ({ selectedItem, itemType, defaultName }: UpdateModalProps) => {
+  const { closeModal } = useModalStore();
   const schema = itemType === "link" ? LinkUpdateSchema : FolderUpdateSchema;
 
   const {

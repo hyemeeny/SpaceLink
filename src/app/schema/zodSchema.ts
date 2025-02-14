@@ -2,7 +2,10 @@ import { z } from "zod";
 
 export type LoginFormValues = z.infer<typeof LoginSchema>;
 export type SignupFormValues = z.infer<typeof SignupSchema>;
-export type FormValues = z.infer<typeof FolderAddSchema>;
+export type FolderAddFormValues = z.infer<typeof FolderAddSchema>;
+export type FolderUpdateFormValues = z.infer<typeof FolderUpdateSchema>;
+export type LinkAddFormValues = z.infer<typeof LinkAddSchema>;
+export type LinkUpdateFormValues = z.infer<typeof LinkUpdateSchema>;
 
 // 비밀번호 조건 정규표현식
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$&*?!%])[A-Za-z\d!@$%&*?]{8,15}$/;
@@ -40,6 +43,12 @@ export const FolderAddSchema = z.object({
 // 폴더 수정 스키마
 export const FolderUpdateSchema = z.object({
   value: z.string().min(1, { message: "폴더 이름을 입력해주세요." }).max(8, { message: "8자리 이내 입력해 주세요." }),
+});
+
+// 링크 생성 스키마
+export const LinkAddSchema = z.object({
+  url: z.string().url({ message: "유효한 URL을 입력해주세요." }).min(1, { message: "링크 URL을 입력해주세요." }),
+  folderId: z.number().min(1, { message: "폴더를 선택해주세요." }),
 });
 
 // 링크 수정 스키마
