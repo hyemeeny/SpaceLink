@@ -10,14 +10,14 @@ export const useModalStore = create<ModalState>((set) => ({
   openModals: new Set(),
   openModal: (id: string | number) =>
     set((state) => {
-      const updatedModals = new Set(state.openModals);
-      updatedModals.add(id);
-      return { openModals: updatedModals };
+      const modals = new Set(state.openModals);
+      modals.add(id);
+      return { openModals: modals };
     }),
   closeModal: (id: string | number) =>
     set((state) => {
-      const updatedModals = new Set(state.openModals);
-      updatedModals.delete(id);
-      return { openModals: updatedModals };
+      const modals = new Set(state.openModals);
+      modals.delete(id);
+      return { openModals: modals };
     }),
 }));

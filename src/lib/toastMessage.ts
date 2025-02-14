@@ -12,8 +12,8 @@ const toastMessages = {
   error: {
     login: "로그인에 실패하였습니다.",
     signUp: "회원가입에 실패하였습니다.",
-    addLink: "링크 URL을 입력해주세요.",
-    addFolder: "폴더 이름을 입력해주세요.",
+    addLink: "잘못된 링크 URL입니다.",
+    addFolder: "잘못된 폴더 이름입니다.",
   },
 };
 
