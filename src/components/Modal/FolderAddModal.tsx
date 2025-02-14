@@ -1,4 +1,3 @@
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { postFolders } from "@/actions/folders";
@@ -7,19 +6,17 @@ import BaseInput from "@/components/Input/BaseInput";
 import CtaButton from "@/components/Button/CtaButton";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
-import { FolderAddSchema, FormValues } from "@/app/schema/zodSchema";
+import { FolderAddSchema, FolderAddFormValues } from "@/app/schema/zodSchema";
+import { useModalStore } from "@/store/useModalStore";
 
-interface FolderAddModalProps {
-  folderId: number;
-  closeModal: (modalId: string | number) => void;
-}
+const FolderAddModal = () => {
+  const { closeModal } = useModalStore();
 
-const FolderAddModal = ({ folderId, closeModal }: FolderAddModalProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<FormValues>({
+  } = useForm<FolderAddFormValues>({
     resolver: zodResolver(FolderAddSchema),
     mode: "onChange",
     defaultValues: {
@@ -27,18 +24,18 @@ const FolderAddModal = ({ folderId, closeModal }: FolderAddModalProps) => {
     },
   });
 
-  const handleAddFolder = async (data: FormValues) => {
+  const handleAddFolder = async (data: FolderAddFormValues) => {
     if (data.name.trim()) {
       await postFolders({ name: data.name });
       toast.success(toastMessages.success.addFolder);
-      closeModal(`addFolder-${folderId}`);
+      closeModal("addFolder");
     } else {
       toast.error(toastMessages.error.addFolder);
     }
   };
 
   return (
-    <ModalContainer modalId={`addFolder-${folderId}`}>
+    <ModalContainer modalId={"addFolder"}>
       <Header>폴더 추가</Header>
       <Content>
         <form onSubmit={handleSubmit(handleAddFolder)} className="flex flex-col gap-4 mt-6 w-[280px]">
