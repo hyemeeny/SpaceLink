@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useModalStore } from "@/store/useModalStore";
 import { FolderLinkData, FolderType } from "@/types/folders";
 import { LinksFormProps, LinkType } from "@/types/links";
@@ -13,26 +14,56 @@ import LinkList from "@/components/Links/LinkList";
 import FolderAddModal from "@/components/Modal/FolderAddModal";
 import DeleteModal from "@/components/Modal/DeleteModal";
 import UpdateModal from "@/components/Modal/UpdateModal";
+import Pagination from "@/components/Button/Pagination";
 
 const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
   const { openModals, openModal, closeModal } = useModalStore();
   const { folderId, setFolderId } = useFolderStore();
-  const [currentLinks, setCurrentLinks] = useState<LinkType[]>(links);
+  const [currentLinks, setCurrentLinks] = useState<LinkType[]>(links.list);
   const [selectedFolder, setSelectedFolder] = useState<FolderType | null>(null);
 
+  const searchParams = useSearchParams(); // ✅ URL에서 검색어 가져오기
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // 검색 상태
+  const [search, setSearch] = useState(searchParams.get("search") || "");
+
+  // 페이지네이션 상태
+  const [currentPage, setCurrentPage] = useState(Number(searchParams.get("page")) || 1);
+  const totalPages = Math.ceil(links.totalCount / 10);
+
   useEffect(() => {
+    // ✅ 폴더 ID가 변경될 때마다 링크 업데이트
     if (folderId === ALL_FOLDERS_ID) {
-      setCurrentLinks(links);
+      setCurrentLinks(links?.list);
     } else {
       const folderData = folderLinks.find((folderLink: FolderLinkData) => folderLink.folder.id === folderId);
-
-      if (folderData) {
-        setCurrentLinks(folderData.links.list);
-      } else {
-        setCurrentLinks([]);
-      }
+      setCurrentLinks(folderData ? folderData?.links?.list : []);
     }
   }, [folderId, folderLinks, links]);
+
+  useEffect(() => {
+    // ✅ 검색어가 변경될 때마다 링크 필터링
+    if (search) {
+      const filteredLinks = links?.list.filter(
+        (link) =>
+          link.title.toLowerCase().includes(search.toLowerCase()) ||
+          link.url.toLowerCase().includes(search.toLowerCase()),
+      );
+      setCurrentLinks(filteredLinks);
+    } else {
+      setCurrentLinks(links?.list);
+    }
+  }, [search, links]);
+
+  // 페이지네이션 버튼 클릭 시 페이지 변경
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    const newParams = new URLSearchParams(searchParams.toString());
+    newParams.set("page", page.toString());
+    router.push(`${pathname}?${newParams.toString()}`);
+  };
 
   const handleFolderClick = (id: number, folder: FolderType | null) => {
     setFolderId(id);
@@ -49,7 +80,7 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
     openModal(`folderDelete-${folder.id}`);
   };
 
-  // 폴더 삭제하면 다음 폴더로 넘어가는 함수
+  // 폴더 삭제 시 페이지네이션에 맞춰 다음 폴더로 넘어가기
   const handleFolderDelete = (deletedFolderId: number) => {
     if (folderId === deletedFolderId) {
       const folderIndex = folders.findIndex((folder) => folder.id === deletedFolderId);
@@ -65,7 +96,7 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
         } else {
           setFolderId(ALL_FOLDERS_ID);
           setSelectedFolder(null);
-          setCurrentLinks(links);
+          setCurrentLinks(links.list);
         }
       }
     }
@@ -77,7 +108,7 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
   return (
     <section>
       <Container className="mt-10 mb-20 flex flex-col gap-6">
-        <SearchInput />
+        <SearchInput search={search} setSearch={setSearch} />
 
         <FolderSection
           folders={folders}
@@ -88,7 +119,11 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
           defaultName={defaultName}
         />
 
+        {/* 🔹 필터링된 링크 리스트 출력 */}
         <LinkList currentLinks={currentLinks} />
+
+        {/* 🔹 페이지네이션 버튼 */}
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
       </Container>
 
       {/* 폴더 추가 모달 */}

@@ -1,8 +1,8 @@
 import { cookies } from "next/headers";
-import API_URL from "@/constants/config";
-import LinksForm from "@/components/Links/LinksForm";
 import { FolderType } from "@/types/folders";
+import API_URL from "@/constants/config";
 import LinkInput from "@/components/Input/LinkInput";
+import LinksForm from "@/components/Links/LinksForm";
 
 // 폴더 목록 가져오기
 const getAllFolders = async () => {
@@ -29,11 +29,18 @@ const getAllFolders = async () => {
     return response.json();
   } catch (error) {
     console.error("전체 폴더 조회 중 에러 발생", error);
+    return [];
   }
 };
+
+interface getAllLinksParams {
+  page: number;
+  pageSize: number;
+  search: string;
+}
 
 // 전체 링크 가져오기
-const getAllLinks = async () => {
+const getAllLinks = async ({ page, pageSize, search }: getAllLinksParams) => {
   const accessToken = cookies().get("accessToken")?.value;
 
   if (!accessToken) {
@@ -41,7 +48,7 @@ const getAllLinks = async () => {
   }
 
   try {
-    const response = await fetch(`${API_URL}/links`, {
+    const response = await fetch(`${API_URL}/links?page=${page}&pageSize=${pageSize}&search=${search}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
@@ -54,14 +61,25 @@ const getAllLinks = async () => {
       throw new Error(errorData.message);
     }
 
-    return response.json();
+    const data = await response.json();
+    return {
+      totalCount: data?.totalCount || 0,
+      list: data?.list || [],
+    };
   } catch (error) {
     console.error("전체 링크 조회 중 에러 발생", error);
+    return { totalCount: 0, list: [] };
   }
 };
 
+interface getLinksByIdParams {
+  page: number;
+  pageSize: number;
+  folderId: number;
+}
+
 // 폴더별 링크 가져오기
-const getLinksById = async (folderId: number) => {
+const getLinksById = async ({ page, pageSize, folderId }: getLinksByIdParams) => {
   const accessToken = cookies().get("accessToken")?.value;
 
   if (!accessToken) {
@@ -69,7 +87,7 @@ const getLinksById = async (folderId: number) => {
   }
 
   try {
-    const response = await fetch(`${API_URL}/folders/${folderId}/links`, {
+    const response = await fetch(`${API_URL}/folders/${folderId}/links?page=${page}&pageSize=${pageSize}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
@@ -82,38 +100,45 @@ const getLinksById = async (folderId: number) => {
       throw new Error(errorData.message);
     }
 
-    return await response.json();
+    const data = await response.json();
+    return {
+      totalCount: data?.totalCount || 0,
+      list: data?.list || [],
+    };
   } catch (error) {
     console.error("링크 조회 중 에러 발생", error);
+    return { totalCount: 0, list: [] };
   }
 };
 
-const LinksPage = async () => {
-  const folders = await getAllFolders();
-  const links = await getAllLinks();
+interface LinksPageProps {
+  page: number;
+  pageSize: number;
+  search: string;
+}
 
-  /**
-   * getLinksById 함수: 이 함수는 폴더 ID를 받아서 해당 폴더의 링크를 가져옵니다.
-folderLinksPromises: folders.map을 사용하여 각 폴더에 대해 getLinksById를 호출하고, 그 결과를 배열로 모읍니다. 이렇게 함으로써 각 폴더에 대해 해당하는 링크를 가져올 수 있습니다.
-Promise.all: 모든 폴더에 대해 링크를 비동기적으로 가져오기 위해 Promise.all을 사용하여 모든 링크를 동시에 받아옵니다.
-LinksForm에 전달: folderLinks는 각 폴더와 해당 폴더에 맞는 링크를 포함하는 배열이므로, 이를 LinksForm 컴포넌트에 전달할 수 있습니다.
-   */
+const LinksPage = async ({ page = 1, pageSize = 10, search = "" }: LinksPageProps) => {
+  const [folders, links] = await Promise.all([getAllFolders(), getAllLinks({ page, pageSize, search })]);
 
   // 폴더 ID마다 링크 가져오기
   const folderLinksPromises = folders.map(async (folder: FolderType) => {
-    const linksForFolder = await getLinksById(folder.id); // 폴더 ID에 맞는 링크들 가져오기
+    const { totalCount, list } = await getLinksById({
+      page,
+      pageSize,
+      folderId: folder.id,
+    });
     return {
       folder,
-      links: linksForFolder, // 폴더에 해당하는 링크 리스트
+      links: { totalCount, list },
     };
   });
 
-  const folderLinks = await Promise.all(folderLinksPromises); // 모든 폴더에 대해 링크 데이터를 가져오기
+  const folderLinks = await Promise.all(folderLinksPromises);
 
   return (
     <section>
       <LinkInput folders={folders} />
-      <LinksForm folders={folders} links={links.list} folderLinks={folderLinks} />
+      <LinksForm folders={folders} links={links} folderLinks={folderLinks} />
     </section>
   );
 };
