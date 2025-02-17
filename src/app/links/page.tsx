@@ -117,7 +117,7 @@ interface LinksPageProps {
   search: string;
 }
 
-const LinksPage = async ({ page = 1, pageSize = 10, search = "" }: LinksPageProps) => {
+const LinksPage = async ({ page = 1, pageSize = 20, search = "" }: LinksPageProps) => {
   const [folders, links] = await Promise.all([getAllFolders(), getAllLinks({ page, pageSize, search })]);
 
   // 폴더 ID마다 링크 가져오기
