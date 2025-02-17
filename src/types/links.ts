@@ -21,6 +21,6 @@ export interface LinkPost {
 
 export interface LinksFormProps {
   folders: FolderType[];
-  links: LinkType[];
+  links: { totalCount: number; list: LinkType[] };
   folderLinks: FolderLinkData[];
 }
