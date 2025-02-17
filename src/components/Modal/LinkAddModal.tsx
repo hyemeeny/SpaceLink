@@ -11,6 +11,7 @@ import { useModalStore } from "@/store/useModalStore";
 import CtaButton from "@/components/Button/CtaButton";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { ModalContainer, Content, Header } from "@/components/Modal/ModalContainer";
+import { IoCheckmarkCircle } from "react-icons/io5";
 
 const LinkAddModal = ({ folders, url }: { folders: FolderType[]; url: string }) => {
   const { closeModal } = useModalStore();
@@ -25,11 +26,6 @@ const LinkAddModal = ({ folders, url }: { folders: FolderType[]; url: string }) 
     mode: "onChange",
     defaultValues: { url, folderId: folders.length > 0 ? folders[0].id : 0 },
   });
-
-  // useEffect(() => {
-  //   setValue("url", url); // 모달이 열릴 때 URL 업데이트
-  //   setValue("folderId", folderId); // ✅ 폴더 ID 업데이트
-  // }, [url, folderId, setValue]);
 
   const handleAddLink = async (data: LinkAddFormValues) => {
     try {
@@ -69,7 +65,7 @@ const LinkAddModal = ({ folders, url }: { folders: FolderType[]; url: string }) 
                   >
                     {folder.name}
                     <span className="text-sm text-gray04">{folder.linkCount}개 링크</span>
-                    {folder.id === folderId && <span className="ml-auto text-purple01">✔</span>} {/* 선택 표시 */}
+                    {folder.id === folderId && <IoCheckmarkCircle className="ml-auto text-xl text-purple01" />}
                   </button>
                 </li>
               ))}
