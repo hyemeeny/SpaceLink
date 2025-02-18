@@ -14,7 +14,6 @@ import LinkList from "@/components/Links/LinkList";
 import FolderAddModal from "@/components/Modal/FolderAddModal";
 import DeleteModal from "@/components/Modal/DeleteModal";
 import UpdateModal from "@/components/Modal/UpdateModal";
-import Pagination from "@/components/Button/Pagination";
 
 const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
   const { openModals, openModal, closeModal } = useModalStore();
@@ -26,12 +25,7 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  // 검색 상태
   const [search, setSearch] = useState(searchParams.get("search") || "");
-
-  // 페이지네이션 상태
-  const [currentPage, setCurrentPage] = useState(Number(searchParams.get("page")) || 1);
-  const totalPages = Math.ceil(links.totalCount / 10);
 
   useEffect(() => {
     // ✅ 폴더 ID가 변경될 때마다 링크 업데이트
@@ -42,28 +36,6 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
       setCurrentLinks(folderData ? folderData?.links?.list : []);
     }
   }, [folderId, folderLinks, links]);
-
-  useEffect(() => {
-    // ✅ 검색어가 변경될 때마다 링크 필터링
-    if (search) {
-      const filteredLinks = links?.list.filter(
-        (link) =>
-          link.title.toLowerCase().includes(search.toLowerCase()) ||
-          link.url.toLowerCase().includes(search.toLowerCase()),
-      );
-      setCurrentLinks(filteredLinks);
-    } else {
-      setCurrentLinks(links?.list);
-    }
-  }, [search, links]);
-
-  // 페이지네이션 버튼 클릭 시 페이지 변경
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    const newParams = new URLSearchParams(searchParams.toString());
-    newParams.set("page", page.toString());
-    router.push(`${pathname}?${newParams.toString()}`);
-  };
 
   const handleFolderClick = (id: number, folder: FolderType | null) => {
     setFolderId(id);
@@ -119,11 +91,7 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
           defaultName={defaultName}
         />
 
-        {/* 🔹 필터링된 링크 리스트 출력 */}
         <LinkList currentLinks={currentLinks} />
-
-        {/* 🔹 페이지네이션 버튼 */}
-        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
       </Container>
 
       {/* 폴더 추가 모달 */}
