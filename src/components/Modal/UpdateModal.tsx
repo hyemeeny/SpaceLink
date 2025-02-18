@@ -1,14 +1,15 @@
+import { putFolders } from "@/actions/folders";
+import { putLinks } from "@/actions/links";
+import { useModalStore } from "@/store/useModalStore";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LinkUpdateSchema, FolderUpdateSchema } from "@/app/schema/zodSchema";
 import { ModalContainer, Content, Header } from "@/components/Modal/ModalContainer";
-import BaseInput from "@/components/Input/BaseInput";
-import CtaButton from "@/components/Button/CtaButton";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
-import { putLinks } from "@/actions/links";
-import { putFolders } from "@/actions/folders";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { LinkUpdateSchema, FolderUpdateSchema } from "@/app/schema/zodSchema";
-import { useModalStore } from "@/store/useModalStore";
+import BaseInput from "@/components/Input/BaseInput";
+import CtaButton from "@/components/Button/CtaButton";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 interface FormValues {
   value: string;
@@ -28,7 +29,7 @@ const UpdateModal = ({ selectedItem, itemType, defaultName }: UpdateModalProps) 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     mode: "onChange",
@@ -66,8 +67,8 @@ const UpdateModal = ({ selectedItem, itemType, defaultName }: UpdateModalProps) 
             {...register("value")}
             errors={errors.value?.message}
           />
-          <CtaButton type="submit" width="w-[280px]" height="h-[52px]" disabled={!isValid}>
-            변경하기
+          <CtaButton type="submit" width="w-[280px]" height="h-[52px]" disabled={!isValid || isSubmitting}>
+            {isSubmitting ? <LoadingSpinner /> : "변경하기"}
           </CtaButton>
         </form>
       </Content>

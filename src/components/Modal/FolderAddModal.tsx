@@ -1,13 +1,14 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { postFolders } from "@/actions/folders";
+import { useModalStore } from "@/store/useModalStore";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FolderAddSchema, FolderAddFormValues } from "@/app/schema/zodSchema";
 import { ModalContainer, Content, Header } from "@/components/Modal/ModalContainer";
-import BaseInput from "@/components/Input/BaseInput";
-import CtaButton from "@/components/Button/CtaButton";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
-import { FolderAddSchema, FolderAddFormValues } from "@/app/schema/zodSchema";
-import { useModalStore } from "@/store/useModalStore";
+import BaseInput from "@/components/Input/BaseInput";
+import CtaButton from "@/components/Button/CtaButton";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 const FolderAddModal = () => {
   const { closeModal } = useModalStore();
@@ -15,7 +16,7 @@ const FolderAddModal = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isSubmitting },
   } = useForm<FolderAddFormValues>({
     resolver: zodResolver(FolderAddSchema),
     mode: "onChange",
@@ -47,8 +48,8 @@ const FolderAddModal = () => {
             errors={errors.name?.message}
           />
 
-          <CtaButton type="submit" width="w-[280px]" height="h-[52px]" disabled={!isValid}>
-            추가하기
+          <CtaButton type="submit" width="w-[280px]" height="h-[52px]" disabled={!isValid || isSubmitting}>
+            {isSubmitting ? <LoadingSpinner /> : "추가하기"}
           </CtaButton>
         </form>
       </Content>
