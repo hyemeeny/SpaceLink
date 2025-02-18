@@ -48,7 +48,8 @@ const getAllLinks = async ({ page, pageSize, search }: getAllLinksParams) => {
   }
 
   try {
-    const response = await fetch(`${API_URL}/links?page=${page}&pageSize=${pageSize}&search=${search}`, {
+    const searchParams = search ? `&search=${search}` : "";
+    const response = await fetch(`${API_URL}/links?page=${page}&pageSize=${pageSize}${searchParams}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
@@ -118,7 +119,8 @@ interface LinksPageProps {
 }
 
 const LinksPage = async ({ page = 1, pageSize = 20, search = "" }: LinksPageProps) => {
-  const [folders, links] = await Promise.all([getAllFolders(), getAllLinks({ page, pageSize, search })]);
+  const folders = await getAllFolders();
+  const links = await getAllLinks({ page, pageSize, search });
 
   // 폴더 ID마다 링크 가져오기
   const folderLinksPromises = folders.map(async (folder: FolderType) => {
