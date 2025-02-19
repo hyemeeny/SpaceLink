@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LinkAddSchema, LinkAddFormValues } from "@/app/schema/zodSchema";
+import { LinkAddSchema, LinkAddFormValues } from "@/schema/zodSchema";
 import { useForm } from "react-hook-form";
 import clsx from "clsx";
 import toast from "react-hot-toast";

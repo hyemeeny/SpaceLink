@@ -17,18 +17,18 @@ const ModalContainer = ({ children, modalId, ...props }: ModalContainerProps) =>
   const { openModals, closeModal } = useModalStore();
   const isOpen = openModals.has(modalId);
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isOpen]);
+  // useEffect(() => {
+  //   if (isOpen) {
+  //     document.body.style.overflow = "hidden";
+  //   } else {
+  //     document.body.style.overflow = "auto";
+  //   }
+  //   return () => {
+  //     document.body.style.overflow = "auto";
+  //   };
+  // }, [isOpen]);
 
-  if (!isOpen) return null;
+  // if (!isOpen) return null;
 
   return (
     <Modal
