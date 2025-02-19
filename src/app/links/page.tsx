@@ -1,6 +1,8 @@
+import { Suspense } from "react";
 import { cookies } from "next/headers";
 import { FolderType } from "@/types/folders";
 import API_URL from "@/constants/config";
+import SkeletonCard from "@/ui/SkeletonCard";
 import LinkInput from "@/components/Input/LinkInput";
 import LinksForm from "@/components/Links/LinksForm";
 
@@ -46,6 +48,8 @@ const getAllLinks = async ({ page, pageSize, search }: getAllLinksParams) => {
   if (!accessToken) {
     throw new Error("인증 정보가 유효하지 않습니다.");
   }
+
+  console.log("search 값22", search);
 
   try {
     const searchParams = search ? `&search=${search}` : "";
@@ -118,9 +122,15 @@ interface LinksPageProps {
   search: string;
 }
 
-const LinksPage = async ({ page = 1, pageSize = 20, search = "" }: LinksPageProps) => {
+const LinksPage = async ({ searchParams }: { searchParams: LinksPageProps }) => {
+  const page = Number(searchParams?.page) || 1;
+  const pageSize = Number(searchParams?.pageSize) || 10;
+  const search = searchParams?.search || "";
+
   const folders = await getAllFolders();
   const links = await getAllLinks({ page, pageSize, search });
+
+  console.log("search 값", search);
 
   // 폴더 ID마다 링크 가져오기
   const folderLinksPromises = folders.map(async (folder: FolderType) => {
@@ -140,7 +150,9 @@ const LinksPage = async ({ page = 1, pageSize = 20, search = "" }: LinksPageProp
   return (
     <section>
       <LinkInput folders={folders} />
-      <LinksForm folders={folders} links={links} folderLinks={folderLinks} />
+      <Suspense key={search + page} fallback={<SkeletonCard />}>
+        <LinksForm folders={folders} links={links} folderLinks={folderLinks} />
+      </Suspense>
     </section>
   );
 };

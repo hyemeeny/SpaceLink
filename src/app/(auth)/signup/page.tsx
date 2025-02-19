@@ -10,7 +10,7 @@ import Button from "@/components/Button/CtaButton";
 import BaseInput from "@/components/Input/BaseInput";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
-import { SignupSchema, SignupFormValues } from "@/app/schema/zodSchema";
+import { SignupSchema, SignupFormValues } from "@/schema/zodSchema";
 
 const SignupPage = () => {
   const router = useRouter();

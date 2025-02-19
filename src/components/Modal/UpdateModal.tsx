@@ -3,7 +3,7 @@ import { putLinks } from "@/actions/links";
 import { useModalStore } from "@/store/useModalStore";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LinkUpdateSchema, FolderUpdateSchema } from "@/app/schema/zodSchema";
+import { LinkUpdateSchema, FolderUpdateSchema } from "@/schema/zodSchema";
 import { ModalContainer, Content, Header } from "@/components/Modal/ModalContainer";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";

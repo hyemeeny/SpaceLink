@@ -1,30 +1,19 @@
 import Image from "next/image";
-import { ChangeEvent } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-interface SearchInputProps {
-  search: string;
-  setSearch: (search: string) => void;
-}
-
-const SearchInput = ({ search, setSearch }: SearchInputProps) => {
-  const searchParams = useSearchParams();
-  const router = useRouter();
+const SearchInput = () => {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const { replace } = useRouter();
 
-  // ✅ 검색어 입력 시 URL 업데이트
-  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newSearch = e.target.value;
-    setSearch(newSearch);
-
-    // ✅ URL의 search 파라미터를 업데이트 (검색어 적용)
-    const newParams = new URLSearchParams(searchParams.toString());
-    if (newSearch) {
-      newParams.set("search", newSearch);
+  const handleSearch = (term: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (term) {
+      params.set("search", term);
     } else {
-      newParams.delete("search");
+      params.delete("search");
     }
-    router.push(`${pathname}?${newParams.toString()}`);
+    replace(`${pathname}?${params.toString()}`);
   };
 
   return (
@@ -32,8 +21,8 @@ const SearchInput = ({ search, setSearch }: SearchInputProps) => {
       <input
         type="text"
         name="search"
-        value={search}
-        onChange={handleSearchChange}
+        onChange={(e) => handleSearch(e.target.value)}
+        defaultValue={searchParams.get("search")?.toString()}
         placeholder="링크를 검색해 보세요"
         className="w-full h-full bg-white02 rounded-[10px] text-sm md:text-base font-medium placeholder-#666 text-gray06 pl-10"
       />
