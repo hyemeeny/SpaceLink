@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useModalStore } from "@/store/useModalStore";
 import { FolderLinkData, FolderType } from "@/types/folders";
 import { LinksFormProps, LinkType } from "@/types/links";
@@ -21,19 +20,12 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
   const [currentLinks, setCurrentLinks] = useState<LinkType[]>(links.list);
   const [selectedFolder, setSelectedFolder] = useState<FolderType | null>(null);
 
-  const searchParams = useSearchParams(); // ✅ URL에서 검색어 가져오기
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const [search, setSearch] = useState(searchParams.get("search") || "");
-
   useEffect(() => {
-    // ✅ 폴더 ID가 변경될 때마다 링크 업데이트
     if (folderId === ALL_FOLDERS_ID) {
-      setCurrentLinks(links?.list);
+      setCurrentLinks(links.list);
     } else {
       const folderData = folderLinks.find((folderLink: FolderLinkData) => folderLink.folder.id === folderId);
-      setCurrentLinks(folderData ? folderData?.links?.list : []);
+      setCurrentLinks(folderData ? folderData.links.list : []);
     }
   }, [folderId, folderLinks, links]);
 
@@ -80,7 +72,7 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
   return (
     <section>
       <Container className="mt-10 mb-20 flex flex-col gap-6">
-        <SearchInput search={search} setSearch={setSearch} />
+        {/* <SearchInput /> */}
 
         <FolderSection
           folders={folders}
