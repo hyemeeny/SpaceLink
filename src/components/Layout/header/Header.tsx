@@ -60,7 +60,7 @@ const Header = async () => {
   // }
 
   return (
-    <header className="bg-gray01 flex justify-between items-center px-5 py-4 md:py-8">
+    <header className="relative bg-gray01 flex justify-between items-center px-5 py-4 md:py-8 z-10">
       <Link href={"/"}>
         <Image src={"/icons/logo.svg"} width={133} height={24} alt="Linkbrary" />
       </Link>
