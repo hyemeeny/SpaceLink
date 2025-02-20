@@ -5,7 +5,7 @@
 body {
   height: 0;
   min-height: 100vh;
-  color: #333;
+  color: #fff;
   font-family:
     var(--font-pretendard),
     Pretendard,
@@ -91,5 +91,72 @@ input {
     line-clamp: 1;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
+  }
+}
+
+/* 별 효과 */
+@layer utilities {
+  @keyframes animate-twinkle {
+    0% {
+      opacity: 0.3;
+      transform: scale(0.8);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+  }
+
+  .twinkle {
+    @apply opacity-30;
+    animation: animate-twinkle infinite alternate ease-in-out;
+  }
+}
+
+/* 별똥별 효과 */
+@layer utilities {
+  .star {
+    position: relative;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0px 0px 10px #c77eff;
+    animation: animate-star 4s ease-in infinite;
+    opacity: 0;
+  }
+
+  .star::after {
+    position: absolute;
+    content: "";
+    top: calc(50% - 1px);
+    left: -950%;
+    width: 2000%; /* star의 크기에 따라서 꼬리의 길이도 다르게 해주고 싶어서 부모 요소의 길이에 비례하게 값 전달*/
+    height: 2px;
+    background: linear-gradient(to left, #fff0, #eee); /*서서히 흐려지는 꼬리*/
+    transform: rotateZ(-45deg) translateX(50%);
+  }
+
+  .star:nth-child(2) {
+    transform: translateX(300px);
+    animation-delay: 5.1s;
+  }
+
+  .star:nth-child(3) {
+    transform: translateX(450px);
+    animation-delay: 1s;
+  }
+
+  @keyframes animate-star {
+    0% {
+      top: -10vh;
+      transform: translateX(0px);
+      opacity: 1;
+    }
+    100% {
+      top: 110vh;
+      transform: translateX(-120vh);
+      opacity: 1;
+    }
   }
 }
