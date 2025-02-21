@@ -86,3 +86,32 @@ export const deleteLinks = async (linkId: number) => {
     console.error("링크 삭제 중 에러 발생", error);
   }
 };
+
+// 링크 즐겨찾기 설정
+export const putFavoriteLinks = async ({ favorite, linkId }: { favorite: boolean; linkId: number }) => {
+  const accessToken = cookies().get("accessToken")?.value;
+
+  if (!accessToken) {
+    throw new Error("인증 정보가 유효하지 않습니다.");
+  }
+
+  try {
+    const response = await fetch(`${API_URL}/links/${linkId}/favorite`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ favorite }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message);
+    }
+
+    revalidateTag("links");
+  } catch (error) {
+    console.error("링크 즐겨찾기 설정 중 오류 발생", error);
+  }
+};
