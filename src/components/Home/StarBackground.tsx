@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { count, MAX_STAR_COUNT, colors } from "@/constants/constants";
 
 // 🌟 별 데이터 타입 정의
 interface Star {
@@ -8,10 +9,6 @@ interface Star {
   size: number; // 별 크기 (px 단위)
   duration: number; // 반짝이는 애니메이션 지속 시간 (초 단위)
 }
-
-const count = 10;
-const MAX_STAR_COUNT = 50;
-const colors = ["#c77eff", "#f6ff7e", "#ff8d7e", "#ffffff"];
 
 const StarBackground = () => {
   const starCount = count < MAX_STAR_COUNT ? count : MAX_STAR_COUNT;

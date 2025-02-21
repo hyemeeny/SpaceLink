@@ -26,14 +26,6 @@ export interface FolderButtonListProps {
   selectedFolder: FolderType | null;
 }
 
-export interface FolderSectionProps extends FolderTitleProps {
-  folders: FolderType[];
-  handleFolderClick: (id: number, folder: FolderType | null) => void;
-  handleEditClick: (folder: FolderType) => void;
-  handleDeleteClick: (folder: FolderType) => void;
-  selectedFolder: FolderType | null;
-}
-
 export interface FolderLinkData {
   folder: FolderType;
   links: {

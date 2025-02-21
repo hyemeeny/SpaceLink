@@ -8,7 +8,12 @@ import { useFolderStore } from "@/store/useFolderStore";
 import { ALL_FOLDERS_ID } from "@/constants/constants";
 import Container from "@/components/Layout/Container";
 import SearchInput from "@/components/Input/SearchInput";
-import FolderSection from "@/components/Folders/FolderSection";
+
+import FolderAddButton from "@/components/Button/FolderAddButton";
+import FolderTitle from "@/components/Folders/FolderTitle";
+import FolderList from "@/components/Folders/FolderList";
+import FolderButtonList from "@/components/Folders/FolderButtonList";
+
 import LinkList from "@/components/Links/LinkList";
 import FolderAddModal from "@/components/Modal/FolderAddModal";
 import DeleteModal from "@/components/Modal/DeleteModal";
@@ -74,14 +79,19 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
       <Container className="mt-10 mb-20 flex flex-col gap-6">
         {/* <SearchInput /> */}
 
-        <FolderSection
-          folders={folders}
-          handleFolderClick={handleFolderClick}
-          handleEditClick={handleEditClick}
-          handleDeleteClick={handleDeleteClick}
-          selectedFolder={selectedFolder}
-          defaultName={defaultName}
-        />
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between items-center">
+          <FolderList folders={folders} handleFolderClick={handleFolderClick} />
+          <FolderAddButton />
+        </div>
+
+        <div className="flex flex-col md:flex-row justify-between gap-3">
+          <FolderTitle defaultName={defaultName} />
+          <FolderButtonList
+            handleEditClick={handleEditClick}
+            handleDeleteClick={handleDeleteClick}
+            selectedFolder={selectedFolder}
+          />
+        </div>
 
         <LinkList currentLinks={currentLinks} />
       </Container>
