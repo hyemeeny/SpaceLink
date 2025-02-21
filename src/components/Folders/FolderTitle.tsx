@@ -1,6 +1,6 @@
 import { FolderTitleProps } from "@/types/folders";
 import { useFolderStore } from "@/store/useFolderStore";
-import { ALL_FOLDERS_ID } from "@/constants/folderConstants";
+import { ALL_FOLDERS_ID } from "@/constants/constants";
 
 const FolderTitle = ({ defaultName }: FolderTitleProps) => {
   const { folderId } = useFolderStore();

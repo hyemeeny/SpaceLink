@@ -5,7 +5,7 @@ import { useModalStore } from "@/store/useModalStore";
 import { FolderLinkData, FolderType } from "@/types/folders";
 import { LinksFormProps, LinkType } from "@/types/links";
 import { useFolderStore } from "@/store/useFolderStore";
-import { ALL_FOLDERS_ID } from "@/constants/folderConstants";
+import { ALL_FOLDERS_ID } from "@/constants/constants";
 import Container from "@/components/Layout/Container";
 import SearchInput from "@/components/Input/SearchInput";
 import FolderSection from "@/components/Folders/FolderSection";

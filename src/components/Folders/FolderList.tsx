@@ -1,6 +1,6 @@
 import { FolderListProps } from "@/types/folders";
 import { useFolderStore } from "@/store/useFolderStore";
-import { ALL_FOLDERS_ID } from "@/constants/folderConstants";
+import { ALL_FOLDERS_ID } from "@/constants/constants";
 import FolderButton from "@/components/Button/FolderButton";
 
 const FolderList = ({ folders, handleFolderClick }: FolderListProps) => {
