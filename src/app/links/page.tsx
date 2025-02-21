@@ -6,7 +6,7 @@ import SkeletonCard from "@/ui/SkeletonCard";
 import LinkInput from "@/components/Input/LinkInput";
 import LinksForm from "@/components/Links/LinksForm";
 
-// 폴더 목록 가져오기
+// 폴더 목록 조회
 const getAllFolders = async () => {
   const accessToken = cookies().get("accessToken")?.value;
 
@@ -41,7 +41,7 @@ interface getAllLinksParams {
   search: string;
 }
 
-// 전체 링크 가져오기
+// 전체 링크 조회
 const getAllLinks = async ({ page, pageSize, search }: getAllLinksParams) => {
   const accessToken = cookies().get("accessToken")?.value;
 
@@ -83,7 +83,7 @@ interface getLinksByIdParams {
   folderId: number;
 }
 
-// 폴더별 링크 가져오기
+// 폴더별 링크 조회
 const getLinksById = async ({ page, pageSize, folderId }: getLinksByIdParams) => {
   const accessToken = cookies().get("accessToken")?.value;
 
