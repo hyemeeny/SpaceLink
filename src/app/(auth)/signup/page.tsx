@@ -40,35 +40,23 @@ const SignupPage = () => {
   };
 
   return (
-    <section className="flex flex-col gap-6 px-5 min-w-[325px] md:w-[400px] mx-auto mt-[10vh]">
-      <div className="flex flex-col gap-4 items-center">
-        <h1>
-          <Link href={"/"}>
-            <Image src="/icons/logo.svg" width={210} height={38} alt="logo" />
-          </Link>
-        </h1>
-        <p className="text-black text-base">
-          이미 회원이신가요?
-          <Link href={"/login"} className="text-purple01 font-semibold border-b-[1px] border-purple01 ml-3">
-            로그인 하기
-          </Link>
-        </p>
-      </div>
+    <section className="flex flex-col gap-6 px-5 min-w-[325px] md:w-[500px] mx-auto py-[10vh]">
+      <h1 className="text-white text-center text-2xl md:text-4xl font-semibold m-auto mb-12">회원가입</h1>
 
       <form className="grid gap-6" onSubmit={handleSubmit(onSubmit)}>
         <BaseInput
           label="이메일"
           id="email"
           type="email"
-          placeholder="test@test.com"
+          placeholder="이메일을 입력해주세요"
           errors={errors.email?.message}
           {...register("email")}
         />
         <BaseInput
-          label="이름"
+          label="닉네임"
           id="name"
           type="text"
-          placeholder="이름을 입력해주세요."
+          placeholder="닉네임을 입력해주세요."
           errors={errors.name?.message}
           {...register("name")}
         />
@@ -80,29 +68,44 @@ const SignupPage = () => {
           errors={errors.password?.message}
           {...register("password")}
         />
-        {/* <BaseInput
+        <BaseInput
           label="비밀번호 확인"
           id="password"
           type="password"
           placeholder="비밀번호를 다시 입력해주세요."
           errors={errors.password?.message}
           {...register("password")}
-        /> */}
+        />
 
         <Button type="submit" height="h-[53px]" disabled={!isValid}>
           회원가입
         </Button>
       </form>
 
-      <div className="flex justify-between items-center py-3 px-5 bg-gray02 ring-1 ring-gray03 rounded-lg">
-        <p className="text-gray05 text-sm">소설 로그인</p>
-        <div className="flex gap-4">
-          <Link href="#">
-            <Image src="/icons/google.svg" width={42} height={42} alt="Google" />
-          </Link>
-          <Link href="#">
-            <Image src="/icons/kakao.svg" width={42} height={42} alt="Kakao" />
-          </Link>
+      <p className="text-white text-base text-center">
+        이미 계정이 있으신가요?
+        <Link href={"/login"} className="text-purple01 font-semibold border-b-[1px] border-purple01 ml-3">
+          로그인하기
+        </Link>
+      </p>
+
+      <div className="flex flex-col">
+        <div className="mt-8 flex w-full items-center">
+          <hr className="flex-1 border-t border-border-primary" />
+          <span className="mx-8 text-xl text-white">OR</span>
+          <hr className="flex-1 border-t border-border-primary" />
+        </div>
+
+        <div className="flex justify-between items-center">
+          <p className="text-white text-base">간편 회원가입하기</p>
+          <div className="flex gap-4">
+            <Link href="#">
+              <Image src="/icons/google.svg" width={42} height={42} alt="Google" />
+            </Link>
+            <Link href="#">
+              <Image src="/icons/kakao.svg" width={42} height={42} alt="Kakao" />
+            </Link>
+          </div>
         </div>
       </div>
     </section>
