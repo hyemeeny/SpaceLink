@@ -5,6 +5,7 @@ import API_URL from "@/constants/config";
 import SkeletonCard from "@/ui/SkeletonCard";
 import LinkInput from "@/components/Input/LinkInput";
 import LinksForm from "@/components/Links/LinksForm";
+import SearchInput from "@/components/Input/SearchInput";
 
 // 폴더 목록 조회
 const getAllFolders = async () => {
@@ -149,6 +150,7 @@ const LinksPage = async ({ searchParams }: { searchParams: LinksPageProps }) => 
 
   return (
     <section>
+      {/* <SearchInput /> */}
       <LinkInput folders={folders} />
       <Suspense key={search + page} fallback={<SkeletonCard />}>
         <LinksForm folders={folders} links={links} folderLinks={folderLinks} />

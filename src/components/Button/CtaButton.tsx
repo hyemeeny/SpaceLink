@@ -12,8 +12,16 @@ interface ButtonProps {
   variant?: "gradient" | "red";
 }
 
-const CtaButton = ({ children, width = "w-full", height = "h-full", type = "button", disabled = false, className, variant = "gradient" }: ButtonProps) => {
-  const baseStyle = "rounded-lg text-white text-sm md:text-lg font-semibold transition duration-300 ease-in-out";
+const CtaButton = ({
+  children,
+  width = "w-full",
+  height = "h-full",
+  type = "button",
+  disabled = false,
+  className,
+  variant = "gradient",
+}: ButtonProps) => {
+  const baseStyle = "rounded-xl text-white text-sm md:text-lg font-semibold transition duration-300 ease-in-out";
 
   const variantStyles = {
     gradient: "bg-gradient from-purple01 to-sky01",
@@ -23,7 +31,13 @@ const CtaButton = ({ children, width = "w-full", height = "h-full", type = "butt
   return (
     <button
       type={type}
-      className={clsx(baseStyle, variantStyles[variant], width, height, disabled && "opacity-50 cursor-not-allowed", className)}
+      className={clsx(
+        baseStyle,
+        width,
+        height,
+        disabled ? "bg-gray-400 cursor-not-allowed" : variantStyles[variant],
+        className,
+      )}
       disabled={disabled}
     >
       {children}

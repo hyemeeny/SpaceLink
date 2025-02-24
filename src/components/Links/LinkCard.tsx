@@ -71,11 +71,11 @@ const LinkCard = ({ link }: { link: LinkType }) => {
   return (
     <li
       key={link.id}
-      className="relative mx-auto w-full md:w-[340px] rounded-2xl overflow-hidden shadow-custom bg-white"
+      className="relative mx-auto w-full rounded-2xl overflow-hidden shadow-custom bg-white bg-opacity-20"
       ref={dropdownRef}
     >
       <Link href={link.url}>
-        <div className="relative w-full h-[192px] md:w-[340px] md:h-[200px]">
+        <div className="relative w-full h-[192px] md:h-[200px]">
           <Image src={link.imageSource || "/images/none_image.svg"} fill alt={link.title} className="object-cover" />
         </div>
       </Link>
@@ -84,7 +84,7 @@ const LinkCard = ({ link }: { link: LinkType }) => {
       </button>
       <div className="relative p-4 flex flex-col gap-[10px]">
         <div className="flex justify-between">
-          <p className="text-gray07 text-sm">{RelativeTimeComponent({ timestamp: link.createdAt })}</p>
+          <p className="text-gray02 text-sm">{RelativeTimeComponent({ timestamp: link.createdAt })}</p>
           <button onClick={toggleDropdown} className="relative w-[21px] h-[17px]">
             <GoKebabHorizontal />
           </button>
@@ -100,7 +100,7 @@ const LinkCard = ({ link }: { link: LinkType }) => {
           <h3 className="text-base font-semibold text-overflow">{link.title}</h3>
           <p className="text-base text-overflow2">{link.description}</p>
         </div>
-        <p className="text-gray07 text-sm">{formatDate(link.createdAt)}</p>
+        <p className="text-gray02 text-sm">{formatDate(link.createdAt)}</p>
       </div>
 
       {/* 링크 수정 모달 */}

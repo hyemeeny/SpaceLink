@@ -10,6 +10,7 @@ import Container from "@/components/Layout/Container";
 import SearchInput from "@/components/Input/SearchInput";
 
 import FolderAddButton from "@/components/Button/FolderAddButton";
+import TopButton from "@/components/Button/TopButton";
 import FolderTitle from "@/components/Folders/FolderTitle";
 import FolderList from "@/components/Folders/FolderList";
 import FolderButtonList from "@/components/Folders/FolderButtonList";
@@ -77,8 +78,6 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
   return (
     <section>
       <Container className="mt-10 mb-20 flex flex-col gap-6">
-        {/* <SearchInput /> */}
-
         <div className="flex flex-col md:flex-row md:items-center md:justify-between items-center">
           <FolderList folders={folders} handleFolderClick={handleFolderClick} />
           <FolderAddButton />
@@ -95,6 +94,8 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
 
         <LinkList currentLinks={currentLinks} />
       </Container>
+
+      <TopButton />
 
       {/* 폴더 추가 모달 */}
       {openModals.has("addFolder") && <FolderAddModal />}

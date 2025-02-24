@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@/styles/globals.css";
 import { Toaster } from "react-hot-toast";
-import ClientPathname from "@/components/ClientPathname";
 import Header from "@/components/Layout/header/Header";
+import StarBackground from "@/components/StarBackground";
 
 export const metadata: Metadata = {
   title: "Linkbrary",
@@ -29,10 +29,9 @@ export default function RootLayout({
   return (
     <html lang="kr" className={`${pretendard.variable}`}>
       <body>
+        <StarBackground />
         <ToastProvider />
-        <ClientPathname hideRoutes={["/login", "/signup"]}>
-          <Header />
-        </ClientPathname>
+        <Header />
         {children}
         <div id="modal-root"></div>
       </body>

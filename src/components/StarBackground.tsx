@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { count, MAX_STAR_COUNT, colors } from "@/constants/constants";
 
@@ -32,7 +34,7 @@ const StarBackground = () => {
 
   useEffect(() => {
     const generateStars = (): Star[] => {
-      return Array.from({ length: 100 }).map((_, i) => ({
+      return Array.from({ length: 500 }).map((_, i) => ({
         id: i,
         x: Math.random() * 100, // 뷰포트 너비 퍼센트
         y: Math.random() * 100, // 뷰포트 높이 퍼센트
@@ -44,7 +46,7 @@ const StarBackground = () => {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-black overflow-hidden">
+    <div className="fixed top-0 left-0 w-full h-full gradient-main-background overflow-hidden -z-10">
       {stars.map((star) => (
         <div
           key={star.id}
@@ -58,7 +60,7 @@ const StarBackground = () => {
           }}
         />
       ))}
-      {new Array(starCount).fill(0).map((e, idx) => {
+      {new Array(starCount).fill(0).map((_, idx) => {
         const left = `${Math.random() * count * 5 * starInterval}px`;
         const animationDelay = `${Math.random() * 15}s`;
         const animationDuration = `${2 + Math.random() * 4}s`;

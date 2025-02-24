@@ -24,7 +24,7 @@ export const LoginSchema = z.object({
 
 // 회원가입 스키마 정의
 export const SignupSchema = z.object({
-  name: z.string().min(1, { message: "이름을 입력해주세요." }),
+  name: z.string().min(1, { message: "닉네임을 입력해주세요." }),
   email: z.string().min(1, { message: "이메일을 입력해주세요." }).email({ message: "유효한 이메일을 입력해주세요." }),
   password: z
     .string()

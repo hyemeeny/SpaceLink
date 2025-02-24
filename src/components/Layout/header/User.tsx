@@ -31,7 +31,7 @@ const User = ({ user }: { user: UserProps | null }) => {
       {user && (
         <div className="relative flex items-center gap-2 cursor-pointer" onClick={toggleDropdown}>
           <Image src={"/icons/profile.svg"} width={28} height={28} alt={user.name} className="ml-3" />
-          <p className="text-sm text-gray06">{user.name}</p>
+          <p className="text-sm">{user.name}</p>
           <Dropdown items={["로그아웃"]} isOpen={isOpen} onClose={() => setIsOpen(false)} onItemClick={handleLogout} />
         </div>
       )}

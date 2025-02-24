@@ -8,12 +8,15 @@ import SubSection01 from "@/components/Home/SubSection01";
 import SubSection02 from "@/components/Home/SubSection02";
 import SubSection03 from "@/components/Home/SubSection03";
 import SubSection04 from "@/components/Home/SubSection04";
-import StarBackground from "@/components/Home/StarBackground";
+
+type ScrollEvent = {
+  activeSection: number;
+};
 
 export default function Home() {
-  const [initialActiveSection, setInitialActiveSection] = useState(null);
-  const onScroll = (p: any) => {
-    if (initialActiveSection === null) setInitialActiveSection(p.activeSection);
+  const [initialActiveSection, setInitialActiveSection] = useState<number | null>(null);
+  const onScroll = (page: ScrollEvent) => {
+    if (initialActiveSection === null) setInitialActiveSection(page.activeSection);
   };
 
   let options = {
@@ -28,8 +31,6 @@ export default function Home() {
 
   return (
     <main className="relative">
-      <StarBackground />
-
       <SectionsContainer {...options} activeSection={initialActiveSection}>
         <Section>
           <MainSection />
