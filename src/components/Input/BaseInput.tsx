@@ -30,7 +30,7 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="relative grid gap-2">
         {label && (
-          <label htmlFor={id} className="text-black text-sm">
+          <label htmlFor={id} className="text-white text-sm">
             {label}
           </label>
         )}
@@ -38,7 +38,7 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
         <div className="relative">
           <input
             className={clsx(
-              "w-full h-[60px] ring-1 ring-inset px-4 ring-gray03 rounded-lg placeholder-gray04 text-gray06 text-base transition duration-500 ease-in-out focus-within:ring-purple01 focus-within:ring-2",
+              "w-full h-[50px] ring-1 ring-inset px-4 ring-gray03 rounded-xl placeholder-gray04 text-gray06 text-base transition-all duration-300 ease-in-out focus-within:ring-purple01 focus-within:ring-2",
               errors ? "ring-red01 focus-within:ring-red01" : "focus-within:ring-purple01",
             )}
             id={id}

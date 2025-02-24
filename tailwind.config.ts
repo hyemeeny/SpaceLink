@@ -17,7 +17,7 @@ const config = {
         gray05: "#3e3e43",
         gray06: "#373740",
         gray07: "#6B6B6B",
-        purple01: "#6d6afe",
+        purple01: "#d4bcff",
         sky01: "#6AE3FE",
       },
       backgroundImage: {

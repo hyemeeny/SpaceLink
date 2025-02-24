@@ -5,7 +5,7 @@
 body {
   height: 0;
   min-height: 100vh;
-  color: #000;
+  color: #fff;
   font-family:
     var(--font-pretendard),
     Pretendard,
@@ -56,7 +56,7 @@ input {
 /* 랜딩페이지 그라데이션 텍스트 */
 @layer utilities {
   .gradient-main-background {
-    background: linear-gradient(180deg, #f6f4f5 10%, #877cb1 60%, #341875 100%);
+    background: linear-gradient(320deg, #877cb1 0, #100725 60%);
   }
 
   .gradient-main-text {
@@ -166,12 +166,12 @@ input {
     0% {
       top: -10vh;
       transform: translateX(0px);
-      opacity: 1;
+      opacity: 0.8;
     }
     100% {
       top: 110vh;
       transform: translateX(-120vh);
-      opacity: 1;
+      opacity: 0.8;
     }
   }
 }
