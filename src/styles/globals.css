@@ -55,6 +55,10 @@ input {
 
 /* 랜딩페이지 그라데이션 텍스트 */
 @layer utilities {
+  .gradient-main-background {
+    background: linear-gradient(180deg, #f6f4f5 10%, #877cb1 60%, #341875 100%);
+  }
+
   .gradient-main-text {
     background: linear-gradient(91.26deg, #6d6afe 17.28%, #ff9f9f 74.98%);
     background-clip: text;
