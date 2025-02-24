@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@/styles/globals.css";
 import { Toaster } from "react-hot-toast";
-import Header from "@/components/Layout/header/Header";
 import ClientPathname from "@/components/ClientPathname";
+import Header from "@/components/Layout/header/Header";
 
 export const metadata: Metadata = {
   title: "Linkbrary",
