@@ -4,6 +4,7 @@ export type LoginFormValues = z.infer<typeof LoginSchema>;
 export type SignupFormValues = z.infer<typeof SignupSchema>;
 export type FolderAddFormValues = z.infer<typeof FolderAddSchema>;
 export type FolderUpdateFormValues = z.infer<typeof FolderUpdateSchema>;
+export type LinkFormValues = z.infer<typeof LinkSchema>;
 export type LinkAddFormValues = z.infer<typeof LinkAddSchema>;
 export type LinkUpdateFormValues = z.infer<typeof LinkUpdateSchema>;
 
@@ -46,6 +47,10 @@ export const FolderUpdateSchema = z.object({
 });
 
 // 링크 생성 스키마
+export const LinkSchema = z.object({
+  url: z.string().min(1, "추가할 링크의 URL을 입력해 주세요").url("유효한 URL을 입력해 주세요"),
+});
+
 export const LinkAddSchema = z.object({
   url: z.string().url({ message: "유효한 URL을 입력해주세요." }).min(1, { message: "링크 URL을 입력해주세요." }),
   folderId: z.number().min(1, { message: "폴더를 선택해주세요." }),

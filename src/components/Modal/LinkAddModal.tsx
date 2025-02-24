@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LinkAddSchema, LinkAddFormValues } from "@/schema/zodSchema";
-import { useForm } from "react-hook-form";
+import { LinkAddSchema, LinkAddFormValues, LinkFormValues } from "@/schema/zodSchema";
+import { useForm, UseFormReset } from "react-hook-form";
 import clsx from "clsx";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
@@ -13,7 +13,13 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import { ModalContainer, Content, Header } from "@/components/Modal/ModalContainer";
 import { IoCheckmarkCircle } from "react-icons/io5";
 
-const LinkAddModal = ({ folders, url }: { folders: FolderType[]; url: string }) => {
+interface LinkAddModalProps {
+  folders: FolderType[];
+  url: string;
+  reset: UseFormReset<LinkFormValues>;
+}
+
+const LinkAddModal = ({ folders, url, reset }: LinkAddModalProps) => {
   const { closeModal } = useModalStore();
   const { folderId, setFolderId } = useFolderStore();
 
@@ -32,6 +38,7 @@ const LinkAddModal = ({ folders, url }: { folders: FolderType[]; url: string }) 
       await postLinks(data);
       toast.success(toastMessages.success.addLink);
       closeModal("addLink");
+      reset();
     } catch (error) {
       toast.error(toastMessages.error.addLink);
     }
