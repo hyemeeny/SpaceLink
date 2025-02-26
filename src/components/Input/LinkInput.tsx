@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FolderType } from "@/types/folders";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LinkSchema, LinkFormValues } from "@/schema/zodSchema";
+import { LinkAddSchema, LinkAddFormValues } from "@/schema/zodSchema";
 import { useModalStore } from "@/store/useModalStore";
 import LinkAddModal from "@/components/Modal/LinkAddModal";
 import LoadingSpinner from "../LoadingSpinner";
@@ -18,15 +18,15 @@ const LinkInput = ({ folders }: { folders: FolderType[] }) => {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<LinkFormValues>({
+  } = useForm<LinkAddFormValues>({
     mode: "onChange",
-    resolver: zodResolver(LinkSchema),
+    resolver: zodResolver(LinkAddSchema),
     defaultValues: {
       url: "",
     },
   });
 
-  const onSubmit = async (data: LinkFormValues) => {
+  const onSubmit = async (data: LinkAddFormValues) => {
     setInputUrl(data.url);
     openModal("addLink");
   };
