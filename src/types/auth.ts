@@ -2,9 +2,11 @@ export interface Login {
   email: string;
   password: string;
 }
-
-export interface SignUp {
+export interface CheckEmail {
   email: string;
+}
+
+export interface SignUp extends CheckEmail {
   password: string;
   name: string;
 }
