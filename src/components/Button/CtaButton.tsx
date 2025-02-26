@@ -5,11 +5,11 @@ interface ButtonProps {
   children: ReactNode;
   width?: string;
   height?: string;
-  onClick?: () => void;
   type?: "button" | "reset" | "submit";
   disabled?: boolean;
   className?: string;
   variant?: "gradient" | "red";
+  onClick?: () => void;
 }
 
 const CtaButton = ({
@@ -20,6 +20,7 @@ const CtaButton = ({
   disabled = false,
   className,
   variant = "gradient",
+  onClick,
 }: ButtonProps) => {
   const baseStyle = "rounded-xl text-white text-sm md:text-lg font-semibold transition duration-300 ease-in-out";
 
@@ -39,6 +40,7 @@ const CtaButton = ({
         className,
       )}
       disabled={disabled}
+      onClick={onClick}
     >
       {children}
     </button>
