@@ -27,7 +27,13 @@ const FolderAddModal = () => {
 
   const handleAddFolder = async (data: FolderAddFormValues) => {
     try {
-      await postFolders({ name: data.name });
+      const response = await postFolders({ name: data.name });
+
+      if (!response) {
+        toast.error(toastMessages.error.addFolder);
+        return;
+      }
+
       toast.success(toastMessages.success.addFolder);
       closeModal("addFolder");
     } catch (error) {

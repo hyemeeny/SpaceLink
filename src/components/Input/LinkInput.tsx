@@ -8,6 +8,8 @@ import { LinkAddSchema, LinkAddFormValues } from "@/schema/zodSchema";
 import { useModalStore } from "@/store/useModalStore";
 import LinkAddModal from "@/components/Modal/LinkAddModal";
 import LoadingSpinner from "../LoadingSpinner";
+import toast from "react-hot-toast";
+import toastMessages from "@/lib/toastMessage";
 
 const LinkInput = ({ folders }: { folders: FolderType[] }) => {
   const { openModals, openModal } = useModalStore();
@@ -27,8 +29,12 @@ const LinkInput = ({ folders }: { folders: FolderType[] }) => {
   });
 
   const onSubmit = async (data: LinkAddFormValues) => {
-    setInputUrl(data.url);
-    openModal("addLink");
+    try {
+      setInputUrl(data.url);
+      openModal("addLink");
+    } catch (error) {
+      toast.error(toastMessages.error.addLink);
+    }
   };
 
   return (
