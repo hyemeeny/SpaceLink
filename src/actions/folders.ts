@@ -5,10 +5,6 @@ import { cookies } from "next/headers";
 import API_URL from "@/constants/config";
 
 // 폴더 생성
-// export const postFolders = async (formData: FormData) => {
-//   const accessToken = cookies().get("accessToken")?.value;
-//   const data = Object.fromEntries(formData.entries());
-
 export const postFolders = async ({ name }: { name: string }) => {
   const accessToken = cookies().get("accessToken")?.value;
 
