@@ -26,12 +26,15 @@ export const postLinks = async (linkData: { url: string; folderId: number }) => 
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message);
+      console.error("링크 생성 실패:", errorData);
+      return errorData;
     }
 
     revalidateTag("links");
+    return await response.json();
   } catch (error) {
     console.error("링크 생성 중 에러 발생", error);
+    throw error;
   }
 };
 

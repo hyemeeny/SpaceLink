@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LinkAddSchema, LinkAddFormValues, LinkFolderAddFormValues } from "@/schema/zodSchema";
+import { LinkFolderAddSchema, LinkAddFormValues, LinkFolderAddFormValues } from "@/schema/zodSchema";
 import { useForm, UseFormReset } from "react-hook-form";
 import clsx from "clsx";
 import toast from "react-hot-toast";
@@ -28,17 +28,27 @@ const LinkAddModal = ({ folders, url, reset }: LinkAddModalProps) => {
     setValue,
     formState: { isValid, isSubmitting },
   } = useForm<LinkFolderAddFormValues>({
-    resolver: zodResolver(LinkAddSchema),
+    resolver: zodResolver(LinkFolderAddSchema),
     mode: "onChange",
     defaultValues: { url, folderId: folders.length > 0 ? folders[0].id : 0 },
   });
 
   const handleAddLink = async (data: LinkFolderAddFormValues) => {
     try {
-      await postLinks(data);
-      toast.success(toastMessages.success.addLink);
-      closeModal("addLink");
-      reset();
+      const response = await postLinks(data);
+
+      if (!response) {
+        toast.error(toastMessages.error.addLink);
+        return;
+      }
+
+      if (response.message) {
+        toast.error(response.message);
+      } else {
+        toast.success(toastMessages.success.addLink);
+        closeModal("addLink");
+        reset();
+      }
     } catch (error) {
       toast.error(toastMessages.error.addLink);
     }
