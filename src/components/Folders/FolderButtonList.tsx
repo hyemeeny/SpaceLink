@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { useFolderStore } from "@/store/useFolderStore";
 import { useModalStore } from "@/store/useModalStore";
 import { FolderButtonListProps } from "@/types/folders";
