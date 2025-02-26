@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LinkAddSchema, LinkAddFormValues, LinkFormValues } from "@/schema/zodSchema";
+import { LinkAddSchema, LinkAddFormValues, LinkFolderAddFormValues } from "@/schema/zodSchema";
 import { useForm, UseFormReset } from "react-hook-form";
 import clsx from "clsx";
 import toast from "react-hot-toast";
@@ -16,7 +16,7 @@ import { IoCheckmarkCircle } from "react-icons/io5";
 interface LinkAddModalProps {
   folders: FolderType[];
   url: string;
-  reset: UseFormReset<LinkFormValues>;
+  reset: UseFormReset<LinkAddFormValues>;
 }
 
 const LinkAddModal = ({ folders, url, reset }: LinkAddModalProps) => {
@@ -27,13 +27,13 @@ const LinkAddModal = ({ folders, url, reset }: LinkAddModalProps) => {
     handleSubmit,
     setValue,
     formState: { isValid, isSubmitting },
-  } = useForm<LinkAddFormValues>({
+  } = useForm<LinkFolderAddFormValues>({
     resolver: zodResolver(LinkAddSchema),
     mode: "onChange",
     defaultValues: { url, folderId: folders.length > 0 ? folders[0].id : 0 },
   });
 
-  const handleAddLink = async (data: LinkAddFormValues) => {
+  const handleAddLink = async (data: LinkFolderAddFormValues) => {
     try {
       await postLinks(data);
       toast.success(toastMessages.success.addLink);

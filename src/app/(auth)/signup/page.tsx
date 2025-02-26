@@ -1,33 +1,63 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { signUp } from "@/actions/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SignupSchema, SignupFormValues } from "@/schema/zodSchema";
+import { checkEmail, signUp } from "@/actions/auth";
 import Link from "next/link";
 import Image from "next/image";
 import Button from "@/components/Button/CtaButton";
+import CtaButton from "@/components/Button/CtaButton";
 import BaseInput from "@/components/Input/BaseInput";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
-import { SignupSchema, SignupFormValues } from "@/schema/zodSchema";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 const SignupPage = () => {
   const router = useRouter();
+  const [isCheckEmail, setIsCheckEmail] = useState(false);
 
   const {
+    watch,
     register,
     handleSubmit,
+    setFocus,
     formState: { errors, isValid },
   } = useForm<SignupFormValues>({
     resolver: zodResolver(SignupSchema),
-    mode: "onChange",
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-    },
+    mode: "all",
   });
+
+  const handleCheckEmail = async () => {
+    const email = watch("email");
+
+    if (!email) {
+      toast.error("이메일을 입력해주세요.");
+      return;
+    }
+
+    try {
+      const response = await checkEmail({ email });
+
+      if (!response) {
+        toast.error(toastMessages.error.checkEmail);
+        return;
+      }
+
+      if (response.isUsableEmail) {
+        toast.success(toastMessages.success.checkEmail);
+      } else if (response.message) {
+        setFocus("email");
+        setIsCheckEmail(false);
+        toast.error(response.message);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(toastMessages.error.checkEmail);
+    }
+  };
 
   const onSubmit = async (data: SignupFormValues) => {
     try {
@@ -44,18 +74,31 @@ const SignupPage = () => {
       <h1 className="text-white text-center text-2xl md:text-4xl font-semibold m-auto mb-12">회원가입</h1>
 
       <form className="grid gap-6" onSubmit={handleSubmit(onSubmit)}>
-        <BaseInput
-          label="이메일"
-          id="email"
-          type="email"
-          placeholder="이메일을 입력해주세요"
-          errors={errors.email?.message}
-          {...register("email")}
-        />
+        <div className="flex gap-2">
+          <BaseInput
+            label="이메일"
+            id="email"
+            type="email"
+            placeholder="이메일을 입력해주세요"
+            className="flex-1"
+            errors={errors.email?.message}
+            {...register("email")}
+          />
+          <CtaButton
+            width="w-[80px]"
+            height="h-[56px]"
+            className="md:text-sm mt-6"
+            type="button"
+            disabled={isCheckEmail}
+            onClick={handleCheckEmail}
+          >
+            {isCheckEmail ? <LoadingSpinner /> : "중복확인"}
+          </CtaButton>
+        </div>
         <BaseInput
           label="닉네임"
           id="name"
-          type="text"
+          type="name"
           placeholder="닉네임을 입력해주세요."
           errors={errors.name?.message}
           {...register("name")}
@@ -70,11 +113,11 @@ const SignupPage = () => {
         />
         <BaseInput
           label="비밀번호 확인"
-          id="password"
+          id="confirmPassword"
           type="password"
           placeholder="비밀번호를 다시 입력해주세요."
-          errors={errors.password?.message}
-          {...register("password")}
+          errors={errors.confirmPassword?.message}
+          {...register("confirmPassword")}
         />
 
         <Button type="submit" height="h-[53px]" disabled={!isValid}>

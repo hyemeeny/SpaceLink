@@ -1,8 +1,8 @@
 "use client";
 
 import clsx from "clsx";
-import Image from "next/image";
 import { useState, forwardRef, ChangeEventHandler, FocusEventHandler, KeyboardEventHandler } from "react";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 
 interface InputProps {
   label?: string;
@@ -12,13 +12,31 @@ interface InputProps {
   placeholder?: string;
   errors?: string;
   type?: string;
+  className?: string;
+  autoComplete?: string;
   onChange?: ChangeEventHandler;
   onKeyDown?: KeyboardEventHandler;
   onBlur?: FocusEventHandler;
 }
 
 const BaseInput = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, id, name, value, placeholder, errors, type = "text", onChange, onBlur, onKeyDown }, ref) => {
+  (
+    {
+      label,
+      id,
+      name,
+      value,
+      placeholder,
+      errors,
+      type = "text",
+      className,
+      autoComplete,
+      onChange,
+      onBlur,
+      onKeyDown,
+    },
+    ref,
+  ) => {
     const [inputType, setInputType] = useState(type);
     const [password, setPassword] = useState(false);
 
@@ -27,8 +45,12 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
       setPassword((prev) => !prev);
     };
 
+    const defaultAutoComplete =
+      autoComplete ??
+      (type === "email" ? "email" : type === "password" ? "new-password" : type === "name" ? "name" : "off");
+
     return (
-      <div className="relative grid gap-2">
+      <div className={(clsx("relative grid gap-2"), className)}>
         {label && (
           <label htmlFor={id} className="text-white text-sm">
             {label}
@@ -38,13 +60,14 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
         <div className="relative">
           <input
             className={clsx(
-              "w-full h-[50px] ring-1 ring-inset px-4 ring-gray03 rounded-xl placeholder-gray04 text-gray06 text-base transition-all duration-300 ease-in-out focus-within:ring-purple01 focus-within:ring-2",
-              errors ? "ring-red01 focus-within:ring-red01" : "focus-within:ring-purple01",
+              "w-full p-4 text-base text-gray06 placeholder-gray04 rounded-xl outline-none ring-inset ring-2 transition-all duration-300 focus:outline-none",
+              errors ? "ring-red01" : "ring-gray03 focus:ring-purple01",
             )}
             id={id}
             name={name}
             value={value}
             type={inputType}
+            autoComplete={defaultAutoComplete}
             onChange={onChange}
             onBlur={onBlur}
             onKeyDown={onKeyDown}
@@ -54,9 +77,9 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
           {type === "password" && (
             <span className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer" onClick={handleIconClick}>
               {password ? (
-                <Image src="/icons/eye-on.svg" width={16} height={16} alt="OpenEyes" />
+                <IoEyeOutline className="text-xl text-gray04" />
               ) : (
-                <Image src="/icons/eye-off.svg" width={16} height={16} alt="OpenEyes" />
+                <IoEyeOffOutline className="text-xl text-gray04" />
               )}
             </span>
           )}
