@@ -26,9 +26,14 @@ const LoginPage = () => {
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
-      await login(data);
-      router.push("/");
-      toast.success(toastMessages.success.login);
+      const response = await login(data);
+
+      if (response && response.message) {
+        toast.error(response.message);
+      } else {
+        toast.success(toastMessages.success.login);
+        router.push("/");
+      }
     } catch (error) {
       console.error("로그인에 실패하였습니다.", error);
       toast.error(toastMessages.error.login);

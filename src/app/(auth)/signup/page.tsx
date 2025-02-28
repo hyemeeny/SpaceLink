@@ -61,9 +61,14 @@ const SignupPage = () => {
 
   const onSubmit = async (data: SignupFormValues) => {
     try {
-      await signUp(data);
-      router.push("/login");
-      toast.success(toastMessages.success.signUp);
+      const response = await signUp(data);
+
+      if (response && response.message) {
+        toast.error(response.message);
+      } else {
+        toast.success(toastMessages.success.signUp);
+        router.push("/login");
+      }
     } catch (error) {
       toast.error(toastMessages.error.signUp);
     }
