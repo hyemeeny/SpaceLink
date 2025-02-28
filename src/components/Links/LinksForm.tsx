@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useModalStore } from "@/store/useModalStore";
-import { FolderLinkData, FolderType } from "@/types/folders";
+import { FolderType } from "@/types/folders";
 import { LinksFormProps, LinkType } from "@/types/links";
 import { useFolderStore } from "@/store/useFolderStore";
 import { ALL_FOLDERS_ID } from "@/constants/constants";
@@ -19,21 +20,57 @@ import LinkList from "@/components/Links/LinkList";
 import FolderAddModal from "@/components/Modal/FolderAddModal";
 import DeleteModal from "@/components/Modal/DeleteModal";
 import UpdateModal from "@/components/Modal/UpdateModal";
+import Pagination from "@/components/Button/Pagination";
+import Pagination2 from "@/components/Button/Pagination2";
 
 const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
   const { openModals, openModal, closeModal } = useModalStore();
   const { folderId, setFolderId } = useFolderStore();
-  const [currentLinks, setCurrentLinks] = useState<LinkType[]>(links.list);
+  const [allLinks, setAllLinks] = useState<LinkType[]>(links.list);
+  const [currentLinks, setCurrentLinks] = useState<LinkType[]>([]);
   const [selectedFolder, setSelectedFolder] = useState<FolderType | null>(null);
 
+  const searchParams = useSearchParams();
+  const pageQuery = Number(searchParams.get("page")) || 1; // searchParams에서 검색 쿼리값 추출
+  const PAGE_SIZE = Number(searchParams.get("pageSize")) || 12; // searchParams에서 페이지 사이즈 쿼리값 추출
+  const searchQuery = searchParams.get("search") || ""; // searchParams에서 검색 쿼리값 추출
+  const [currentPage, setCurrentPage] = useState(pageQuery);
+  const [totalCount, setTotalCount] = useState(links.totalCount); // totalCount 값 추가
+  const [search, setSearch] = useState(searchQuery); // 검색 상태
+
   useEffect(() => {
+    let newLinks: LinkType[];
     if (folderId === ALL_FOLDERS_ID) {
-      setCurrentLinks(links.list);
+      newLinks = links.list;
+      setTotalCount(links.totalCount); // totalCount 갱신
     } else {
-      const folderData = folderLinks.find((folderLink: FolderLinkData) => folderLink.folder.id === folderId);
-      setCurrentLinks(folderData ? folderData.links.list : []);
+      const folderData = folderLinks.find((folderLink) => folderLink.folder.id === folderId);
+      newLinks = folderData ? folderData.links.list : [];
+      setTotalCount(folderData ? folderData.links.totalCount : 1);
     }
+
+    setAllLinks(newLinks);
+    setCurrentPage(1);
   }, [folderId, folderLinks, links]);
+
+  useEffect(() => {
+    let filteredLinks = allLinks;
+
+    // 검색어가 있을 경우 필터링
+    if (search) {
+      filteredLinks = allLinks.filter((link) => link.title.toLowerCase().includes(search.toLowerCase()));
+    }
+
+    const startIndex = (currentPage - 1) * PAGE_SIZE;
+    const paginatedLinks = filteredLinks.slice(startIndex, startIndex + PAGE_SIZE);
+    setCurrentLinks(paginatedLinks);
+  }, [allLinks, currentPage, search, PAGE_SIZE]);
+
+  // 검색어 변경 핸들러
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+    setCurrentPage(1); // 검색어 변경 시 첫 페이지로 돌아감
+  };
 
   const handleFolderClick = (id: number, folder: FolderType | null) => {
     setFolderId(id);
@@ -83,6 +120,8 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
           <FolderAddButton />
         </div>
 
+        <SearchInput search={search} handleSearchChange={handleSearchChange} />
+
         <div className="flex flex-col md:flex-row justify-between gap-3">
           <FolderTitle defaultName={defaultName} />
           <FolderButtonList
@@ -93,6 +132,15 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
         </div>
 
         <LinkList currentLinks={currentLinks} />
+
+        {allLinks.length > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={Math.ceil(totalCount / PAGE_SIZE)}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
+        )}
+        <Pagination2 totalCount={links.totalCount} />
       </Container>
 
       <TopButton />
