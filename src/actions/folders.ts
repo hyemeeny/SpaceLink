@@ -31,6 +31,7 @@ export const postFolders = async ({ name }: { name: string }) => {
     return await response.json();
   } catch (error) {
     console.error("폴더 생성 중 오류 발생", error);
+    throw error;
   }
 };
 
@@ -60,6 +61,7 @@ export const putFolders = async ({ name, folderId }: { name: string; folderId: n
     revalidateTag("folders");
   } catch (error) {
     console.error("폴더 수정 중 오류 발생", error);
+    throw error;
   }
 };
 
@@ -88,5 +90,6 @@ export const deleteFolders = async (folderId: number) => {
     revalidateTag("folders");
   } catch (error) {
     console.error("폴더 삭제 중 오류 발생", error);
+    throw error;
   }
 };

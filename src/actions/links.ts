@@ -64,6 +64,7 @@ export const putLinks = async ({ url, linkId }: { url: string; linkId: number })
     revalidateTag("links");
   } catch (error) {
     console.error("링크 수정 중 오류 발생", error);
+    throw error;
   }
 };
 
@@ -87,6 +88,7 @@ export const deleteLinks = async (linkId: number) => {
     revalidateTag("links");
   } catch (error) {
     console.error("링크 삭제 중 에러 발생", error);
+    throw error;
   }
 };
 
@@ -116,5 +118,6 @@ export const putFavoriteLinks = async ({ favorite, linkId }: { favorite: boolean
     revalidateTag("links");
   } catch (error) {
     console.error("링크 즐겨찾기 설정 중 오류 발생", error);
+    throw error;
   }
 };

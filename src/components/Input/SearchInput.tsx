@@ -2,29 +2,21 @@
 
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { ChangeEventHandler } from "react";
 
-const SearchInput = () => {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const { replace } = useRouter();
+interface SearchInputProps {
+  search: string;
+  handleSearchChange: ChangeEventHandler;
+}
 
-  const handleSearch = (term: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (term) {
-      params.set("search", term);
-    } else {
-      params.delete("search");
-    }
-    replace(`${pathname}?${params.toString()}`);
-  };
-
+const SearchInput = ({ search, handleSearchChange }: SearchInputProps) => {
   return (
     <div className="flex items-center justify-end relative h-[43px] md:h-[54px] md:mb-4">
       <input
         type="text"
         name="search"
-        onChange={(e) => handleSearch(e.target.value)}
-        defaultValue={searchParams.get("search")?.toString()}
+        value={search}
+        onChange={handleSearchChange}
         placeholder="링크를 검색해 보세요"
         className="w-full h-full bg-white02 rounded-xl text-sm md:text-base font-medium placeholder-#666 text-gray06 pl-10"
       />

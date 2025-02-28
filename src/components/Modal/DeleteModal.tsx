@@ -8,7 +8,7 @@ import CtaButton from "@/components/Button/CtaButton";
 import { useModalStore } from "@/store/useModalStore";
 
 interface DeleteModalProps {
-  selectedItem: { id: number; name?: string; url?: string } | null;
+  selectedItem: { id: number; name?: string; url?: string };
   itemType: "folder" | "link";
   onDelete?: (deletedFolderId: number) => void;
 }
@@ -21,22 +21,24 @@ const DeleteModal = ({ selectedItem, itemType, onDelete }: DeleteModalProps) => 
 
     if (!selectedItem) return;
 
-    if (itemType === "link") {
-      await deleteLinks(selectedItem.id);
-      toast.success(toastMessages.success.deleteLink);
-    } else if (itemType === "folder") {
-      await deleteFolders(selectedItem.id);
-      toast.success(toastMessages.success.deleteFolder);
-    }
+    try {
+      if (itemType === "link") {
+        await deleteLinks(selectedItem.id); // response 체크 제거
+        toast.success(toastMessages.success.deleteLink);
+      } else if (itemType === "folder") {
+        await deleteFolders(selectedItem.id);
+        toast.success(toastMessages.success.deleteFolder);
+      }
 
-    closeModal(`${itemType}Delete-${selectedItem.id}`);
+      closeModal(`${itemType}Delete-${selectedItem.id}`);
 
-    if (onDelete) {
-      onDelete(selectedItem.id);
+      if (onDelete) {
+        onDelete(selectedItem.id);
+      }
+    } catch (error) {
+      toast.error(itemType === "link" ? toastMessages.error.deleteLink : toastMessages.error.deleteFolder);
     }
   };
-
-  if (!selectedItem) return null;
 
   return (
     <ModalContainer modalId={`${itemType}Delete-${selectedItem.id}`}>
