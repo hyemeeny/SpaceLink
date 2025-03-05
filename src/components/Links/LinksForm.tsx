@@ -140,7 +140,7 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
             onPageChange={(page) => setCurrentPage(page)}
           />
         )}
-        <Pagination2 totalCount={links.totalCount} />
+        {allLinks.length > 0 && <Pagination2 totalCount={links.totalCount} />}
       </Container>
 
       <TopButton />
