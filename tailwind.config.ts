@@ -10,7 +10,7 @@ const config = {
         black01: "#000000",
         black02: "#111322",
         red01: "#ff5b56",
-        gray01: "#f0f6ff",
+        gray01: "#f5f0ff",
         gray02: "#e7effb",
         gray03: "#ccd5e3",
         gray04: "#9fa6b2",
@@ -19,6 +19,10 @@ const config = {
         gray07: "#6B6B6B",
         purple01: "#d4bcff",
         sky01: "#6AE3FE",
+      },
+      fontFamily: {
+        Pretendard: ["var(--font-Pretendard)"],
+        pyeongChangPeace: ["var(--font-PyeongChangPeace)"],
       },
       backgroundImage: {
         gradient: "linear-gradient(90.99deg, var(--tw-gradient-stops))",
