@@ -36,24 +36,16 @@ export default function Home() {
           <MainSection />
         </Section>
         <Section>
-          <Container>
-            <SubSection01 />
-          </Container>
+          <SubSection01 />
         </Section>
         <Section>
-          <Container>
-            <SubSection02 />
-          </Container>
+          <SubSection02 />
         </Section>
         <Section>
-          <Container>
-            <SubSection03 />
-          </Container>
+          <SubSection03 />
         </Section>
         <Section>
-          <Container>
-            <SubSection04 />
-          </Container>
+          <SubSection04 />
         </Section>
       </SectionsContainer>
     </main>
