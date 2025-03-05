@@ -6,15 +6,24 @@ import Header from "@/components/Layout/header/Header";
 import StarBackground from "@/components/StarBackground";
 
 export const metadata: Metadata = {
-  title: "Linkbrary",
-  description: "나만의 링크를 관리하는 Linkbrary",
+  title: "우주링크",
+  description: "나만의 링크를 보관하는 우주링크",
 };
 
-const pretendard = localFont({
+const Pretendard = localFont({
   src: "../fonts/PretendardVariable.woff2",
   display: "swap",
   weight: "45 920",
-  variable: "--font-pretendard",
+  variable: "--font-Pretendard",
+});
+
+const PyeongChangPeace = localFont({
+  src: [
+    { path: "../fonts/PyeongChangPeace-Light.ttf", weight: "400", style: "normal" },
+    { path: "../fonts/PyeongChangPeace-Bold.ttf", weight: "700", style: "bold" },
+  ],
+  display: "swap",
+  variable: "--font-PyeongChangPeace",
 });
 
 const ToastProvider = () => {
@@ -27,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="kr" className={`${pretendard.variable}`}>
+    <html lang="ko" className={`${Pretendard.variable} ${PyeongChangPeace.variable}`}>
       <body>
         <StarBackground />
         <ToastProvider />

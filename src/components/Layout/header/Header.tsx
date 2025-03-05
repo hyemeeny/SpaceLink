@@ -60,9 +60,10 @@ const Header = async () => {
   // }
 
   return (
-    <header className="relative bg-transparent flex justify-between items-center px-5 py-4 md:py-8 z-10">
+    <header className="relative bg-transparent flex justify-between items-center md:w-[768px] lg:w-[1024px] xl:w-[1280px] mx-auto p-4 md:py-8 z-10">
       <Link href={"/"}>
-        <Image src={"/icons/logo.svg"} width={133} height={24} alt="Linkbrary" />
+        {/* <Image src={"/icons/logo.svg"} width={133} height={24} alt="Linkbrary" /> */}
+        <h1 className="font-pyeongChangPeace text-3xl font-bold text-purple01">우주링크</h1>
       </Link>
       {user ? (
         <User user={user} />
