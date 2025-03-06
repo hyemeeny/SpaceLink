@@ -2,22 +2,9 @@
 const nextConfig = {
   reactStrictMode: false,
   images: {
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; img-src 'self' data: https:;",
     remotePatterns: [
-      // {
-      //   protocol: "https",
-      //   hostname: "codeit-assets.codeit.com",
-      //   pathname: "/**",
-      // },
-      // {
-      //   protocol: "https",
-      //   hostname: "s.pstatic.net",
-      //   pathname: "/**",
-      // },
-      // {
-      //   protocol: "https",
-      //   hostname: "images.velog.io",
-      //   pathname: "/**",
-      // },
       {
         protocol: "http",
         hostname: "**",
