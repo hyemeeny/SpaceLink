@@ -97,7 +97,6 @@ input {
   }
 
   .text-overflow2 {
-    height: 46px;
     text-overflow: ellipsis;
     overflow: hidden;
     word-break: break-word;
