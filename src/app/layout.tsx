@@ -6,8 +6,8 @@ import Header from "@/components/Layout/header/Header";
 import StarBackground from "@/components/StarBackground";
 
 export const metadata: Metadata = {
-  title: "우주링크",
-  description: "나만의 링크를 보관하는 우주링크",
+  title: "SPACELINK",
+  description: "우주의 별처럼 반짝이는 링크를 한곳에 ✨ \n 나만의 특별한 공간에서 소중한 링크를 모아보세요. 🚀",
 };
 
 const Pretendard = localFont({
