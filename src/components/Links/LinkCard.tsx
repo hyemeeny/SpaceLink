@@ -35,6 +35,7 @@ const LinkCard = ({ link }: { link: LinkType }) => {
   const [selectedLink, setSelectedLink] = useState<LinkType | null>(null);
   const [favorite, setFavorite] = useState(link.favorite);
   const dropdownRef = useRef<HTMLLIElement>(null);
+  const [imageSrc, setImageSrc] = useState(link.imageSource || "/images/none_image.svg");
 
   const toggleDropdown = () => setIsOpen((prev) => !prev);
   useOnClickOutside(dropdownRef, () => setIsOpen(false));
@@ -68,15 +69,19 @@ const LinkCard = ({ link }: { link: LinkType }) => {
     openModal(`linkDelete-${link.id}`);
   };
 
+  const handleImageError = () => {
+    setImageSrc("/images/none_image.svg");
+  };
+
   return (
     <li
       key={link.id}
       className="relative mx-auto w-full rounded-2xl overflow-hidden shadow-custom bg-white bg-opacity-20"
       ref={dropdownRef}
     >
-      <Link href={link.url}>
+      <Link href={link.url} target="_blank" rel="noopener noreferrer">
         <div className="relative w-full h-[192px] md:h-[200px]">
-          <Image src={link.imageSource || "/images/none_image.svg"} fill alt={link.title} className="object-cover" />
+          <Image src={imageSrc} fill alt={link.title} className="object-cover" onError={handleImageError} />
         </div>
       </Link>
       <button onClick={() => handleFavoriteClick(link.id)} className="absolute top-4 right-4 text-2xl">

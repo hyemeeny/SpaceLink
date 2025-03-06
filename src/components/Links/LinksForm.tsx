@@ -1,7 +1,7 @@
 "use client";
 
-import { ChangeEvent, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useModalStore } from "@/store/useModalStore";
 import { FolderType } from "@/types/folders";
 import { LinksFormProps, LinkType } from "@/types/links";
@@ -21,60 +21,33 @@ import FolderAddModal from "@/components/Modal/FolderAddModal";
 import DeleteModal from "@/components/Modal/DeleteModal";
 import UpdateModal from "@/components/Modal/UpdateModal";
 import Pagination from "@/components/Button/Pagination";
-import Pagination2 from "@/components/Button/Pagination2";
 
 const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
+  const router = useRouter();
+
   const { openModals, openModal, closeModal } = useModalStore();
   const { folderId, setFolderId } = useFolderStore();
-  const [allLinks, setAllLinks] = useState<LinkType[]>(links.list);
-  const [currentLinks, setCurrentLinks] = useState<LinkType[]>([]);
-  const [selectedFolder, setSelectedFolder] = useState<FolderType | null>(null);
 
-  const searchParams = useSearchParams();
-  const pageQuery = Number(searchParams.get("page")) || 1; // searchParams에서 검색 쿼리값 추출
-  const PAGE_SIZE = Number(searchParams.get("pageSize")) || 12; // searchParams에서 페이지 사이즈 쿼리값 추출
-  const searchQuery = searchParams.get("search") || ""; // searchParams에서 검색 쿼리값 추출
-  const [currentPage, setCurrentPage] = useState(pageQuery);
-  const [totalCount, setTotalCount] = useState(links.totalCount); // totalCount 값 추가
-  const [search, setSearch] = useState(searchQuery); // 검색 상태
+  const [allLinks, setAllLinks] = useState<LinkType[]>([]);
+  const [selectedFolder, setSelectedFolder] = useState<FolderType | null>(null);
+  const [totalCount, setTotalCount] = useState(links.totalCount);
 
   useEffect(() => {
-    let newLinks: LinkType[];
     if (folderId === ALL_FOLDERS_ID) {
-      newLinks = links.list;
-      setTotalCount(links.totalCount); // totalCount 갱신
+      setAllLinks(links.list);
+      setTotalCount(links.totalCount);
     } else {
       const folderData = folderLinks.find((folderLink) => folderLink.folder.id === folderId);
-      newLinks = folderData ? folderData.links.list : [];
+      setAllLinks(folderData ? folderData.links.list : []);
       setTotalCount(folderData ? folderData.links.totalCount : 1);
     }
-
-    setAllLinks(newLinks);
-    setCurrentPage(1);
   }, [folderId, folderLinks, links]);
 
-  useEffect(() => {
-    let filteredLinks = allLinks;
-
-    // 검색어가 있을 경우 필터링
-    if (search) {
-      filteredLinks = allLinks.filter((link) => link.title.toLowerCase().includes(search.toLowerCase()));
-    }
-
-    const startIndex = (currentPage - 1) * PAGE_SIZE;
-    const paginatedLinks = filteredLinks.slice(startIndex, startIndex + PAGE_SIZE);
-    setCurrentLinks(paginatedLinks);
-  }, [allLinks, currentPage, search, PAGE_SIZE]);
-
-  // 검색어 변경 핸들러
-  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-    setCurrentPage(1); // 검색어 변경 시 첫 페이지로 돌아감
-  };
-
+  // 폴더 클릭 시 페이지를 1로 초기화
   const handleFolderClick = (id: number, folder: FolderType | null) => {
     setFolderId(id);
     setSelectedFolder(folder);
+    router.push(`?page=1`);
   };
 
   const handleEditClick = (folder: FolderType) => {
@@ -87,25 +60,11 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
     openModal(`folderDelete-${folder.id}`);
   };
 
-  // 폴더 삭제 시 페이지네이션에 맞춰 다음 폴더로 넘어가기
   const handleFolderDelete = (deletedFolderId: number) => {
     if (folderId === deletedFolderId) {
-      const folderIndex = folders.findIndex((folder) => folder.id === deletedFolderId);
-
-      if (folderIndex !== -1) {
-        const nextFolder = folders[folderIndex + 1] || folders[folderIndex - 1] || null;
-
-        if (nextFolder) {
-          setFolderId(nextFolder.id);
-          setSelectedFolder(nextFolder);
-          const nextFolderData = folderLinks.find((folderLink) => folderLink.folder.id === nextFolder.id);
-          setCurrentLinks(nextFolderData ? nextFolderData.links.list : []);
-        } else {
-          setFolderId(ALL_FOLDERS_ID);
-          setSelectedFolder(null);
-          setCurrentLinks(links.list);
-        }
-      }
+      setFolderId(ALL_FOLDERS_ID);
+      setSelectedFolder(null);
+      setAllLinks(links.list);
     }
     closeModal(`folderDelete-${deletedFolderId}`);
   };
@@ -120,7 +79,7 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
           <FolderAddButton />
         </div>
 
-        <SearchInput search={search} handleSearchChange={handleSearchChange} />
+        {folderId === ALL_FOLDERS_ID && <SearchInput />}
 
         <div className="flex flex-col md:flex-row justify-between gap-3">
           <FolderTitle defaultName={defaultName} />
@@ -131,16 +90,9 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
           />
         </div>
 
-        <LinkList currentLinks={currentLinks} />
+        <LinkList currentLinks={allLinks} />
 
-        {allLinks.length > 0 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={Math.ceil(totalCount / PAGE_SIZE)}
-            onPageChange={(page) => setCurrentPage(page)}
-          />
-        )}
-        {allLinks.length > 0 && <Pagination2 totalCount={links.totalCount} />}
+        {allLinks.length > 0 && <Pagination totalCount={totalCount} />}
       </Container>
 
       <TopButton />

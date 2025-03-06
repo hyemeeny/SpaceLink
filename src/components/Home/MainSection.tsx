@@ -6,13 +6,13 @@ import rocket from "@/assets/lotties/rocket.json";
 const MainSection = () => {
   return (
     <section className="flex items-center justify-center gap-x-52 h-[calc(100vh-101px)]">
-      <div className="flex flex-col items-center gap-y-5">
-        <p className="flex flex-col gap-2 font-pyeongChangPeace text-xl md:text-3xl font-bold text-center">
-          <span>Would You</span>
-          <span> Like to Link?</span>
+      <div className="flex flex-col gap-y-5">
+        <p className="flex flex-col gap-2 font-pyeongChangPeace text-xl font-normal">
+          <span>우주의 별처럼 반짝이는 링크를 한곳에 ✨</span>
+          <span>나만의 특별한 공간에서 소중한 링크를 모아보세요. 🚀</span>
         </p>
-        <h2 className="font-pyeongChangPeace text-3xl md:text-7xl font-bold text-center leading-10 gradient-main-text">
-          우주링크
+        <h2 className="font-pyeongChangPeace text-3xl md:text-7xl font-bold leading-10 gradient-main-text">
+          SpaceLink
         </h2>
         <Link href={"/links"} className="mt-10">
           <CtaButton width="w-[200px] h-[37px] lg:w-[350px]" height="lg:h-[53px]">

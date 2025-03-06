@@ -45,9 +45,9 @@ const DeleteModal = ({ selectedItem, itemType, onDelete }: DeleteModalProps) => 
       <Header>{itemType === "folder" ? "폴더 삭제" : "링크 삭제"}</Header>
       <Content>
         <form onSubmit={handleDelete} className="flex flex-col gap-4 mt-3 w-[280px]">
-          <h4 className="text-sm text-gray04 text-center mb-3">
+          <p className="text-sm text-gray04 text-center mb-3 text-overflow2">
             {itemType === "folder" ? selectedItem.name : selectedItem.url}
-          </h4>
+          </p>
           <CtaButton type="submit" width="w-[280px]" height="h-[52px]" variant="red">
             삭제하기
           </CtaButton>

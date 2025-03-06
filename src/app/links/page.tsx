@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { cookies } from "next/headers";
 import { FolderType } from "@/types/folders";
+import { getAllLinksParams, getLinksByIdParams } from "@/types/links";
 import API_URL from "@/constants/config";
 import SkeletonCard from "@/ui/SkeletonCard";
 import LinkInput from "@/components/Input/LinkInput";
@@ -35,12 +36,6 @@ const getAllFolders = async () => {
   }
 };
 
-interface getAllLinksParams {
-  page: number;
-  pageSize: number;
-  search: string;
-}
-
 // 전체 링크 조회
 const getAllLinks = async ({ page, pageSize, search }: getAllLinksParams) => {
   const accessToken = cookies().get("accessToken")?.value;
@@ -48,8 +43,6 @@ const getAllLinks = async ({ page, pageSize, search }: getAllLinksParams) => {
   if (!accessToken) {
     throw new Error("인증 정보가 유효하지 않습니다.");
   }
-
-  console.log("search 값22", search);
 
   try {
     const searchParams = search ? `&search=${search}` : "";
@@ -76,12 +69,6 @@ const getAllLinks = async ({ page, pageSize, search }: getAllLinksParams) => {
     return { totalCount: 0, list: [] };
   }
 };
-
-interface getLinksByIdParams {
-  page: number;
-  pageSize: number;
-  folderId: number;
-}
 
 // 폴더별 링크 조회
 const getLinksById = async ({ page, pageSize, folderId }: getLinksByIdParams) => {
@@ -116,13 +103,7 @@ const getLinksById = async ({ page, pageSize, folderId }: getLinksByIdParams) =>
   }
 };
 
-interface LinksPageProps {
-  page: number;
-  pageSize: number;
-  search: string;
-}
-
-const LinksPage = async ({ searchParams }: { searchParams: LinksPageProps }) => {
+const LinksPage = async ({ searchParams }: { searchParams: getAllLinksParams }) => {
   const page = Number(searchParams.page) || 1;
   const pageSize = Number(searchParams.pageSize) || 9;
   const search = searchParams.search || "";
@@ -130,9 +111,6 @@ const LinksPage = async ({ searchParams }: { searchParams: LinksPageProps }) => 
   const folders = await getAllFolders();
   const links = await getAllLinks({ page, pageSize, search });
 
-  console.log("search 값", search);
-
-  // 폴더 ID마다 링크 가져오기
   const folderLinksPromises = folders.map(async (folder: FolderType) => {
     const { totalCount, list } = await getLinksById({
       page,

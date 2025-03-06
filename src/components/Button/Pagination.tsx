@@ -1,41 +1,59 @@
 "use client";
 
+import useCustomSearchParams from "@/hooks/useCustomSearchParams";
+import { useRouter } from "next/navigation";
+import {
+  MdKeyboardDoubleArrowLeft,
+  MdKeyboardArrowLeft,
+  MdKeyboardArrowRight,
+  MdKeyboardDoubleArrowRight,
+} from "react-icons/md";
+
 interface PaginationProps {
-  currentPage: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
+  totalCount: number;
 }
 
-const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) => {
+const Pagination = ({ totalCount }: PaginationProps) => {
+  const router = useRouter();
+  const { searchParams } = useCustomSearchParams();
+  const currentPage = Number(searchParams.page) || 1;
+  const pageSize = Number(searchParams.pageSize) || 9;
+
+  const totalPages = Math.ceil(totalCount / pageSize);
+
   const getPageNumbers = () => {
     return Array.from({ length: totalPages }, (_, i) => i + 1);
+  };
+
+  const handlePageChange = (page: number) => {
+    router.push(`?page=${page}`);
   };
 
   return (
     <div className="flex gap-2 mt-4 justify-center">
       {/* First Page Button */}
       <button
-        onClick={() => onPageChange(1)}
+        onClick={() => handlePageChange(1)}
         disabled={currentPage === 1}
         className={`px-3 py-1 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
       >
-        First
+        <MdKeyboardDoubleArrowLeft />
       </button>
 
       {/* Previous Page Button */}
       <button
-        onClick={() => onPageChange(currentPage - 1)}
+        onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
         className={`px-3 py-1 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
       >
-        Previous
+        <MdKeyboardArrowLeft />
       </button>
 
       {/* Page Numbers */}
       {getPageNumbers().map((page) => (
         <button
           key={page}
-          onClick={() => onPageChange(page)}
+          onClick={() => handlePageChange(page)}
           className={`px-3 py-1 border rounded ${currentPage === page ? "bg-gray-300" : ""}`}
         >
           {page}
@@ -44,20 +62,20 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) 
 
       {/* Next Page Button */}
       <button
-        onClick={() => onPageChange(currentPage + 1)}
+        onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         className={`px-3 py-1 border rounded ${currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""}`}
       >
-        Next
+        <MdKeyboardArrowRight />
       </button>
 
       {/* Last Page Button */}
       <button
-        onClick={() => onPageChange(totalPages)}
+        onClick={() => handlePageChange(totalPages)}
         disabled={currentPage === totalPages}
         className={`px-3 py-1 border rounded ${currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""}`}
       >
-        Last
+        <MdKeyboardDoubleArrowRight />
       </button>
     </div>
   );

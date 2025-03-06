@@ -24,3 +24,16 @@ export interface LinksFormProps {
   links: { totalCount: number; list: LinkType[] };
   folderLinks: FolderLinkData[];
 }
+
+interface PageParams {
+  page: number;
+  pageSize: number;
+}
+
+export interface getAllLinksParams extends PageParams {
+  search: string;
+}
+
+export interface getLinksByIdParams extends PageParams {
+  folderId: number;
+}
