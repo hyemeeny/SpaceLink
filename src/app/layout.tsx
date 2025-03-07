@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "@/styles/globals.css";
+import "@/styles/globals.scss";
 import { Toaster } from "react-hot-toast";
 import Header from "@/components/Layout/header/Header";
 import StarBackground from "@/components/StarBackground";
