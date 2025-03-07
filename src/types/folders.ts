@@ -15,15 +15,8 @@ export interface FolderTitleProps {
   defaultName?: string;
 }
 
-export interface FolderListProps {
-  folders: FolderType[];
+export interface FolderListProps extends FolderProps {
   handleFolderClick: (id: number, folder: FolderType | null) => void;
-}
-
-export interface FolderButtonListProps {
-  handleEditClick: (selectedFolder: FolderType) => void;
-  handleDeleteClick: (selectedFolder: FolderType) => void;
-  selectedFolder: FolderType | null;
 }
 
 export interface FolderLinkData {

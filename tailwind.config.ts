@@ -8,7 +8,7 @@ const config = {
         white01: "#ffffff",
         white02: "#f5f5f5",
         black01: "#000000",
-        black02: "#111322",
+        black02: "#100725",
         red01: "#ff5b56",
         gray01: "#f5f0ff",
         gray02: "#e7effb",
