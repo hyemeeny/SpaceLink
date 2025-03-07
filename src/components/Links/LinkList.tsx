@@ -1,7 +1,6 @@
 import { LinkType } from "@/types/links";
 import LinkCard from "@/components/Links/LinkCard";
-import Lottie from "lottie-react";
-import linkNoneLottie from "@/assets/lotties/linkNone.json";
+import LinkNone from "@/components/Links/LinkNone";
 
 const LinkList = ({ currentLinks }: { currentLinks: LinkType[] }) => {
   return (
@@ -13,10 +12,7 @@ const LinkList = ({ currentLinks }: { currentLinks: LinkType[] }) => {
           ))}
         </ul>
       ) : (
-        <div className="flex flex-col justify-center items-center text-center">
-          <Lottie animationData={linkNoneLottie} className="w-[300px]" />
-          <p className="text-base text-gray01">아직 저장된 링크가 없습니다.</p>
-        </div>
+        <LinkNone>아직 저장된 링크가 없습니다.</LinkNone>
       )}
     </div>
   );

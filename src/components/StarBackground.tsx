@@ -46,7 +46,7 @@ const StarBackground = () => {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full gradient-main-background overflow-hidden -z-10">
+    <div className="fixed top-0 left-0 w-full h-full gradient-background overflow-hidden -z-10">
       {stars.map((star) => (
         <div
           key={star.id}
