@@ -73,7 +73,7 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
 
   return (
     <section>
-      <Container className="mt-10 mb-20 flex flex-col gap-6">
+      <Container className="mt-10 mb-20 pb-32 flex flex-col gap-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between items-center">
           <FolderList folders={folders} handleFolderClick={handleFolderClick} />
           <FolderAddButton />

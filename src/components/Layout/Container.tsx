@@ -9,10 +9,7 @@ interface ContainerProps {
 const Container = ({ children, className }: ContainerProps) => {
   return (
     <section
-      className={clsx(
-        "w-full md:w-[768px] lg:w-[1024px] xl:w-[1280px] mx-auto px-7 pb-32 md:px-4 box-border",
-        className,
-      )}
+      className={clsx("w-full md:w-[768px] lg:w-[1024px] xl:w-[1280px] mx-auto px-6 md:px-4 box-border", className)}
     >
       {children}
     </section>
