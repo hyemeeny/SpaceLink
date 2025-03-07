@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { SectionsContainer, Section } from "react-fullpage";
-import Container from "@/components/Layout/Container";
 import MainSection from "@/components/Home/MainSection";
 import SubSection01 from "@/components/Home/SubSection01";
 import SubSection02 from "@/components/Home/SubSection02";
