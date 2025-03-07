@@ -1,14 +1,29 @@
 import { useFolderStore } from "@/store/useFolderStore";
 import { useModalStore } from "@/store/useModalStore";
-import { FolderButtonListProps } from "@/types/folders";
+import { FolderType } from "@/types/folders";
 import { FaShare, FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 
-const FolderButtonList = ({ handleEditClick, handleDeleteClick, selectedFolder }: FolderButtonListProps) => {
+const FolderButtonList = () => {
   const { openModal } = useModalStore();
-  const { folderId } = useFolderStore();
+  const { folderId, selectedFolder, setSelectedFolder } = useFolderStore();
+
+  const handleShareClick = (folder: FolderType) => {
+    setSelectedFolder(folder);
+    openModal(`folderShare-${folder.id}`);
+  };
+
+  const handleEditClick = (folder: FolderType) => {
+    setSelectedFolder(folder);
+    openModal(`folderUpdate-${folder.id}`);
+  };
+
+  const handleDeleteClick = (folder: FolderType) => {
+    setSelectedFolder(folder);
+    openModal(`folderDelete-${folder.id}`);
+  };
 
   const buttons = [
-    { id: 1, icon: <FaShare />, label: "공유", onClick: () => openModal(`shareFolder-${folderId}`) },
+    { id: 1, icon: <FaShare />, label: "공유", onClick: () => handleShareClick(selectedFolder!) },
     { id: 2, icon: <FaPencilAlt />, label: "이름 변경", onClick: () => handleEditClick(selectedFolder!) },
     { id: 3, icon: <FaTrashAlt />, label: "삭제", onClick: () => handleDeleteClick(selectedFolder!) },
   ];
