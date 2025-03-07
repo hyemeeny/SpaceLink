@@ -23,7 +23,7 @@ const DeleteModal = ({ selectedItem, itemType, onDelete }: DeleteModalProps) => 
 
     try {
       if (itemType === "link") {
-        await deleteLinks(selectedItem.id); // response 체크 제거
+        await deleteLinks(selectedItem.id);
         toast.success(toastMessages.success.deleteLink);
       } else if (itemType === "folder") {
         await deleteFolders(selectedItem.id);

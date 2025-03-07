@@ -29,13 +29,16 @@ const Pagination = ({ totalCount }: PaginationProps) => {
     router.push(`?page=${page}`);
   };
 
+  const buttonStyle = "px-2 md:px-3 py-1 border rounded transition-transform duration-200 active:scale-90";
+  const buttonDisabled = "opacity-50 cursor-not-allowed";
+
   return (
     <div className="flex gap-2 mt-4 justify-center">
       {/* First Page Button */}
       <button
         onClick={() => handlePageChange(1)}
         disabled={currentPage === 1}
-        className={`px-3 py-1 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
+        className={`${buttonStyle} ${currentPage === 1 ? `${buttonDisabled}` : ""}`}
       >
         <MdKeyboardDoubleArrowLeft />
       </button>
@@ -44,7 +47,7 @@ const Pagination = ({ totalCount }: PaginationProps) => {
       <button
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className={`px-3 py-1 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
+        className={`${buttonStyle} ${currentPage === 1 ? `${buttonDisabled}` : ""}`}
       >
         <MdKeyboardArrowLeft />
       </button>
@@ -54,7 +57,7 @@ const Pagination = ({ totalCount }: PaginationProps) => {
         <button
           key={page}
           onClick={() => handlePageChange(page)}
-          className={`px-3 py-1 border rounded ${currentPage === page ? "bg-gray-300" : ""}`}
+          className={`${buttonStyle} ${currentPage === page ? "bg-gray01 text-black02" : ""}`}
         >
           {page}
         </button>
@@ -64,7 +67,7 @@ const Pagination = ({ totalCount }: PaginationProps) => {
       <button
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className={`px-3 py-1 border rounded ${currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""}`}
+        className={`${buttonStyle} ${currentPage === totalPages ? `${buttonDisabled}` : ""}`}
       >
         <MdKeyboardArrowRight />
       </button>
@@ -73,7 +76,7 @@ const Pagination = ({ totalCount }: PaginationProps) => {
       <button
         onClick={() => handlePageChange(totalPages)}
         disabled={currentPage === totalPages}
-        className={`px-3 py-1 border rounded ${currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""}`}
+        className={`${buttonStyle} ${currentPage === totalPages ? `${buttonDisabled}` : ""}`}
       >
         <MdKeyboardDoubleArrowRight />
       </button>

@@ -18,18 +18,16 @@ import FolderButtonList from "@/components/Folders/FolderButtonList";
 
 import LinkList from "@/components/Links/LinkList";
 import FolderAddModal from "@/components/Modal/FolderAddModal";
+import FolderShareModal from "@/components/Modal/FolderShareModal";
 import DeleteModal from "@/components/Modal/DeleteModal";
 import UpdateModal from "@/components/Modal/UpdateModal";
 import Pagination from "@/components/Button/Pagination";
 
 const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
   const router = useRouter();
-
-  const { openModals, openModal, closeModal } = useModalStore();
-  const { folderId, setFolderId } = useFolderStore();
-
+  const { openModals, closeModal } = useModalStore();
+  const { folderId, selectedFolder, setFolderId, setSelectedFolder } = useFolderStore();
   const [allLinks, setAllLinks] = useState<LinkType[]>([]);
-  const [selectedFolder, setSelectedFolder] = useState<FolderType | null>(null);
   const [totalCount, setTotalCount] = useState(links.totalCount);
 
   useEffect(() => {
@@ -43,21 +41,10 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
     }
   }, [folderId, folderLinks, links]);
 
-  // 폴더 클릭 시 페이지를 1로 초기화
   const handleFolderClick = (id: number, folder: FolderType | null) => {
     setFolderId(id);
     setSelectedFolder(folder);
     router.push(`?page=1`);
-  };
-
-  const handleEditClick = (folder: FolderType) => {
-    setSelectedFolder(folder);
-    openModal(`folderUpdate-${folder.id}`);
-  };
-
-  const handleDeleteClick = (folder: FolderType) => {
-    setSelectedFolder(folder);
-    openModal(`folderDelete-${folder.id}`);
   };
 
   const handleFolderDelete = (deletedFolderId: number) => {
@@ -83,11 +70,7 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
 
         <div className="flex flex-col md:flex-row justify-between gap-3">
           <FolderTitle defaultName={defaultName} />
-          <FolderButtonList
-            handleEditClick={handleEditClick}
-            handleDeleteClick={handleDeleteClick}
-            selectedFolder={selectedFolder}
-          />
+          <FolderButtonList />
         </div>
 
         <LinkList currentLinks={allLinks} />
@@ -99,6 +82,11 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
 
       {/* 폴더 추가 모달 */}
       {openModals.has("addFolder") && <FolderAddModal />}
+
+      {/* 폴더 공유 모달 */}
+      {selectedFolder && openModals.has(`folderShare-${selectedFolder.id}`) && (
+        <FolderShareModal selectedItem={selectedFolder} />
+      )}
 
       {/* 폴더 수정 모달 */}
       {selectedFolder && openModals.has(`folderUpdate-${selectedFolder.id}`) && (
