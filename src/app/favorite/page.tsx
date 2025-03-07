@@ -3,6 +3,7 @@ import { LinkType } from "@/types/links";
 import API_URL from "@/constants/config";
 import Container from "@/components/Layout/Container";
 import LinkCard from "@/components/Links/LinkCard";
+import LinkNone from "@/components/Links/LinkNone";
 
 interface getFavoriteLinksParams {
   page: number;
@@ -46,7 +47,7 @@ const favoritePage = async () => {
   const { totalCount, list } = await getFavoriteLinks({ page: 1, pageSize: 10 });
 
   return (
-    <Container>
+    <Container className="mt-10 mb-20 pb-32 flex flex-col gap-6">
       <div>
         {list && list.length > 0 ? (
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 justify-center">
@@ -55,7 +56,7 @@ const favoritePage = async () => {
             ))}
           </ul>
         ) : (
-          <p className="">즐겨찾기 된 링크가 없습니다.</p>
+          <LinkNone>즐겨찾기한 링크가 없습니다.</LinkNone>
         )}
       </div>
     </Container>
