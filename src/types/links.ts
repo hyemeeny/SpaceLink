@@ -25,7 +25,7 @@ export interface LinksFormProps {
   folderLinks: FolderLinkData[];
 }
 
-interface PageParams {
+export interface PageParams {
   page: number;
   pageSize: number;
 }
