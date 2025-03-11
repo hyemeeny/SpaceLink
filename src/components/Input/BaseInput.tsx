@@ -50,7 +50,7 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
       (type === "email" ? "email" : type === "password" ? "new-password" : type === "name" ? "name" : "off");
 
     return (
-      <div className={(clsx("relative grid gap-2"), className)}>
+      <div className={clsx("relative grid gap-2", className)}>
         {label && (
           <label htmlFor={id} className="text-white text-sm md:text-base">
             {label}
