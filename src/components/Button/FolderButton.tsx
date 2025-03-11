@@ -11,7 +11,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const FolderButton = ({ children, type, isSelected = false, className, onClick }: ButtonProps) => {
   const baseStyle =
-    "border-[1px] border-purple01 rounded-xl px-2 py-1 md:px-3 md:py-2 text-sm md:text-md font-normal transition duration-300 ease-in-out";
+    "border-[1px] border-purple01 rounded-lg md:rounded-xl px-3 py-2 text-sm md:text-md font-normal transition duration-300 ease-in-out";
 
   return (
     <button

@@ -29,11 +29,11 @@ const Pagination = ({ totalCount }: PaginationProps) => {
     router.push(`?page=${page}`);
   };
 
-  const buttonStyle = "px-2 md:px-3 py-1 border rounded transition-transform duration-200 active:scale-90";
+  const buttonStyle = "px-2 md:px-3 py-1 border rounded-lg transition-transform duration-200 active:scale-90";
   const buttonDisabled = "opacity-50 cursor-not-allowed";
 
   return (
-    <div className="flex gap-2 mt-4 justify-center">
+    <div className="flex gap-2 mt-12 justify-center">
       {/* First Page Button */}
       <button
         onClick={() => handlePageChange(1)}

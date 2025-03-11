@@ -7,7 +7,7 @@ import SkeletonCard from "@/ui/SkeletonCard";
 import LinkInput from "@/components/Input/LinkInput";
 import LinksForm from "@/components/Links/LinksForm";
 
-// 폴더 목록 조회
+// 전체 폴더 조회
 const getAllFolders = async () => {
   const accessToken = cookies().get("accessToken")?.value;
 

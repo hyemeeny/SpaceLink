@@ -29,6 +29,11 @@ export const RelativeTimeComponent = ({ timestamp }: { timestamp: string }) => {
   return <span>{relativeTime}</span>;
 };
 
+const menuItems = [
+  { label: "수정하기", value: "수정하기" },
+  { label: "삭제하기", value: "삭제하기" },
+];
+
 const LinkCard = ({ link }: { link: LinkType }) => {
   const { openModals, openModal } = useModalStore();
   const [isOpen, setIsOpen] = useState(false);
@@ -95,7 +100,7 @@ const LinkCard = ({ link }: { link: LinkType }) => {
           </button>
 
           <Dropdown
-            items={["수정하기", "삭제하기"]}
+            items={menuItems}
             isOpen={isOpen}
             onClose={() => setIsOpen(false)}
             onItemClick={(item) => handleItemClick(item, link)}

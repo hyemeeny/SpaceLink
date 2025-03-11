@@ -22,7 +22,8 @@ const CtaButton = ({
   variant = "gradient",
   onClick,
 }: ButtonProps) => {
-  const baseStyle = "rounded-xl text-white text-sm md:text-lg font-semibold transition duration-300 ease-in-out";
+  const baseStyle =
+    "rounded-lg md:rounded-xl text-white text-sm md:text-base lg:text-lg font-semibold transition duration-300 ease-in-out";
 
   const variantStyles = {
     gradient: "bg-gradient from-purple01 to-sky01",

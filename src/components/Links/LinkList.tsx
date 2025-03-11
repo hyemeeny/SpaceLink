@@ -4,7 +4,7 @@ import LinkNone from "@/components/Links/LinkNone";
 
 const LinkList = ({ currentLinks }: { currentLinks: LinkType[] }) => {
   return (
-    <div>
+    <>
       {currentLinks && currentLinks.length > 0 ? (
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 justify-center">
           {currentLinks.map((link) => (
@@ -14,7 +14,7 @@ const LinkList = ({ currentLinks }: { currentLinks: LinkType[] }) => {
       ) : (
         <LinkNone>아직 저장된 링크가 없습니다.</LinkNone>
       )}
-    </div>
+    </>
   );
 };
 
