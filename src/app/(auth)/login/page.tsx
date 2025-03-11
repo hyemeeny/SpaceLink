@@ -62,7 +62,7 @@ const LoginPage = () => {
           {...register("password")}
         />
 
-        <Button type="submit" height="h-[53px]" disabled={!isValid}>
+        <Button type="submit" size="large" disabled={!isValid}>
           로그인
         </Button>
       </form>

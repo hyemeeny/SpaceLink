@@ -7,13 +7,7 @@ interface ContainerProps {
 }
 
 const Container = ({ children, className }: ContainerProps) => {
-  return (
-    <section
-      className={clsx("w-full md:w-[768px] lg:w-[1024px] xl:w-[1280px] mx-auto px-6 md:px-4 box-border", className)}
-    >
-      {children}
-    </section>
-  );
+  return <section className={clsx("w-full max-w-7xl mx-auto px-6 md:px-12 xl:px-0", className)}>{children}</section>;
 };
 
 export default Container;

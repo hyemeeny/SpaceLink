@@ -1,10 +1,16 @@
-import { ReactNode } from "react";
-import CtaButton from "../../Button/CtaButton";
+import CtaButton from "@/components/Button/CtaButton";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
-export const Button = ({ children, ...props }: { children: ReactNode }) => {
+interface ModalButton {
+  isValid: boolean;
+  isSubmitting: boolean;
+  label: string;
+}
+
+export const Button = ({ isValid, label, isSubmitting }: ModalButton) => {
   return (
-    <CtaButton type="submit" width="w-[280px]" height="h-[52px]" {...props}>
-      {children}
+    <CtaButton type="submit" disabled={!isValid || isSubmitting}>
+      {isSubmitting ? <LoadingSpinner /> : label}
     </CtaButton>
   );
 };

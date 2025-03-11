@@ -39,7 +39,7 @@ const LinkInput = ({ folders }: { folders: FolderType[] }) => {
   };
 
   return (
-    <Container className="flex flex-col justify-center pt-6 pb-10 md:pt-[60px] md:pb-[90px]">
+    <Container className="flex flex-col justify-center pt-[60px] md:pb-[90px]">
       <div className="w-full md:w-auto m-auto">
         <div className="flex items-center justify-end relative w-full h-[53px] md:w-[704px] md:h-[69px] lg:w-[800px]">
           <input
