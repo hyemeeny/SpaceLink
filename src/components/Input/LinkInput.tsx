@@ -6,8 +6,9 @@ import { FolderType } from "@/types/folders";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LinkAddSchema, LinkAddFormValues } from "@/schema/zodSchema";
 import { useModalStore } from "@/store/useModalStore";
+import Container from "@/components/Layout/Container";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import LinkAddModal from "@/components/Modal/LinkAddModal";
-import LoadingSpinner from "../LoadingSpinner";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
 
@@ -38,9 +39,9 @@ const LinkInput = ({ folders }: { folders: FolderType[] }) => {
   };
 
   return (
-    <div className="flex flex-col justify-center pt-6 pb-10 md:pt-[60px] md:pb-[90px]">
-      <div className="m-auto">
-        <div className="flex items-center justify-end relative w-[325px] h-[53px] md:w-[704px] md:h-[69px] lg:w-[800px]">
+    <Container className="flex flex-col justify-center pt-6 pb-10 md:pt-[60px] md:pb-[90px]">
+      <div className="w-full md:w-auto m-auto">
+        <div className="flex items-center justify-end relative w-full h-[53px] md:w-[704px] md:h-[69px] lg:w-[800px]">
           <input
             type="text"
             id="url"
@@ -59,7 +60,7 @@ const LinkInput = ({ folders }: { folders: FolderType[] }) => {
         {errors.url && <p className="pl-2 mt-1 text-red01 text-sm font-normal">{errors.url.message}</p>}
       </div>
       {openModals.has("addLink") && <LinkAddModal folders={folders} url={inputUrl} reset={reset} />}
-    </div>
+    </Container>
   );
 };
 
