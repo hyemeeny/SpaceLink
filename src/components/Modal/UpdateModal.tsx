@@ -4,12 +4,10 @@ import { useModalStore } from "@/store/useModalStore";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LinkUpdateSchema, FolderUpdateSchema } from "@/schema/zodSchema";
-import { ModalContainer, Content, Header } from "@/components/Modal/ModalContainer";
+import { ModalContainer, Header, Content, Button } from "@/components/Modal/ModalContainer";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
 import BaseInput from "@/components/Input/BaseInput";
-import CtaButton from "@/components/Button/CtaButton";
-import LoadingSpinner from "@/components/LoadingSpinner";
 
 interface FormValues {
   value: string;
@@ -17,7 +15,7 @@ interface FormValues {
 }
 
 interface UpdateModalProps {
-  selectedItem: { id: number; name?: string; url?: string } | null;
+  selectedItem: { id: number; name?: string; url?: string };
   itemType: "link" | "folder";
   defaultName?: string;
 }
@@ -39,38 +37,40 @@ const UpdateModal = ({ selectedItem, itemType, defaultName }: UpdateModalProps) 
     },
   });
 
-  const handleUpdate = async (data: FormValues) => {
+  const updateItem = async (data: FormValues) => {
     if (!selectedItem) return;
 
-    if (itemType === "link") {
-      await putLinks({ url: data.value, linkId: selectedItem.id });
-      toast.success(toastMessages.success.updateLink);
-    } else if (itemType === "folder") {
-      await putFolders({ name: data.value, folderId: selectedItem.id });
-      toast.success(toastMessages.success.updateFolder);
+    try {
+      if (itemType === "link") {
+        await putLinks({ url: data.value, linkId: selectedItem.id });
+        toast.success(toastMessages.success.updateLink);
+      } else if (itemType === "folder") {
+        await putFolders({ name: data.value, folderId: selectedItem.id });
+        toast.success(toastMessages.success.updateFolder);
+      }
+
+      closeModal(`${itemType}Update-${selectedItem.id}`);
+    } catch (error) {
+      if (itemType === "link") {
+        toast.error(error instanceof Error ? error.message : toastMessages.error.updateLink);
+      } else {
+        toast.error(error instanceof Error ? error.message : toastMessages.error.updateFolder);
+      }
     }
-
-    closeModal(`${itemType}Update-${selectedItem.id}`);
   };
-
-  if (!selectedItem) return null;
 
   return (
     <ModalContainer modalId={`${itemType}Update-${selectedItem.id}`}>
       <Header>{itemType === "folder" ? "폴더 이름 변경" : "링크 URL 변경"}</Header>
-      <Content>
-        <form onSubmit={handleSubmit(handleUpdate)} className="flex flex-col gap-4 mt-6 w-[280px]">
-          <BaseInput
-            type="text"
-            id="value"
-            placeholder={itemType === "folder" ? "폴더 이름 입력" : "링크 URL 입력"}
-            {...register("value")}
-            errors={errors.value?.message}
-          />
-          <CtaButton type="submit" width="w-[280px]" height="h-[52px]" disabled={!isValid || isSubmitting}>
-            {isSubmitting ? <LoadingSpinner /> : "변경하기"}
-          </CtaButton>
-        </form>
+      <Content onSubmit={handleSubmit(updateItem)}>
+        <BaseInput
+          type="text"
+          id="value"
+          placeholder={itemType === "folder" ? "폴더 이름 입력" : "링크 URL 입력"}
+          {...register("value")}
+          errors={errors.value?.message}
+        />
+        <Button isValid={isValid} isSubmitting={isSubmitting} label="변경하기" />
       </Content>
     </ModalContainer>
   );

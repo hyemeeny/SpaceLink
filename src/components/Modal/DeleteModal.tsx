@@ -43,15 +43,13 @@ const DeleteModal = ({ selectedItem, itemType, onDelete }: DeleteModalProps) => 
   return (
     <ModalContainer modalId={`${itemType}Delete-${selectedItem.id}`}>
       <Header>{itemType === "folder" ? "폴더 삭제" : "링크 삭제"}</Header>
-      <Content>
-        <form onSubmit={handleDelete} className="flex flex-col gap-4 mt-3 w-[280px]">
-          <p className="text-sm text-gray04 text-center mb-3 text-overflow2">
-            {itemType === "folder" ? selectedItem.name : selectedItem.url}
-          </p>
-          <CtaButton type="submit" width="w-[280px]" height="h-[52px]" variant="red">
-            삭제하기
-          </CtaButton>
-        </form>
+      <Content onSubmit={handleDelete}>
+        <p className="text-sm text-gray04 text-center mb-3 text-overflow2">
+          {itemType === "folder" ? selectedItem.name : selectedItem.url}
+        </p>
+        <CtaButton type="submit" variant="red">
+          삭제하기
+        </CtaButton>
       </Content>
     </ModalContainer>
   );

@@ -1,5 +1,14 @@
-import { ReactNode } from "react";
+import { FormEventHandler, ReactNode } from "react";
 
-export const Content = ({ children, ...props }: { children: ReactNode }) => {
-  return <div {...props}>{children}</div>;
+interface ModalContent {
+  onSubmit: FormEventHandler<HTMLFormElement>;
+  children: ReactNode;
+}
+
+export const Content = ({ onSubmit, children }: ModalContent) => {
+  return (
+    <form onSubmit={onSubmit} className="flex flex-col gap-4 mt-6 w-[280px]">
+      {children}
+    </form>
+  );
 };
