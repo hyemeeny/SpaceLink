@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
 import API_URL from "@/constants/config";
-import User from "@/components/Layout/header/User";
+import User from "@/components/Layout/Header/User";
 import CtaButton from "@/components/Button/CtaButton";
 import Image from "next/image";
 
