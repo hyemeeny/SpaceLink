@@ -79,17 +79,12 @@ const favoritePage = async () => {
   return (
     <>
       <Container className="mt-10 mb-20 pb-32 flex flex-col items-center gap-6">
-        <h2 className="flex items-center gap-2 text-2xl md:text-4xl lg:text-6xl mb-12">
+        <h2 className="flex items-center gap-2 text-2xl md:text-4xl lg:text-5xl mb-12">
           <FaStar className="text-yellow-400" /> <span className="font-semibold">{user.name}</span>의 즐겨찾기
         </h2>
         <Link href={"/links"} className="ml-auto">
-          <CtaButton
-            type="button"
-            width="w-[100px] md:w-[128px]"
-            height="h-[30px] md:h-[53px]"
-            className="flex items-center justify-center gap-1 md:gap-2"
-          >
-            <FaChevronLeft /> 돌아가기
+          <CtaButton className="flex items-center justify-center gap-1 md:gap-2">
+            <FaChevronLeft /> 뒤로가기
           </CtaButton>
         </Link>
         <div>

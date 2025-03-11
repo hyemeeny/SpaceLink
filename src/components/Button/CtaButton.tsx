@@ -3,27 +3,32 @@ import clsx from "clsx";
 
 interface ButtonProps {
   children: ReactNode;
-  width?: string;
-  height?: string;
+  // width?: string;
+  // height?: string;
   type?: "button" | "reset" | "submit";
   disabled?: boolean;
   className?: string;
   variant?: "gradient" | "red";
+  size?: "small" | "medium" | "large";
   onClick?: () => void;
 }
 
 const CtaButton = ({
   children,
-  width = "w-full",
-  height = "h-full",
+  // width = "w-full",
+  // height = "h-full",
   type = "button",
   disabled = false,
   className,
   variant = "gradient",
+  size = "medium",
   onClick,
 }: ButtonProps) => {
-  const baseStyle =
-    "rounded-lg md:rounded-xl text-white text-sm md:text-base lg:text-lg font-semibold transition duration-300 ease-in-out";
+  const sizeStyles = {
+    small: "px-4 h-[36px] text-xs md:text-sm",
+    medium: "px-6 h-[43px] md:h-[53px] text-sm md:text-base",
+    large: "px-8 h-[50px] md:h-[60px] text-base md:text-lg",
+  };
 
   const variantStyles = {
     gradient: "bg-gradient from-purple01 to-sky01",
@@ -34,9 +39,8 @@ const CtaButton = ({
     <button
       type={type}
       className={clsx(
-        baseStyle,
-        width,
-        height,
+        "rounded-xl text-white font-semibold transition duration-300 ease-in-out",
+        sizeStyles[size],
         disabled ? "bg-gray-400 cursor-not-allowed" : variantStyles[variant],
         className,
       )}

@@ -12,9 +12,7 @@ const MainSection = () => {
       </p>
       <h2 className="font-pyeongChangPeace text-4xl md:text-7xl font-bold pb-4 gradient-text">SpaceLink</h2>
       <Link href={"/links"} className="mt-4 md:mt-10">
-        <CtaButton width="w-[200px] md:w-[250px]" height="h-[43px] md:h-[53px]">
-          링크 둘러보기
-        </CtaButton>
+        <CtaButton size="large">링크 둘러보기</CtaButton>
       </Link>
     </ContainerSection>
   );

@@ -79,7 +79,7 @@ const SignupPage = () => {
       <h1 className="text-white text-center text-2xl md:text-4xl font-semibold m-auto mb-12">회원가입</h1>
 
       <form className="grid gap-6" onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
           <BaseInput
             label="이메일"
             id="email"
@@ -89,14 +89,7 @@ const SignupPage = () => {
             errors={errors.email?.message}
             {...register("email")}
           />
-          <CtaButton
-            width="w-[80px]"
-            height="h-[56px]"
-            className="md:text-sm mt-6"
-            type="button"
-            disabled={isCheckEmail}
-            onClick={handleCheckEmail}
-          >
+          <CtaButton className="mt-6" disabled={isCheckEmail} onClick={handleCheckEmail}>
             {isCheckEmail ? <LoadingSpinner /> : "중복확인"}
           </CtaButton>
         </div>
@@ -125,7 +118,7 @@ const SignupPage = () => {
           {...register("confirmPassword")}
         />
 
-        <Button type="submit" height="h-[53px]" disabled={!isValid}>
+        <Button type="submit" size="large" disabled={!isValid}>
           회원가입
         </Button>
       </form>
