@@ -59,7 +59,7 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
   const defaultName = folders.find((folder) => folder.id === folderId)?.name;
 
   return (
-    <section>
+    <>
       <Container className="mt-10 mb-20 pb-32 flex flex-col gap-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between items-center">
           <FolderList folders={folders} handleFolderClick={handleFolderClick} />
@@ -97,7 +97,7 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
       {selectedFolder && openModals.has(`folderDelete-${selectedFolder.id}`) && (
         <DeleteModal selectedItem={selectedFolder} itemType="folder" onDelete={handleFolderDelete} />
       )}
-    </section>
+    </>
   );
 };
 
