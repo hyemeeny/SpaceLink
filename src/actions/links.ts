@@ -26,8 +26,7 @@ export const postLinks = async (linkData: { url: string; folderId: number }) => 
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.error("링크 생성 실패:", errorData);
-      return errorData;
+      throw new Error(errorData.message || "링크 생성 실패");
     }
 
     revalidateTag("links");
@@ -58,10 +57,11 @@ export const putLinks = async ({ url, linkId }: { url: string; linkId: number })
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message);
+      throw new Error(errorData.message || "링크 수정 실패");
     }
 
     revalidateTag("links");
+    return await response.json();
   } catch (error) {
     console.error("링크 수정 중 오류 발생", error);
     throw error;
