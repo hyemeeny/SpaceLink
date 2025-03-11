@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@/styles/globals.scss";
 import { Toaster } from "react-hot-toast";
-import Header from "@/components/Layout/Header2/Header";
+import Header from "@/components/Layout/Header/Header";
 import StarBackground from "@/components/StarBackground";
 
 export const metadata: Metadata = {
