@@ -1,6 +1,6 @@
 import Modal from "react-modal";
 import Image from "next/image";
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import { useModalStore } from "@/store/useModalStore";
 import { Header } from "@/components/Modal/components/ModalHeader";
 import { Content } from "@/components/Modal/components/ModalContent";
@@ -16,19 +16,6 @@ interface ModalContainerProps {
 const ModalContainer = ({ children, modalId, ...props }: ModalContainerProps) => {
   const { openModals, closeModal } = useModalStore();
   const isOpen = openModals.has(modalId);
-
-  // useEffect(() => {
-  //   if (isOpen) {
-  //     document.body.style.overflow = "hidden";
-  //   } else {
-  //     document.body.style.overflow = "auto";
-  //   }
-  //   return () => {
-  //     document.body.style.overflow = "auto";
-  //   };
-  // }, [isOpen]);
-
-  // if (!isOpen) return null;
 
   return (
     <Modal
