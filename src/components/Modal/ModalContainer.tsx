@@ -1,6 +1,6 @@
 import Modal from "react-modal";
 import Image from "next/image";
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import { useModalStore } from "@/store/useModalStore";
 import { Header } from "@/components/Modal/components/ModalHeader";
 import { Content } from "@/components/Modal/components/ModalContent";
