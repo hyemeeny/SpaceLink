@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import Image from "next/image";
 import API_URL from "@/constants/config";
-import User from "@/components/Layout/Header/User";
+import UserMenu from "@/components/Layout/Header/UserMenu";
 import Container from "@/components/Layout/Container";
 import CtaButton from "@/components/Button/CtaButton";
 
@@ -52,7 +52,7 @@ const Header = async () => {
           <h1 className="font-pyeongChangPeace text-xl md:text-3xl font-bold text-purple01">SpaceLink</h1>
         </Link>
         {user ? (
-          <User user={user} />
+          <UserMenu user={user} />
         ) : (
           <Link href={"/login"}>
             <CtaButton>로그인</CtaButton>
