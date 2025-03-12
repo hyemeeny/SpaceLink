@@ -1,5 +1,9 @@
+"use client";
+
 import { useEffect, useRef } from "react";
 import { useTopStore } from "@/store/useTopStore";
+import Lottie from "lottie-react";
+import top from "@/assets/lotties/top.json";
 
 const TopButton = () => {
   const setIsTopVisible = useTopStore((state) => state.setIsTopVisible);
@@ -25,8 +29,8 @@ const TopButton = () => {
   };
 
   return (
-    <button ref={topRef} onClick={handleScrollToTop} className="text-white md:hidden">
-      맨 위로
+    <button ref={topRef} onClick={handleScrollToTop} className="block w-[250px] m-auto text-white md:hidden">
+      <span className="text-base block -mb-4">맨 위로 이동</span> <Lottie animationData={top} className="mr-6" />
     </button>
   );
 };

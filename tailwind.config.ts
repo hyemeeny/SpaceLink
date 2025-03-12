@@ -18,6 +18,7 @@ const config = {
         gray06: "#373740",
         gray07: "#6B6B6B",
         purple01: "#d4bcff",
+        purple02: "#877cb1",
         sky01: "#6AE3FE",
       },
       fontFamily: {

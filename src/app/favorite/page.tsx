@@ -1,14 +1,13 @@
-import Link from "next/link";
 import { cookies } from "next/headers";
 import { PageParams, LinkType } from "@/types/links";
 import API_URL from "@/constants/config";
 import Container from "@/components/Layout/Container";
 import LinkCard from "@/components/Links/LinkCard";
 import LinkNone from "@/components/Links/LinkNone";
-import CtaButton from "@/components/Button/CtaButton";
 import Pagination from "@/components/Button/Pagination";
-import { FaStar, FaChevronLeft } from "react-icons/fa";
 import TopButton from "@/components/Button/TopButton";
+import BackButton from "@/components/Button/BackButton";
+import { FaStar } from "react-icons/fa";
 
 const getUser = async () => {
   const cookieStore = cookies();
@@ -78,15 +77,11 @@ const favoritePage = async () => {
 
   return (
     <>
-      <Container className="mt-10 mb-20 pb-32 flex flex-col items-center gap-6">
+      <Container className="mt-10 mb-20 pb-8 md:pb-32 flex flex-col items-center gap-6">
         <h2 className="flex items-center gap-2 text-2xl md:text-4xl lg:text-5xl mb-12">
           <FaStar className="text-yellow-400" /> <span className="font-semibold">{user.name}</span>의 즐겨찾기
         </h2>
-        <Link href={"/links"} className="ml-auto">
-          <CtaButton className="flex items-center justify-center gap-1 md:gap-2">
-            <FaChevronLeft /> 뒤로가기
-          </CtaButton>
-        </Link>
+        <BackButton />
         <div>
           {list && list.length > 0 ? (
             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 justify-center">
