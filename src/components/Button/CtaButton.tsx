@@ -3,8 +3,6 @@ import clsx from "clsx";
 
 interface ButtonProps {
   children: ReactNode;
-  // width?: string;
-  // height?: string;
   type?: "button" | "reset" | "submit";
   disabled?: boolean;
   className?: string;
@@ -15,8 +13,6 @@ interface ButtonProps {
 
 const CtaButton = ({
   children,
-  // width = "w-full",
-  // height = "h-full",
   type = "button",
   disabled = false,
   className,
@@ -41,7 +37,7 @@ const CtaButton = ({
       className={clsx(
         "rounded-xl text-white font-semibold transition duration-300 ease-in-out",
         sizeStyles[size],
-        disabled ? "bg-gray-400 cursor-not-allowed" : variantStyles[variant],
+        disabled ? "bg-gray02 cursor-not-allowed" : variantStyles[variant],
         className,
       )}
       disabled={disabled}
