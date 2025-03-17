@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LinkAddSchema, LinkAddFormValues } from "@/schema/zodSchema";
 import { useModalStore } from "@/store/useModalStore";
 import Container from "@/components/Layout/Container";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 import LinkAddModal from "@/components/Modal/LinkAddModal";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
