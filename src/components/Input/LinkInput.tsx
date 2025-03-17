@@ -47,7 +47,7 @@ const LinkInput = ({ folders }: { folders: FolderType[] }) => {
             id="url"
             placeholder="링크를 추가해 보세요"
             {...register("url")}
-            className="w-full h-full ring-2 ring-inset pl-14 ring-purple01 focus-within:ring-purple01 rounded-xl placeholder-gray04 text-gray06 text-sm md:text-base transition duration-500 ease-in-out focus-within:ring-4 bg-[url('/icons/link.svg')] bg-no-repeat bg-[20px]"
+            className="w-full h-full ring-2 ring-inset pl-12 pr-24 md:pr-28 ring-purple01 focus-within:ring-purple01 rounded-xl placeholder-gray04 text-gray06 text-sm md:text-base transition duration-500 ease-in-out focus-within:ring-4 bg-[url('/icons/link.svg')] bg-no-repeat bg-[20px] text-overflow"
           />
           <button
             type="button"
