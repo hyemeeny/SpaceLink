@@ -13,7 +13,7 @@ import CtaButton from "@/components/Button/CtaButton";
 import BaseInput from "@/components/Input/BaseInput";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 const SignupPage = () => {
   const router = useRouter();

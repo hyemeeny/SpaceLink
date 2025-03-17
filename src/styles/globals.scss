@@ -53,9 +53,9 @@ input {
 }
 
 .Navigation {
+  z-index: 1 !important;
   .Navigation-Anchor {
     background-color: white !important;
-
     &.active {
       background-color: #d4bcff !important;
     }
@@ -136,9 +136,9 @@ input {
     content: "";
     top: calc(50% - 1px);
     left: -950%;
-    width: 2000%; /* star의 크기에 따라서 꼬리의 길이도 다르게 해주고 싶어서 부모 요소의 길이에 비례하게 값 전달*/
+    width: 2000%;
     height: 2px;
-    background: linear-gradient(to left, #fff0, #eee); /*서서히 흐려지는 꼬리*/
+    background: linear-gradient(to left, #fff0, #eee);
     transform: rotateZ(-45deg) translateX(50%);
   }
 

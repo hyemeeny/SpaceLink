@@ -1,7 +1,7 @@
 import { FormEventHandler, ReactNode } from "react";
 
 interface ModalContent {
-  onSubmit: FormEventHandler<HTMLFormElement>;
+  onSubmit?: FormEventHandler<HTMLFormElement>;
   children: ReactNode;
 }
 

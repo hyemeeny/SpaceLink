@@ -3,7 +3,14 @@ import localFont from "next/font/local";
 import "@/styles/globals.scss";
 import { Toaster } from "react-hot-toast";
 import Header from "@/components/Layout/Header/Header";
-import StarBackground from "@/components/StarBackground";
+import StarBackground from "@/components/common/StarBackground";
+import KakaoScript from "@/components/common/KakaoScript";
+
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
 
 export const metadata: Metadata = {
   title: "SPACELINK",
@@ -44,6 +51,7 @@ export default function RootLayout({
         {children}
         <div id="modal-root"></div>
       </body>
+      <KakaoScript />
     </html>
   );
 }
