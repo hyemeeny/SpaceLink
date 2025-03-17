@@ -9,7 +9,7 @@ const SubSection03 = () => {
         <br className="hidden md:block" />
         <span className="gradient-text"> 즐겨찾기</span>해 보세요
       </h3>
-      <p className="text-gray01 text-sm">중요한 정보들을 즐겨찾기로 모아둘 수 있어요.</p>
+      <p className="text-gray01 text-sm md:text-base">중요한 정보들을 즐겨찾기로 모아둘 수 있어요.</p>
     </ContainerSection>
   );
 };
