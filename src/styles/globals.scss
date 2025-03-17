@@ -66,7 +66,19 @@ input {
   }
 }
 
-/* 랜딩페이지 그라데이션 텍스트 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: linear-gradient(320deg, #877cb1 0, #332a4e 100%);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d4bcff;
+  border-radius: 10px;
+}
+
 @layer utilities {
   .gradient-background {
     background: linear-gradient(320deg, #877cb1 0, #100725 60%);
