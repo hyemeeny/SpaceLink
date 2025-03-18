@@ -2,8 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import { useTopStore } from "@/store/useTopStore";
-import Lottie from "lottie-react";
+// import Lottie from "lottie-react";
 import top from "@/assets/lotties/top.json";
+import dynamic from "next/dynamic";
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 const TopButton = () => {
   const setIsTopVisible = useTopStore((state) => state.setIsTopVisible);
