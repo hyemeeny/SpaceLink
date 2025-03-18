@@ -1,9 +1,11 @@
 "use client";
 
-import Lottie from "lottie-react";
-import notfound from "@/assets/lotties/notfound.json";
 import Link from "next/link";
+// import Lottie from "lottie-react";
+import notfound from "@/assets/lotties/notfound.json";
 import CtaButton from "@/components/Button/CtaButton";
+import dynamic from "next/dynamic";
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 const Notfound = () => {
   return (
