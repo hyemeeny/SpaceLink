@@ -7,6 +7,7 @@ import { FolderType } from "@/types/folders";
 import { LinksFormProps, LinkType } from "@/types/links";
 import { useFolderStore } from "@/store/useFolderStore";
 import { ALL_FOLDERS_ID } from "@/constants/constants";
+import useCustomSearchParams from "@/hooks/useCustomSearchParams";
 import Container from "@/components/Layout/Container";
 import SearchInput from "@/components/Input/SearchInput";
 
@@ -25,6 +26,9 @@ import Pagination from "@/components/Button/Pagination";
 
 const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
   const router = useRouter();
+  const { searchParams } = useCustomSearchParams();
+  const currentPage = Number(searchParams.page) || 1;
+
   const { openModals, closeModal } = useModalStore();
   const { folderId, selectedFolder, setFolderId, setSelectedFolder } = useFolderStore();
   const [allLinks, setAllLinks] = useState<LinkType[]>([]);
@@ -44,7 +48,10 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
   const handleFolderClick = (id: number, folder: FolderType | null) => {
     setFolderId(id);
     setSelectedFolder(folder);
-    router.push(`?page=1`);
+
+    if (currentPage !== 1) {
+      router.push("?page=1");
+    }
   };
 
   const handleFolderDelete = (deletedFolderId: number) => {
