@@ -89,7 +89,7 @@ const SignupPage = () => {
             errors={errors.email?.message}
             {...register("email")}
           />
-          <CtaButton className="mt-6" disabled={isCheckEmail} onClick={handleCheckEmail}>
+          <CtaButton className="mt-8" disabled={isCheckEmail} onClick={handleCheckEmail}>
             {isCheckEmail ? <LoadingSpinner /> : "중복확인"}
           </CtaButton>
         </div>

@@ -3,8 +3,8 @@ import ContainerSection from "@/components/Home/ContainerSection";
 
 const SubSection03 = () => {
   return (
-    <ContainerSection lottie={stars}>
-      <h3 className="text-2xl md:text-5xl font-bold">
+    <ContainerSection lottie={stars} image="/images/favorite.png">
+      <h3 className="text-2xl md:text-4xl font-bold !leading-tight">
         저장한 링크를
         <br className="hidden md:block" />
         <span className="gradient-text"> 즐겨찾기</span>해 보세요

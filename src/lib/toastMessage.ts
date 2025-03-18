@@ -11,6 +11,7 @@ const toastMessages = {
     updateFolder: "폴더 이름이 변경되었습니다.",
     deleteFolder: "폴더가 삭제되었습니다.",
     checkEmail: "사용 가능한 이메일입니다.",
+    ShareCopy: "클립보드에 복사되었습니다.",
   },
   error: {
     login: "로그인에 실패하였습니다.",
@@ -23,6 +24,7 @@ const toastMessages = {
     deleteFolder: "모든 링크를 삭제한 후 폴더를 삭제해 주세요.",
     favoriteLink: "즐겨찾기 중 오류가 발생했습니다.",
     checkEmail: "이메일 중복 확인 중 오류가 발생했습니다.",
+    ShareCopy: "클립보드 복사 중 오류가 발생했습니다.",
   },
 };
 
