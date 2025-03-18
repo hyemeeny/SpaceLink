@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,7 +17,6 @@ import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 const SignupPage = () => {
   const router = useRouter();
-  const [email, setEmail] = useState("");
   const [isCheckEmail, setIsCheckEmail] = useState(false);
 
   const {
@@ -31,12 +30,8 @@ const SignupPage = () => {
     mode: "all",
   });
 
-  useEffect(() => {
-    setEmail(watch("email"));
-  }, [watch("email")]);
-
   const handleCheckEmail = async () => {
-    // const email = watch("email");
+    const email = watch("email");
 
     if (!email) {
       toast.error("이메일을 입력해주세요.");
