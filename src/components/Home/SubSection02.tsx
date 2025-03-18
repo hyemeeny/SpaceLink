@@ -3,8 +3,8 @@ import ContainerSection from "@/components/Home/ContainerSection";
 
 const SubSection02 = () => {
   return (
-    <ContainerSection lottie={moon}>
-      <h3 className="text-2xl md:text-5xl font-bold">
+    <ContainerSection lottie={moon} image="/images/folder.png">
+      <h3 className="text-2xl md:text-4xl font-bold !leading-tight">
         링크를 <span className="gradient-text">폴더</span>로
         <br className="hidden md:block" />
         관리해 보세요
