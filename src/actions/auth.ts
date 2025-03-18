@@ -33,8 +33,7 @@ export const login = async (loginData: Login) => {
       path: "/",
       httpOnly: true,
       sameSite: "strict",
-      // secure: process.env.NODE_ENV === "production", 배포 환경
-      secure: false, // 개발 환경
+      secure: process.env.NODE_ENV === "production",
     });
 
     revalidateTag("users");
