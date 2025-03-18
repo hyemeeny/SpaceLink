@@ -1,9 +1,7 @@
 import { ReactNode } from "react";
 import Image from "next/image";
-// import Lottie from "lottie-react";
+import Lottie from "lottie-react";
 import Container from "@/components/Layout/Container";
-import dynamic from "next/dynamic";
-const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 const ContainerSection = ({ children, image, lottie }: { children: ReactNode; image: string; lottie: object }) => {
   return (
