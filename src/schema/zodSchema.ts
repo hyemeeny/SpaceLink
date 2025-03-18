@@ -24,7 +24,7 @@ const emailSchema = z
 const FolderSchema = z
   .string()
   .min(1, { message: "폴더 이름을 입력해주세요." })
-  .max(8, { message: "8자리 이내 입력해 주세요." });
+  .max(20, { message: "20자리 이내 입력해 주세요." });
 const LinkSchema = z
   .string()
   .url({ message: "유효한 URL을 입력해주세요." })
