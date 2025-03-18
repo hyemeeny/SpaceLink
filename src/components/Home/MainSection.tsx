@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import Lottie from "lottie-react";
 import rocket from "@/assets/lotties/rocket.json";
