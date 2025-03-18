@@ -7,6 +7,7 @@ import LinkNone from "@/components/Links/LinkNone";
 import Pagination from "@/components/Button/Pagination";
 import TopButton from "@/components/Button/TopButton";
 import BackButton from "@/components/Button/BackButton";
+import { FaStar } from "react-icons/fa";
 
 const getUser = async () => {
   const cookieStore = cookies();
@@ -78,7 +79,7 @@ const favoritePage = async () => {
     <>
       <Container className="mt-10 mb-20 pb-8 md:pb-32 flex flex-col items-center gap-6">
         <h2 className="flex items-center gap-2 text-2xl md:text-4xl lg:text-5xl mb-12">
-          ⭐ <span className="font-semibold">{user.name}</span>의 즐겨찾기
+          <FaStar className="text-yellow-400" /> <span className="font-semibold">{user.name}</span>의 즐겨찾기
         </h2>
         <BackButton />
         <div>

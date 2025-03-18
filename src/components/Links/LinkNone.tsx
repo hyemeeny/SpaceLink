@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactNode } from "react";
 import Lottie from "lottie-react";
 import linkNoneLottie from "@/assets/lotties/linkNone.json";
