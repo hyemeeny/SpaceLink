@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
-import API_URL from "./constants/config";
+import API_URL from "@/constants/config";
 
 export const middleware = async (request: NextRequest) => {
   const accessToken = request.cookies.get("accessToken")?.value;
