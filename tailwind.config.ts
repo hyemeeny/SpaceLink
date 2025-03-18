@@ -1,26 +1,35 @@
-import type { Config } from "tailwindcss";
+/** @type {import('tailwindcss').Config} */
 
-const config: Config = {
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+const config = {
+  content: ["./src/components/**/*.{js,ts,jsx,tsx,mdx}", "./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       colors: {
         white01: "#ffffff",
         white02: "#f5f5f5",
         black01: "#000000",
-        black02: "#111322",
+        black02: "#100725",
         red01: "#ff5b56",
-        gray01: "#f0f6ff",
+        gray01: "#f5f0ff",
         gray02: "#e7effb",
         gray03: "#ccd5e3",
         gray04: "#9fa6b2",
         gray05: "#3e3e43",
-        purple01: "#6d6afe",
+        gray06: "#373740",
+        gray07: "#6B6B6B",
+        purple01: "#d4bcff",
+        purple02: "#877cb1",
         sky01: "#6AE3FE",
+      },
+      fontFamily: {
+        Pretendard: ["var(--font-Pretendard)"],
+        pyeongChangPeace: ["var(--font-PyeongChangPeace)"],
+      },
+      backgroundImage: {
+        gradient: "linear-gradient(90.99deg, var(--tw-gradient-stops))",
+      },
+      boxShadow: {
+        custom: "0px 5px 25px 0px #00000014",
       },
     },
   },
