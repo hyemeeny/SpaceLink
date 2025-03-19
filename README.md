@@ -34,18 +34,7 @@
 
 ## 🔨 기술 스택
 
-<img src="https://img.shields.io/badge/next.js-000000?style=flat-square&logo=next.js&logoColor=white" height="25"/>
-<img src="https://img.shields.io/badge/react-61DAFB?style=flat-square&logo=react&logoColor=black" height="25"/>
-<img src="https://img.shields.io/badge/typescript-3178C6?style=flat-square&logo=typeScript&logoColor=white" height="25"/>
-<img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" height="25"/>
-<img src="https://img.shields.io/badge/react hook form-EC5990?style=flat-square&logo=reacthookform&logoColor=white" height="25"/>
-<img src="https://img.shields.io/badge/zod-3E67B1?style=flat-square&logo=zod&logoColor=white" height="25"/>
-<img src="https://img.shields.io/badge/lottiefiles-00DDB3?style=flat-square&logo=lottiefiles&logoColor=white" height="25"/>
-<img src="https://img.shields.io/badge/zustand-FA7D19?style=flat-square&logoColor=white" height="25"/>
-<img src="https://img.shields.io/badge/react fullpage-FF6A7B?style=flat-square&logoColor=white" height="25"/>
-<img src="https://img.shields.io/badge/react hot toast-76D04B?style=flat-square&logoColor=white" height="25"/>
-<img src="https://img.shields.io/badge/react modal-66459B?style=flat-square&logoColor=white" height="25"/>
-<img src="https://img.shields.io/badge/react icons-F01F7A?style=flat-square&logoColor=white" height="25"/>
+<img src="https://img.shields.io/badge/next.js-000000?style=flat-square&logo=next.js&logoColor=white" height="25"/><img src="https://img.shields.io/badge/react-61DAFB?style=flat-square&logo=react&logoColor=black" height="25"/><img src="https://img.shields.io/badge/typescript-3178C6?style=flat-square&logo=typeScript&logoColor=white" height="25"/><img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" height="25"/><img src="https://img.shields.io/badge/react hook form-EC5990?style=flat-square&logo=reacthookform&logoColor=white" height="25"/><img src="https://img.shields.io/badge/zod-3E67B1?style=flat-square&logo=zod&logoColor=white" height="25"/><img src="https://img.shields.io/badge/lottiefiles-00DDB3?style=flat-square&logo=lottiefiles&logoColor=white" height="25"/><img src="https://img.shields.io/badge/zustand-FA7D19?style=flat-square&logoColor=white" height="25"/><img src="https://img.shields.io/badge/react fullpage-FF6A7B?style=flat-square&logoColor=white" height="25"/><img src="https://img.shields.io/badge/react hot toast-76D04B?style=flat-square&logoColor=white" height="25"/><img src="https://img.shields.io/badge/react modal-66459B?style=flat-square&logoColor=white" height="25"/><img src="https://img.shields.io/badge/react icons-F01F7A?style=flat-square&logoColor=white" height="25"/>
 
 ## 📝 폴더 구조
 
@@ -94,8 +83,8 @@ SPACELINK
 
 ## 📺 화면 구성
 
-<img src="https://github.com/user-attachments/assets/43e5e61b-2338-476f-9121-b380b75a042d" width="200"/>
-<img src="https://github.com/user-attachments/assets/e3953d8b-b6d7-48f0-8989-47dc8999e7d0" width="200"/>
-<img src="https://github.com/user-attachments/assets/40c46d96-3027-445e-9daa-dd20970aa721" width="200"/>
-<img src="https://github.com/user-attachments/assets/3cdcd83d-331e-41ed-a6ff-a341304543e9" width="200"/>
-<img src="https://github.com/user-attachments/assets/46689e01-d9c8-4986-94ef-4c093f3d16fc" width="200"/>
+<img src="https://github.com/user-attachments/assets/43e5e61b-2338-476f-9121-b380b75a042d" width="195"/>
+<img src="https://github.com/user-attachments/assets/e3953d8b-b6d7-48f0-8989-47dc8999e7d0" width="195"/>
+<img src="https://github.com/user-attachments/assets/40c46d96-3027-445e-9daa-dd20970aa721" width="195"/>
+<img src="https://github.com/user-attachments/assets/3cdcd83d-331e-41ed-a6ff-a341304543e9" width="195"/>
+<img src="https://github.com/user-attachments/assets/46689e01-d9c8-4986-94ef-4c093f3d16fc" width="195"/>
