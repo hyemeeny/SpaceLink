@@ -32,7 +32,7 @@ const SearchInput = () => {
   }, [searchParams.search]);
 
   return (
-    <div className="flex flex-col gap-6 mt-4 mb-8">
+    <div className="flex flex-col gap-4 md:gap-6 mt-4 mb-8">
       <div className="flex items-center justify-end relative h-[43px] md:h-[54px]">
         <input
           type="text"
@@ -53,8 +53,8 @@ const SearchInput = () => {
         )}
       </div>
       {search && (
-        <h4 className="text-3xl text-gray03">
-          <span className="text-white font-semibold">{search}</span>으로 검색한 결과입니다.
+        <h4 className="text-2xl md:text-3xl text-gray03">
+          <span className="text-white font-semibold">{search}</span>로 검색한 결과입니다.
         </h4>
       )}
     </div>
