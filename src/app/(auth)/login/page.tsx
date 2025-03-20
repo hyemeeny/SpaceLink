@@ -1,16 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { login } from "@/actions/auth";
-import Link from "next/link";
-import Image from "next/image";
-import Button from "@/components/Button/CtaButton";
-import BaseInput from "@/components/Input/BaseInput";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoginSchema, LoginFormValues } from "@/schema/zodSchema";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
-import { LoginSchema, LoginFormValues } from "@/schema/zodSchema";
+import FormContainer from "@/components/Layout/FormContainer";
+import Button from "@/components/Button/CtaButton";
+import BaseInput from "@/components/Input/BaseInput";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -41,10 +40,14 @@ const LoginPage = () => {
   };
 
   return (
-    <section className="flex flex-col gap-6 px-5 min-w-[325px] md:w-[500px] mx-auto py-[10vh]">
-      <h1 className="text-white text-center text-2xl md:text-4xl font-semibold m-auto mb-12">로그인</h1>
-
-      <form className="grid gap-6" onSubmit={handleSubmit(onSubmit)}>
+    <FormContainer
+      title="로그인"
+      text="아직 계정이 없으신가요?"
+      link="/signup"
+      linkTitle="가입하기"
+      easyTitle="간편 로그인하기"
+    >
+      <form className="grid gap-4 md:gap-6" onSubmit={handleSubmit(onSubmit)}>
         <BaseInput
           label="이메일"
           id="email"
@@ -66,34 +69,7 @@ const LoginPage = () => {
           로그인
         </Button>
       </form>
-
-      <p className="text-white text-base text-center">
-        아직 계정이 없으신가요?
-        <Link href={"/signup"} className="text-purple01 font-semibold border-b-[1px] border-purple01 ml-3">
-          가입하기
-        </Link>
-      </p>
-
-      <div className="flex flex-col">
-        <div className="mt-8 flex w-full items-center">
-          <hr className="flex-1 border-t border-border-primary" />
-          <span className="mx-8 text-xl text-white">OR</span>
-          <hr className="flex-1 border-t border-border-primary" />
-        </div>
-
-        <div className="flex justify-between items-center">
-          <p className="text-white text-base">간편 로그인하기</p>
-          <div className="flex gap-4">
-            <Link href="#">
-              <Image src="/icons/google.svg" width={42} height={42} alt="Google" />
-            </Link>
-            <Link href="#">
-              <Image src="/icons/kakao.svg" width={42} height={42} alt="Kakao" />
-            </Link>
-          </div>
-        </div>
-      </div>
-    </section>
+    </FormContainer>
   );
 };
 
