@@ -56,13 +56,13 @@ input {
   z-index: 1 !important;
   .Navigation-Anchor {
     background-color: white !important;
-    &.active {
-      background-color: #d4bcff !important;
-    }
   }
 
   @media (max-width: 768px) {
-    right: 0 !important;
+    right: -10px !important;
+    .Navigation-Anchor {
+      padding: 3px !important;
+    }
   }
 }
 
@@ -108,6 +108,10 @@ input {
     line-clamp: 2;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+  }
+
+  .screen-height {
+    @apply h-[calc(100vh-75px)] md:h-[calc(100vh-124px)];
   }
 }
 
