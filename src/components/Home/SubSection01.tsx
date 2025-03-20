@@ -4,8 +4,8 @@ import ContainerSection from "@/components/Home/ContainerSection";
 const SubSection01 = () => {
   return (
     <ContainerSection lottie={galaxy} image="/images/link.png">
-      <h3 className="text-2xl md:text-4xl font-bold !leading-tight">
-        <span className="gradient-text">나만의 링크</span>를 <br className="hidden md:block" />
+      <h3 className="text-xl md:text-4xl font-bold !leading-tight">
+        <span className="gradient-text">나만의 링크</span>를 <br className="hidden lg:block" />
         저장해 보세요
       </h3>
       <p className="text-gray01 text-sm md:text-base">

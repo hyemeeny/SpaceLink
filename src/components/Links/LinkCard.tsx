@@ -81,7 +81,15 @@ const LinkCard = ({ link }: { link: LinkType }) => {
     >
       <Link href={link.url} target="_blank" rel="noopener noreferrer">
         <div className="relative w-full h-[192px] md:h-[200px]">
-          <Image src={imageSrc} fill alt={link.title} className="object-cover" onError={handleImageError} />
+          <Image
+            src={imageSrc}
+            fill
+            alt={link.title}
+            className="object-cover"
+            priority
+            onError={handleImageError}
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
         </div>
       </Link>
       <button onClick={() => handleFavoriteClick(link.id)} className="absolute top-4 right-4 text-2xl">

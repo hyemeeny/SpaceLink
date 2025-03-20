@@ -7,8 +7,8 @@ const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 const MainSection = () => {
   return (
-    <Container className="flex flex-col lg:flex-row lg:items-center justify-center lg:justify-between gap-y-8 lg:gap-y-0 h-[calc(100vh-124px)]">
-      <div className="flex flex-col gap-y-5 text-center lg:text-left">
+    <Container className="flex flex-col lg:flex-row lg:items-center justify-center lg:justify-between gap-y-4 md:gap-y-0 screen-height">
+      <div className="flex flex-col gap-y-2 md:gap-y-5 text-center lg:text-left">
         <p className="flex flex-col gap-1 md:gap-2 font-pyeongChangPeace text-sm md:text-base lg:text-xl font-normal">
           <span>우주의 별처럼 반짝이는 링크를 한곳에 ✨</span>
           <span>나만의 특별한 공간에서 소중한 링크를 모아보세요. 🚀</span>

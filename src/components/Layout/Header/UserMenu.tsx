@@ -13,17 +13,19 @@ const UserMenu = ({ user }: { user: UserProps | null }) => {
 
   useOnClickOutside(dropdownRef, () => setIsOpen(false));
 
-  const menuIcon = "bg-white w-6 h-[2px] rounded transition-all duration-300";
+  const menuIcon = "bg-white w-5 h-[1px] md:w-6 md:h-[2px] rounded transition-all duration-300";
 
   return (
     <div className="flex items-center gap-2" ref={dropdownRef}>
       {user && (
-        <div className="relative flex items-center gap-3 cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
-          <Image src={"/icons/profile.svg"} width={30} height={30} alt={user.name} className="ml-3" />
-          <p className="text-xl">{user.name}</p>
+        <div className="relative flex items-center gap-2 md:gap-3 cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
+          <div className="size-5 md:size-8">
+            <Image src={"/icons/profile.svg"} width={32} height={32} alt={user.name} />
+          </div>
+          <p className="text-sm md:text-xl">{user.name}</p>
 
           <button
-            className="flex flex-col justify-center items-center w-10 h-10 relative z-50"
+            className="flex flex-col justify-center items-center size-8 md:size-10 relative z-50"
             onClick={() => setIsOpen(!isOpen)}
           >
             <div className={clsx(menuIcon, "absolute", isOpen ? "rotate-45 top-1/2" : "-translate-y-2")} />

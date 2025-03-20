@@ -1,7 +1,7 @@
 "use client";
 
-import useCustomSearchParams from "@/hooks/useCustomSearchParams";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   MdKeyboardDoubleArrowLeft,
   MdKeyboardArrowLeft,
@@ -10,17 +10,12 @@ import {
 } from "react-icons/md";
 
 const Pagination = ({ totalCount }: { totalCount: number }) => {
-  const { searchParams } = useCustomSearchParams();
-  const currentPage = Number(searchParams.page) || 1;
-  const pageSize = Number(searchParams.pageSize) || 9;
-
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const pageSize = Number(searchParams.get("pageSize")) || 9;
   const totalPages = Math.ceil(totalCount / pageSize);
 
-  const getPageNumbers = () => {
-    return Array.from({ length: totalPages }, (_, i) => i + 1);
-  };
-
-  const getPageLink = (page: number) => `?page=${page}`;
+  const getPageLink = (page: number) => `?page=${page}&pageSize=${pageSize}`;
 
   const buttonStyle =
     "text-xl min-w-[35px] min-h-[35px] md:size-[40px] rounded-full transition-transform duration-200 active:scale-90 flex items-center justify-center";
@@ -36,7 +31,7 @@ const Pagination = ({ totalCount }: { totalCount: number }) => {
         <MdKeyboardArrowLeft className="size-6 md:size-8" />
       </Link>
 
-      {getPageNumbers().map((page) => (
+      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
         <Link
           key={page}
           href={getPageLink(page)}
