@@ -27,17 +27,17 @@ const CtaButton = ({
   };
 
   const variantStyles = {
-    gradient: "bg-gradient from-purple01 to-sky01",
-    red: "bg-red01",
+    gradient: "text-white bg-gradient from-purple01 to-sky01",
+    red: "text-white bg-red01",
   };
 
   return (
     <button
       type={type}
       className={clsx(
-        "rounded-xl text-white font-semibold transition duration-300 ease-in-out",
+        "rounded-xl font-semibold transition duration-300 ease-in-out",
         sizeStyles[size],
-        disabled ? "bg-gray02 cursor-not-allowed" : variantStyles[variant],
+        disabled ? "bg-gray02 text-gray04 cursor-not-allowed" : variantStyles[variant],
         className,
       )}
       disabled={disabled}
