@@ -1,13 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useModalStore } from "@/store/useModalStore";
 import { FolderType } from "@/types/folders";
 import { LinksFormProps, LinkType } from "@/types/links";
 import { useFolderStore } from "@/store/useFolderStore";
 import { ALL_FOLDERS_ID } from "@/constants/constants";
-import useCustomSearchParams from "@/hooks/useCustomSearchParams";
 import Container from "@/components/Layout/Container";
 import SearchInput from "@/components/Input/SearchInput";
 
@@ -26,8 +25,8 @@ import Pagination from "@/components/Button/Pagination";
 
 const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
   const router = useRouter();
-  const { searchParams } = useCustomSearchParams();
-  const currentPage = Number(searchParams.page) || 1;
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
 
   const { openModals, closeModal } = useModalStore();
   const { folderId, selectedFolder, setFolderId, setSelectedFolder } = useFolderStore();

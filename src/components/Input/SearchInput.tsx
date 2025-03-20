@@ -1,38 +1,42 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import useCustomSearchParams from "@/hooks/useCustomSearchParams";
 import { RiSearchLine } from "react-icons/ri";
 import { TiDelete } from "react-icons/ti";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const SearchInput = () => {
-  const { searchParams, setSearchParams } = useCustomSearchParams();
-  const [search, setSearch] = useState(searchParams.search || "");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const initialSearch = searchParams.get("search") || "";
+  const [search, setSearch] = useState(initialSearch);
 
-  const handleSearch = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setSearchParams({ search });
+  useEffect(() => {
+    setSearch(initialSearch);
+  }, [initialSearch]);
+
+  const handleSearch = () => {
+    const updatedSearchParams = new URLSearchParams(searchParams.toString());
+    updatedSearchParams.set("search", search);
+    router.push(`?${updatedSearchParams.toString()}`);
   };
 
-  const handleReset = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleReset = () => {
     setSearch("");
-    setSearchParams({ search: "" });
+    const updatedSearchParams = new URLSearchParams(searchParams.toString());
+    updatedSearchParams.delete("search");
+    router.push(`?${updatedSearchParams.toString()}`);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      setSearchParams({ search });
+      handleSearch();
     }
   };
 
-  useEffect(() => {
-    setSearch(searchParams.search);
-  }, [searchParams.search]);
-
   return (
-    <div className="flex flex-col gap-6 mt-4 mb-8">
+    <div className="flex flex-col gap-4 md:gap-6 mb-4 md:mt-4 md:mb-8">
       <div className="flex items-center justify-end relative h-[43px] md:h-[54px]">
         <input
           type="text"
@@ -53,8 +57,8 @@ const SearchInput = () => {
         )}
       </div>
       {search && (
-        <h4 className="text-3xl text-gray03">
-          <span className="text-white font-semibold">{search}</span>으로 검색한 결과입니다.
+        <h4 className="text-2xl md:text-3xl text-gray03">
+          <span className="text-white font-semibold">{search}</span>로 검색한 결과입니다.
         </h4>
       )}
     </div>

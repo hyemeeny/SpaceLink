@@ -60,7 +60,7 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
         <div className="relative">
           <input
             className={clsx(
-              "w-full p-4 text-sm md:text-base text-gray06 placeholder-gray04 rounded-xl outline-none ring-inset ring-2 transition-all duration-300 focus:outline-none",
+              "w-full p-4 text-sm md:text-base text-gray06 placeholder-gray04 rounded-xl outline-none ring-inset ring-[1px] transition-all duration-300 focus:outline-none",
               errors ? "ring-red01" : "ring-gray03 focus:ring-purple01",
             )}
             id={id}

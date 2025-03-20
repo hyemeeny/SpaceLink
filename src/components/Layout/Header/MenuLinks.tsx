@@ -20,7 +20,7 @@ const MenuLinks = ({ setIsOpen }: MenuLinksProps) => {
   };
 
   const navLinkBase =
-    "flex items-center gap-3 w-full text-base cursor-pointer px-4 py-3 rounded-md hover:bg-purple01 transition duration-300 ease-in-out";
+    "flex items-center gap-3 w-full text-sm md:text-base cursor-pointer px-4 py-3 rounded-md hover:bg-purple01 transition duration-300 ease-in-out";
   const activeStyle = "bg-purple01";
 
   return (

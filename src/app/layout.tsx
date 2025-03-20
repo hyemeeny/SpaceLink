@@ -15,6 +15,20 @@ declare global {
 export const metadata: Metadata = {
   title: "SPACELINK",
   description: "우주의 별처럼 반짝이는 링크를 한곳에 ✨ \n 나만의 특별한 공간에서 소중한 링크를 모아보세요. 🚀",
+  openGraph: {
+    title: "SPACELINK",
+    description: "우주의 별처럼 반짝이는 링크를 한곳에 ✨ \n 나만의 특별한 공간에서 소중한 링크를 모아보세요. 🚀",
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/opengraph-image.jpg`,
+        alt: "SPACELINK",
+      },
+    ],
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}`,
+    siteName: "SPACELINK",
+    locale: "ko_KR",
+    type: "website",
+  },
 };
 
 const Pretendard = localFont({

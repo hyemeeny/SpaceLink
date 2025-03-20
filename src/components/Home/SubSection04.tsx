@@ -4,9 +4,9 @@ import ContainerSection from "@/components/Home/ContainerSection";
 const SubSection04 = () => {
   return (
     <ContainerSection lottie={antenna} image="/images/share.png">
-      <h3 className="text-2xl md:text-4xl font-bold !leading-tight">
+      <h3 className="text-xl md:text-4xl font-bold !leading-tight">
         저장한 링크를
-        <br className="hidden md:block" />
+        <br className="hidden lg:block" />
         <span className="gradient-text"> 공유</span>해 보세요
       </h3>
       <p className="text-gray01 text-sm md:text-base">

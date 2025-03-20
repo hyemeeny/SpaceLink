@@ -2,17 +2,16 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { checkEmail, signUp } from "@/actions/auth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SignupSchema, SignupFormValues } from "@/schema/zodSchema";
-import { checkEmail, signUp } from "@/actions/auth";
-import Link from "next/link";
-import Image from "next/image";
+import toast from "react-hot-toast";
+import toastMessages from "@/lib/toastMessage";
+import FormContainer from "@/components/Layout/FormContainer";
 import Button from "@/components/Button/CtaButton";
 import CtaButton from "@/components/Button/CtaButton";
 import BaseInput from "@/components/Input/BaseInput";
-import toast from "react-hot-toast";
-import toastMessages from "@/lib/toastMessage";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 const SignupPage = () => {
@@ -75,10 +74,14 @@ const SignupPage = () => {
   };
 
   return (
-    <section className="flex flex-col gap-6 px-5 min-w-[325px] md:w-[500px] mx-auto py-[10vh]">
-      <h1 className="text-white text-center text-2xl md:text-4xl font-semibold m-auto mb-12">회원가입</h1>
-
-      <form className="grid gap-6" onSubmit={handleSubmit(onSubmit)}>
+    <FormContainer
+      title="회원가입"
+      text="이미 계정이 있으신가요?"
+      link="/login"
+      linkTitle="로그인하기"
+      easyTitle="간편 회원가입하기"
+    >
+      <form className="grid gap-4 md:gap-6" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex gap-2 items-center">
           <BaseInput
             label="이메일"
@@ -90,8 +93,8 @@ const SignupPage = () => {
             {...register("email")}
           />
           {/* <CtaButton className="mt-8" disabled={isCheckEmail} onClick={handleCheckEmail}>
-            {isCheckEmail ? <LoadingSpinner /> : "중복확인"}
-          </CtaButton> */}
+    {isCheckEmail ? <LoadingSpinner /> : "중복확인"}
+  </CtaButton> */}
         </div>
         <BaseInput
           label="닉네임"
@@ -122,34 +125,7 @@ const SignupPage = () => {
           회원가입
         </Button>
       </form>
-
-      <p className="text-white text-base text-center">
-        이미 계정이 있으신가요?
-        <Link href={"/login"} className="text-purple01 font-semibold border-b-[1px] border-purple01 ml-3">
-          로그인하기
-        </Link>
-      </p>
-
-      <div className="flex flex-col">
-        <div className="mt-8 flex w-full items-center">
-          <hr className="flex-1 border-t border-border-primary" />
-          <span className="mx-8 text-xl text-white">OR</span>
-          <hr className="flex-1 border-t border-border-primary" />
-        </div>
-
-        <div className="flex justify-between items-center">
-          <p className="text-white text-base">간편 회원가입하기</p>
-          <div className="flex gap-4">
-            <Link href="#">
-              <Image src="/icons/google.svg" width={42} height={42} alt="Google" />
-            </Link>
-            <Link href="#">
-              <Image src="/icons/kakao.svg" width={42} height={42} alt="Kakao" />
-            </Link>
-          </div>
-        </div>
-      </div>
-    </section>
+    </FormContainer>
   );
 };
 
