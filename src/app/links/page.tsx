@@ -1,9 +1,7 @@
-import { Suspense } from "react";
 import { cookies } from "next/headers";
 import { FolderType } from "@/types/folders";
 import { getAllLinksParams, getLinksByIdParams } from "@/types/links";
 import API_URL from "@/constants/config";
-import SkeletonCard from "@/ui/SkeletonCard";
 import LinkInput from "@/components/Input/LinkInput";
 import LinksForm from "@/components/Links/LinksForm";
 
@@ -126,12 +124,10 @@ const LinksPage = async ({ searchParams }: { searchParams: getAllLinksParams }) 
   const folderLinks = await Promise.all(folderLinksPromises);
 
   return (
-    <section>
+    <>
       <LinkInput folders={folders} />
-      <Suspense key={search + page} fallback={<SkeletonCard />}>
-        <LinksForm folders={folders} links={links} folderLinks={folderLinks} />
-      </Suspense>
-    </section>
+      <LinksForm folders={folders} links={links} folderLinks={folderLinks} />
+    </>
   );
 };
 

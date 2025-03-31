@@ -22,6 +22,7 @@ import FolderShareModal from "@/components/Modal/FolderShareModal";
 import DeleteModal from "@/components/Modal/DeleteModal";
 import UpdateModal from "@/components/Modal/UpdateModal";
 import Pagination from "@/components/Button/Pagination";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
   const router = useRouter();
@@ -62,6 +63,7 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
     closeModal(`folderDelete-${deletedFolderId}`);
   };
 
+  if (!links) return <LoadingSpinner />;
   const defaultName = folders.find((folder) => folder.id === folderId)?.name;
 
   return (

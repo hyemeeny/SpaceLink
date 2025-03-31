@@ -24,6 +24,7 @@ const ModalContainer = ({ children, modalId, ...props }: ModalContainerProps) =>
       contentLabel="Modal Container"
       className="flex flex-col items-center fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4 pb-8 w-[90%] md:w-[360px] rounded-2xl bg-white"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-50"
+      appElement={document.getElementById("modal-root") || undefined}
       {...props}
     >
       <button onClick={() => closeModal(modalId)} className="ml-auto">
