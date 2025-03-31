@@ -19,6 +19,7 @@ const ModalContainer = ({ children, modalId, ...props }: ModalContainerProps) =>
 
   return (
     <Modal
+      ariaHideApp={false}
       isOpen={isOpen}
       onRequestClose={() => closeModal(modalId)}
       contentLabel="Modal Container"
