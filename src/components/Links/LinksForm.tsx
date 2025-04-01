@@ -31,7 +31,7 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
 
   const { openModals, closeModal } = useModalStore();
   const { folderId, selectedFolder, setFolderId, setSelectedFolder } = useFolderStore();
-  const [allLinks, setAllLinks] = useState<LinkType[]>([]);
+  const [allLinks, setAllLinks] = useState<LinkType[]>(links.list);
   const [totalCount, setTotalCount] = useState(links.totalCount);
 
   useEffect(() => {
