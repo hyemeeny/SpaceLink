@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import Modal from "react-modal";
 import Image from "next/image";
 import { ReactNode } from "react";

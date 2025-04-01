@@ -24,7 +24,7 @@ import UpdateModal from "@/components/Modal/UpdateModal";
 import Pagination from "@/components/Button/Pagination";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 
-const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
+const LinksForm = ({ folders = [], links = { list: [], totalCount: 0 }, folderLinks = [] }: LinksFormProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
@@ -63,7 +63,7 @@ const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
     closeModal(`folderDelete-${deletedFolderId}`);
   };
 
-  if (!links) return <LoadingSpinner />;
+  if (!links || !links.list) return <LoadingSpinner />;
   const defaultName = folders.find((folder) => folder.id === folderId)?.name;
 
   return (
