@@ -129,7 +129,7 @@ input {
   }
 
   .twinkle {
-    @apply bg-white rounded-full bg-opacity-65;
+    @apply bg-white rounded-full bg-opacity-80;
     animation: animate-twinkle infinite alternate ease-in-out;
   }
 }

@@ -20,6 +20,7 @@ const getUser = async () => {
         Authorization: `Bearer ${accessToken}`,
       },
       next: { tags: ["users"] },
+      cache: "no-store",
     });
 
     if (!response.ok) {
