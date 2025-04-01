@@ -32,7 +32,7 @@ export const login = async (loginData: Login) => {
       maxAge: 60 * 60 * 24 * 7,
       path: "/",
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: process.env.NODE_ENV === "production" ? "lax" : "strict",
       secure: process.env.NODE_ENV === "production",
     });
 

@@ -22,28 +22,18 @@ interface ShootingStar {
 
 const StarBackground = () => {
   const starCount = count < MAX_STAR_COUNT ? count : MAX_STAR_COUNT;
-  const [starInterval, setStarInterval] = useState(0);
   const [stars, setStars] = useState<Star[]>([]);
   const [shootingStars, setShootingStars] = useState<ShootingStar[]>([]);
   const [starLength, setStarLength] = useState(500);
 
   useEffect(() => {
-    const calcStarInterval = () => {
-      let innerWidth = window.innerWidth;
-      setStarInterval(Math.floor((innerWidth * 1.5) / (count * 5)));
-    };
-
     const updateStarLength = () => {
       setStarLength(window.innerWidth < 768 ? 200 : 500);
     };
 
-    calcStarInterval();
     updateStarLength();
-
-    window.addEventListener("resize", calcStarInterval);
     window.addEventListener("resize", updateStarLength);
     return () => {
-      window.removeEventListener("resize", calcStarInterval);
       window.removeEventListener("resize", updateStarLength);
     };
   }, []);
@@ -63,8 +53,8 @@ const StarBackground = () => {
     const generateShootingStars = (): ShootingStar[] => {
       return Array.from({ length: starCount }).map((_, i) => {
         const colorIndex = Math.floor(Math.random() * colors.length);
-        const leftStart = Math.random() * 120 - 10;
-        const topStart = Math.random() * 40;
+        const leftStart = Math.random() * 100;
+        const topStart = Math.random() * 50;
         const isLeftToRight = leftStart < 50;
 
         return {
@@ -80,14 +70,14 @@ const StarBackground = () => {
       });
     };
     setShootingStars(generateShootingStars());
-  }, [starLength, starCount, starInterval]);
+  }, [starLength, starCount]);
 
   return (
     <div className="fixed top-0 left-0 w-full h-full gradient-background overflow-hidden -z-10">
       {stars.map((star) => (
         <div
           key={star.id}
-          className="absolute bg-white rounded-full twinkle"
+          className="absolute twinkle"
           style={{
             width: `${star.size}px`,
             height: `${star.size}px`,

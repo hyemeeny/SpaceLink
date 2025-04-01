@@ -38,7 +38,7 @@ const FolderShareModal = ({ selectedItem }: { selectedItem: { id: number; name: 
   };
 
   const handleShareToCopy = () => {
-    const textToCopy = `${process.env.NEXT_PUBLIC_BASE_URL}/links`;
+    const textToCopy = `${process.env.NEXT_PUBLIC_BASE_URL}`;
     copyToClipboard(textToCopy);
   };
 
@@ -51,7 +51,12 @@ const FolderShareModal = ({ selectedItem }: { selectedItem: { id: number; name: 
           {shareButtons.map((share) => (
             <button key={share.title} onClick={share.title === "카카오톡" ? handleShareToKakao : handleShareToCopy}>
               <div className="relative size-14 mb-2">
-                <Image src={share.image} fill alt={share.title} />
+                <Image
+                  src={share.image}
+                  fill
+                  alt={share.title}
+                  sizes="(max-width: 640px) 56px, (max-width: 1024px) 64px, 56px"
+                />
               </div>
               <p className="text-sm md:text-base text-gray06">{share.title}</p>
             </button>
