@@ -1,5 +1,4 @@
-import { NextResponse } from "next/server";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import API_URL from "@/constants/config";
 
 export const middleware = async (request: NextRequest) => {
@@ -17,6 +16,7 @@ export const middleware = async (request: NextRequest) => {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
+      cache: "no-store",
     });
 
     if (apiResponse.status === 401) {
