@@ -9,9 +9,7 @@ import { Header } from "@/components/Modal/components/ModalHeader";
 import { Content } from "@/components/Modal/components/ModalContent";
 import { Button } from "@/components/Modal/components/ModalButton";
 
-if (typeof window !== "undefined") {
-  Modal.setAppElement("#modal-root");
-}
+if (process.env.NODE_ENV !== "test") Modal.setAppElement("#modal-root");
 
 interface ModalContainerProps {
   children: ReactNode;
