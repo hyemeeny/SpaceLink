@@ -38,7 +38,7 @@ const FolderShareModal = ({ selectedItem }: { selectedItem: { id: number; name: 
   };
 
   const handleShareToCopy = () => {
-    const textToCopy = `${process.env.NEXT_PUBLIC_BASE_URL}/links`;
+    const textToCopy = `${process.env.NEXT_PUBLIC_BASE_URL}`;
     copyToClipboard(textToCopy);
   };
 

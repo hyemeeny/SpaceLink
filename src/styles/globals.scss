@@ -129,7 +129,7 @@ input {
   }
 
   .twinkle {
-    @apply opacity-30;
+    @apply bg-white rounded-full bg-opacity-65;
     animation: animate-twinkle infinite alternate ease-in-out;
   }
 }
@@ -145,39 +145,39 @@ input {
     box-shadow: 0px 0px 10px #c77eff;
     animation: animate-star 4s ease-in infinite;
     opacity: 0;
-  }
 
-  .star::after {
-    position: absolute;
-    content: "";
-    top: calc(50% - 1px);
-    left: -950%;
-    width: 2000%;
-    height: 2px;
-    background: linear-gradient(to left, #fff0, #eee);
-    transform: rotateZ(-45deg) translateX(50%);
-  }
-
-  .star:nth-child(2) {
-    transform: translateX(300px);
-    animation-delay: 5.1s;
-  }
-
-  .star:nth-child(3) {
-    transform: translateX(450px);
-    animation-delay: 1s;
-  }
-
-  @keyframes animate-star {
-    0% {
-      top: -10vh;
-      transform: translateX(0px);
-      opacity: 0.8;
+    &::after {
+      position: absolute;
+      content: "";
+      top: calc(50% - 1px);
+      left: -950%;
+      width: 2000%;
+      height: 2px;
+      background: linear-gradient(to left, #fff0, #eee);
+      transform: rotateZ(-45deg) translateX(50%);
     }
-    100% {
-      top: 110vh;
-      transform: translateX(-120vh);
-      opacity: 0.8;
+
+    &:nth-child(2) {
+      transform: translateX(300px);
+      animation-delay: 5.1s;
+    }
+
+    &:nth-child(3) {
+      transform: translateX(450px);
+      animation-delay: 1s;
+    }
+
+    @keyframes animate-star {
+      0% {
+        top: -10vh;
+        transform: translateX(0px);
+        opacity: 0.8;
+      }
+      100% {
+        top: 110vh;
+        transform: translateX(-120vh);
+        opacity: 0.8;
+      }
     }
   }
 }
