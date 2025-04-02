@@ -8,12 +8,14 @@ interface ModalState {
 
 export const useModalStore = create<ModalState>((set) => ({
   openModals: new Set(),
+
   openModal: (id: string | number) =>
     set((state) => {
       const modals = new Set(state.openModals);
       modals.add(id);
       return { openModals: modals };
     }),
+
   closeModal: (id: string | number) =>
     set((state) => {
       const modals = new Set(state.openModals);

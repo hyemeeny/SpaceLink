@@ -59,7 +59,6 @@ export default function RootLayout({
   return (
     <html lang="ko" className={`${Pretendard.variable} ${PyeongChangPeace.variable}`}>
       <body>
-        <div id="modal-root"></div>
         <StarBackground />
         <ToastProvider />
         <Header />
