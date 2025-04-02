@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FolderType } from "@/types/folders";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,11 +32,16 @@ const LinkInput = ({ folders }: { folders: FolderType[] }) => {
   const onSubmit = async (data: LinkAddFormValues) => {
     try {
       setInputUrl(data.url);
-      openModal("addLink");
     } catch (error) {
       toast.error(toastMessages.error.addLink);
     }
   };
+
+  useEffect(() => {
+    if (inputUrl) {
+      openModal("addLink");
+    }
+  }, [inputUrl, openModal]);
 
   return (
     <Container className="flex flex-col justify-center pt-[60px] md:pb-[90px]">

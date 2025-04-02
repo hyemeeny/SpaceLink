@@ -24,7 +24,7 @@ import UpdateModal from "@/components/Modal/UpdateModal";
 import Pagination from "@/components/Button/Pagination";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 
-const LinksForm = ({ folders = [], links = { list: [], totalCount: 0 }, folderLinks = [] }: LinksFormProps) => {
+const LinksForm = ({ folders, links, folderLinks }: LinksFormProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
@@ -49,9 +49,7 @@ const LinksForm = ({ folders = [], links = { list: [], totalCount: 0 }, folderLi
     setFolderId(id);
     setSelectedFolder(folder);
 
-    if (currentPage !== 1) {
-      router.push("?page=1");
-    }
+    if (currentPage !== 1) router.replace("?page=1");
   };
 
   const handleFolderDelete = (deletedFolderId: number) => {
