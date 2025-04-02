@@ -5,130 +5,67 @@ import API_URL from "@/constants/config";
 import LinkInput from "@/components/Input/LinkInput";
 import LinksForm from "@/components/Links/LinksForm";
 
-// 전체 폴더 조회
-const getAllFolders = async () => {
+const fetchWithAuth = async (url: string) => {
   const accessToken = cookies().get("accessToken")?.value;
+  if (!accessToken) throw new Error("인증 정보가 유효하지 않습니다.");
 
-  if (!accessToken) {
-    throw new Error("인증 정보가 유효하지 않습니다.");
+  const response = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    next: { revalidate: 10 },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message);
   }
-
-  try {
-    const response = await fetch(`${API_URL}/folders`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      next: { tags: ["folders"] },
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message);
-    }
-
-    return response.json();
-  } catch (error) {
-    console.error("전체 폴더 조회 중 에러 발생", error);
-    return [];
-  }
+  return response.json();
 };
 
+// 전체 폴더 조회
+const getAllFolders = () => fetchWithAuth(`${API_URL}/folders`);
+
 // 전체 링크 조회
-const getAllLinks = async ({ page, pageSize, search }: getAllLinksParams) => {
-  const accessToken = cookies().get("accessToken")?.value;
-
-  if (!accessToken) {
-    throw new Error("인증 정보가 유효하지 않습니다.");
-  }
-
-  try {
-    const searchParams = search ? `&search=${search}` : "";
-    const response = await fetch(`${API_URL}/links?page=${page}&pageSize=${pageSize}${searchParams}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      next: { tags: ["links"] },
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message);
-    }
-
-    const data = await response.json();
-    return {
-      totalCount: data?.totalCount || 0,
-      list: data?.list || [],
-    };
-  } catch (error) {
-    console.error("전체 링크 조회 중 에러 발생", error);
-    return { totalCount: 0, list: [] };
-  }
+const getAllLinks = ({ page, pageSize, search }: getAllLinksParams) => {
+  const searchParams = search ? `&search=${search}` : "";
+  return fetchWithAuth(`${API_URL}/links?page=${page}&pageSize=${pageSize}${searchParams}`);
 };
 
 // 폴더별 링크 조회
-const getLinksById = async ({ page, pageSize, folderId }: getLinksByIdParams) => {
-  const accessToken = cookies().get("accessToken")?.value;
-
-  if (!accessToken) {
-    throw new Error("인증 정보가 유효하지 않습니다.");
-  }
-
-  try {
-    const response = await fetch(`${API_URL}/folders/${folderId}/links?page=${page}&pageSize=${pageSize}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      next: { tags: ["links"] },
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message);
-    }
-
-    const data = await response.json();
-    return {
-      totalCount: data?.totalCount || 0,
-      list: data?.list || [],
-    };
-  } catch (error) {
-    console.error("링크 조회 중 에러 발생", error);
-    return { totalCount: 0, list: [] };
-  }
+const getLinksByFolder = ({ page, pageSize, folderId }: getLinksByIdParams) => {
+  return fetchWithAuth(`${API_URL}/folders/${folderId}/links?page=${page}&pageSize=${pageSize}`);
 };
+
+// 특정 폴더 조회
+const getFoldersById = (folderId: number) => fetchWithAuth(`${API_URL}/folders/${folderId}`);
 
 const LinksPage = async ({ searchParams }: { searchParams: getAllLinksParams }) => {
   const page = Number(searchParams.page) || 1;
   const pageSize = Number(searchParams.pageSize) || 9;
   const search = searchParams.search || "";
 
-  const folders = await getAllFolders();
-  const links = await getAllLinks({ page, pageSize, search });
+  try {
+    const [folders, links] = await Promise.all([getAllFolders(), getAllLinks({ page, pageSize, search })]);
 
-  const folderLinksPromises = folders.map(async (folder: FolderType) => {
-    const { totalCount, list } = await getLinksById({
-      page,
-      pageSize,
-      folderId: folder.id,
-    });
-    return {
-      folder,
-      links: { totalCount, list },
-    };
-  });
+    const folderLinks = await Promise.all(
+      folders.map(async (folder: FolderType) => ({
+        folder,
+        links: await getLinksByFolder({ page, pageSize, folderId: folder.id }),
+      })),
+    );
 
-  const folderLinks = await Promise.all(folderLinksPromises);
-
-  return (
-    <>
-      <LinkInput folders={folders} />
-      <LinksForm folders={folders} links={links} folderLinks={folderLinks} />
-    </>
-  );
+    return (
+      <>
+        <LinkInput folders={folders} />
+        <LinksForm folders={folders} links={links} folderLinks={folderLinks} />
+      </>
+    );
+  } catch (error) {
+    console.error("데이터 로드 실패:", error);
+    return <p className="text-center text-red-500">데이터를 불러오는 중 오류가 발생했습니다.</p>;
+  }
 };
 
 export default LinksPage;
