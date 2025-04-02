@@ -63,7 +63,6 @@ export default function RootLayout({
         <ToastProvider />
         <Header />
         {children}
-        <div id="modal-root"></div>
       </body>
       <KakaoScript />
     </html>
