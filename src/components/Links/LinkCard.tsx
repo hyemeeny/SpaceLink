@@ -54,7 +54,7 @@ const LinkCard = ({ link }: { link: LinkType }) => {
   return (
     <li
       key={link.id}
-      className="relative mx-auto w-full rounded-2xl overflow-hidden shadow-custom bg-white bg-opacity-20"
+      className="relative mx-auto w-full rounded-2xl overflow-hidden shadow-custom bg-white bg-opacity-10"
       ref={dropdownRef}
     >
       <Link href={link.url} target="_blank" rel="noopener noreferrer">
@@ -70,15 +70,30 @@ const LinkCard = ({ link }: { link: LinkType }) => {
           />
         </div>
       </Link>
-      <button onClick={handleFavoriteClick} className="absolute top-4 right-4 text-2xl">
+
+      <button
+        onClick={handleFavoriteClick}
+        className="absolute top-4 right-4 text-2xl"
+        aria-label={favorite ? "즐겨찾기 해제" : "즐겨찾기 추가"}
+      >
         {favorite ? <FaStar className="text-yellow-400" /> : <FaRegStar className="text-gray04" />}
       </button>
+
       <div className="relative p-4 flex flex-col gap-[10px]">
         <div className="flex justify-between">
-          <p className="text-gray02 text-sm">{RelativeTimeComponent({ timestamp: link.createdAt })}</p>
-          <button onClick={() => setIsOpen((prev) => !prev)} className="relative w-[21px] h-[17px]">
+          <p className="text-gray02 text-sm">
+            <RelativeTimeComponent timestamp={link.createdAt} />
+          </p>
+
+          <button
+            onClick={() => setIsOpen((prev) => !prev)}
+            className="relative w-[21px] h-[17px]"
+            aria-label="메뉴 열기"
+            aria-expanded={isOpen}
+          >
             <GoKebabHorizontal />
           </button>
+
           <Dropdown
             items={["수정하기", "삭제하기"]}
             isOpen={isOpen}
@@ -86,10 +101,12 @@ const LinkCard = ({ link }: { link: LinkType }) => {
             onItemClick={(item) => openModal(`${item === "수정하기" ? "linkUpdate" : "linkDelete"}-${link.id}`)}
           />
         </div>
+
         <div>
           <h3 className="text-base font-semibold text-overflow">{link.title}</h3>
           <p className="text-base text-overflow2">{link.description}</p>
         </div>
+
         <p className="text-gray02 text-sm">{formatDate(link.createdAt)}</p>
       </div>
 

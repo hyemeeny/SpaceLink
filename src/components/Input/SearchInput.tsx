@@ -38,18 +38,24 @@ const SearchInput = ({ search: initialSearch }: { search: string }) => {
           onChange={(e) => setSearch(e.target.value)}
           placeholder="링크를 검색해 보세요"
           className="w-full h-full bg-white02 rounded-xl text-sm md:text-base font-medium placeholder-gray04 text-gray06 pl-11"
+          aria-label="검색어 입력"
+          aria-live="polite"
         />
-        <button type="submit" className="absolute left-4">
-          <RiSearchLine className="w-5 h-5 text-gray04" />
+        <button
+          type="submit"
+          className="absolute left-0 min-w-[50px] min-h-[50px] flex items-center justify-center"
+          aria-label="검색"
+        >
+          <RiSearchLine className="w-5 h-5 text-gray04" aria-hidden="true" />
         </button>
         {search && (
-          <button type="button" className="absolute right-4" onClick={handleReset}>
-            <TiDelete className="w-7 h-7 text-gray03" />
+          <button type="button" className="absolute right-4" onClick={handleReset} aria-label="검색어 지우기">
+            <TiDelete className="w-7 h-7 text-gray03" aria-hidden="true" />
           </button>
         )}
       </div>
       {search && (
-        <h4 className="text-2xl md:text-3xl text-gray03">
+        <h4 className="text-2xl md:text-3xl text-gray03" aria-live="polite">
           <span className="text-white font-semibold">{search}</span>로 검색한 결과입니다.
         </h4>
       )}

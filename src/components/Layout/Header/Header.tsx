@@ -40,8 +40,9 @@ const Header = async () => {
             src="/icons/saturn.png"
             width={60}
             height={60}
-            alt="SpaceLink"
+            alt=""
             className="w-[40px] h-[40px] md:w-[60px] md:h-[60px]"
+            aria-hidden="true"
           />
           <h1 className="font-pyeongChangPeace text-xl md:text-3xl font-bold text-purple01">SpaceLink</h1>
         </Link>
