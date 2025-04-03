@@ -54,7 +54,7 @@ const LinkCard = ({ link }: { link: LinkType }) => {
   return (
     <li
       key={link.id}
-      className="relative mx-auto w-full rounded-2xl overflow-hidden shadow-custom bg-white bg-opacity-10"
+      className="relative mx-auto w-full rounded-2xl overflow-hidden shadow-custom bg-white bg-opacity-20"
       ref={dropdownRef}
     >
       <Link href={link.url} target="_blank" rel="noopener noreferrer">
