@@ -98,7 +98,7 @@ const favoritePage = async ({ searchParams }: { searchParams: PageParams }) => {
           )}
         </div>
 
-        {list.length > 0 && <Pagination totalCount={totalCount} />}
+        {list.length > 0 && <Pagination totalCount={totalCount} currentPage={page} pageSize={pageSize} />}
       </Container>
 
       <TopButton />
