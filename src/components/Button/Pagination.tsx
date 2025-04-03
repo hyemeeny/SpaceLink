@@ -9,13 +9,25 @@ import {
   MdKeyboardDoubleArrowRight,
 } from "react-icons/md";
 
-const Pagination = ({ totalCount }: { totalCount: number }) => {
+const Pagination = ({
+  totalCount,
+  currentPage,
+  pageSize,
+}: {
+  totalCount: number;
+  currentPage: number;
+  pageSize: number;
+}) => {
   const searchParams = useSearchParams();
-  const currentPage = Number(searchParams.get("page")) || 1;
-  const pageSize = Number(searchParams.get("pageSize")) || 9;
   const totalPages = Math.ceil(totalCount / pageSize);
 
-  const getPageLink = (page: number) => `?page=${page}&pageSize=${pageSize}`;
+  const getPageLink = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", String(page));
+    params.set("pageSize", String(pageSize));
+
+    return `?${params.toString()}`;
+  };
 
   const buttonStyle =
     "text-xl min-w-[35px] min-h-[35px] md:size-[40px] rounded-full transition-transform duration-200 active:scale-90 flex items-center justify-center";
