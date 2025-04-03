@@ -1,3 +1,5 @@
+"use client";
+
 import clsx from "clsx";
 import { useTopStore } from "@/store/useTopStore";
 import { useModalStore } from "@/store/useModalStore";
