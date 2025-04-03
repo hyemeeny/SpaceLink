@@ -16,6 +16,7 @@ import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 const SignupPage = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const [isCheckEmail, setIsCheckEmail] = useState(false);
 
   const {
@@ -37,6 +38,8 @@ const SignupPage = () => {
       return;
     }
 
+    setIsLoading(true);
+
     try {
       const response = await checkEmail({ email });
 
@@ -47,6 +50,7 @@ const SignupPage = () => {
 
       if (response.isUsableEmail) {
         toast.success(toastMessages.success.checkEmail);
+        setIsCheckEmail(true);
       } else if (response.message) {
         setFocus("email");
         setIsCheckEmail(false);
@@ -55,6 +59,9 @@ const SignupPage = () => {
     } catch (error) {
       console.error(error);
       toast.error(toastMessages.error.checkEmail);
+      setIsCheckEmail(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -92,9 +99,9 @@ const SignupPage = () => {
             errors={errors.email?.message}
             {...register("email")}
           />
-          {/* <CtaButton className="mt-8" disabled={isCheckEmail} onClick={handleCheckEmail}>
-    {isCheckEmail ? <LoadingSpinner /> : "중복확인"}
-  </CtaButton> */}
+          {/* <CtaButton className="mt-8" disabled={isLoading} onClick={handleCheckEmail}>
+            {isLoading ? <LoadingSpinner /> : "중복확인"}
+          </CtaButton> */}
         </div>
         <BaseInput
           label="닉네임"

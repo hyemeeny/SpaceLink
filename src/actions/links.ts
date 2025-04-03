@@ -115,7 +115,7 @@ export const putFavoriteLinks = async ({ favorite, linkId }: { favorite: boolean
       throw new Error(errorData.message);
     }
 
-    revalidateTag("links");
+    revalidateTag("favorite");
   } catch (error) {
     console.error("링크 즐겨찾기 설정 중 오류 발생", error);
     throw error;

@@ -23,8 +23,6 @@ export const login = async (loginData: Login) => {
     }
 
     const data = await response.json();
-    console.log("로그인 API 응답 상태:", response.status);
-    console.log("로그인 성공, 응답 데이터:", data);
 
     cookies().set({
       name: "accessToken",
