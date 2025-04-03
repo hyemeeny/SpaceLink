@@ -72,9 +72,12 @@ const getFavoriteLinks = async ({ page, pageSize }: PageParams) => {
   }
 };
 
-const favoritePage = async () => {
+const favoritePage = async ({ searchParams }: { searchParams: PageParams }) => {
+  const page = Number(searchParams.page) || 1;
+  const pageSize = Number(searchParams.pageSize) || 9;
+
   const user = await getUser();
-  const { totalCount, list } = await getFavoriteLinks({ page: 1, pageSize: 9 });
+  const { totalCount, list } = await getFavoriteLinks({ page, pageSize });
 
   return (
     <>
