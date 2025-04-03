@@ -3,9 +3,9 @@ import { useModalStore } from "@/store/useModalStore";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FolderAddSchema, FolderAddFormValues } from "@/schema/zodSchema";
-import { ModalContainer, Header, Content, Button } from "@/components/Modal/ModalContainer";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
+import Modal from "@/components/Modal/Modal";
 import BaseInput from "@/components/Input/BaseInput";
 
 const FolderAddModal = () => {
@@ -40,19 +40,22 @@ const FolderAddModal = () => {
   };
 
   return (
-    <ModalContainer modalId={"addFolder"}>
-      <Header>폴더 추가</Header>
-      <Content onSubmit={handleSubmit(handleAddFolder)}>
-        <BaseInput
-          type="text"
-          id="name"
-          placeholder="폴더 이름 입력"
-          {...register("name")}
-          errors={errors.name?.message}
-        />
-        <Button isValid={isValid} isSubmitting={isSubmitting} label="추가하기" />
-      </Content>
-    </ModalContainer>
+    <Modal
+      modalId="addFolder"
+      title="폴더 추가"
+      onSubmit={handleSubmit(handleAddFolder)}
+      action="add"
+      isValid={isValid}
+      isSubmitting={isSubmitting}
+    >
+      <BaseInput
+        type="text"
+        id="name"
+        placeholder="폴더 이름 입력"
+        {...register("name")}
+        errors={errors.name?.message}
+      />
+    </Modal>
   );
 };
 

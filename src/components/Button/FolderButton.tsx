@@ -16,7 +16,7 @@ const FolderButton = ({ children, type, isSelected = false, className, onClick }
   return (
     <button
       type={type}
-      className={clsx(baseStyle, isSelected && "bg-purple01 text-white", className)}
+      className={clsx(baseStyle, isSelected && "bg-purple01 text-black02 font-semibold", className)}
       onClick={onClick}
     >
       {children}

@@ -25,6 +25,8 @@ const UserMenu = ({ user }: { user: UserProps | null }) => {
           <p className="text-sm md:text-xl">{user.name}</p>
 
           <button
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isOpen}
             className="flex flex-col justify-center items-center size-8 md:size-10 relative z-50"
             onClick={() => setIsOpen(!isOpen)}
           >

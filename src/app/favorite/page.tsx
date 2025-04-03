@@ -10,8 +10,8 @@ import BackButton from "@/components/Button/BackButton";
 import { FaStar } from "react-icons/fa";
 
 const getUser = async () => {
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get("accessToken")?.value;
+  const accessToken = cookies().get("accessToken")?.value;
+  if (!accessToken) return null;
 
   try {
     const response = await fetch(`${API_URL}/users`, {
@@ -23,18 +23,11 @@ const getUser = async () => {
       cache: "no-store",
     });
 
-    if (!response.ok) {
-      return null;
-    }
+    if (!response.ok) throw new Error("유저 정보를 가져오지 못했습니다.");
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message);
-    }
-
-    return await response.json();
+    return response.json();
   } catch (error) {
-    console.error("유저 정보 조회 실패", error);
+    console.error("유저 정보 조회 실패:", error);
     return null;
   }
 };
@@ -42,10 +35,7 @@ const getUser = async () => {
 // 즐겨찾기 링크 조회
 const getFavoriteLinks = async ({ page, pageSize }: PageParams) => {
   const accessToken = cookies().get("accessToken")?.value;
-
-  if (!accessToken) {
-    throw new Error("인증 정보가 유효하지 않습니다.");
-  }
+  if (!accessToken) return { totalCount: 0, list: [] };
 
   try {
     const response = await fetch(`${API_URL}/favorites?page=${page}&pageSize=${pageSize}`, {
@@ -53,21 +43,14 @@ const getFavoriteLinks = async ({ page, pageSize }: PageParams) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      next: { tags: ["links"] },
+      next: { tags: ["favorite"] },
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message);
-    }
+    if (!response.ok) throw new Error("즐겨찾기 링크를 가져오지 못했습니다.");
 
-    const data = await response.json();
-    return {
-      totalCount: data?.totalCount || 0,
-      list: data?.list || [],
-    };
+    return response.json();
   } catch (error) {
-    console.error("즐겨찾기 링크 조회 중 에러 발생", error);
+    console.error("즐겨찾기 링크 조회 중 에러 발생:", error);
     return { totalCount: 0, list: [] };
   }
 };
@@ -76,18 +59,18 @@ const favoritePage = async ({ searchParams }: { searchParams: PageParams }) => {
   const page = Number(searchParams.page) || 1;
   const pageSize = Number(searchParams.pageSize) || 9;
 
-  const user = await getUser();
-  const { totalCount, list } = await getFavoriteLinks({ page, pageSize });
+  const [user, { totalCount, list }] = await Promise.all([getUser(), getFavoriteLinks({ page, pageSize })]);
 
   return (
     <>
       <Container className="mt-10 mb-20 pb-8 md:pb-32 flex flex-col items-center gap-6">
         <h2 className="flex items-center gap-2 text-2xl md:text-4xl lg:text-5xl mb-12">
-          <FaStar className="text-yellow-400" /> <span className="font-semibold">{user.name}</span>의 즐겨찾기
+          <FaStar className="text-yellow-400" />
+          <span className="font-semibold">{user?.name ?? "사용자"}</span>의 즐겨찾기
         </h2>
         <BackButton />
         <div>
-          {list && list.length > 0 ? (
+          {list.length > 0 ? (
             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 justify-center">
               {list.map((link: LinkType) => (
                 <LinkCard key={link.id} link={link} />
@@ -98,7 +81,7 @@ const favoritePage = async ({ searchParams }: { searchParams: PageParams }) => {
           )}
         </div>
 
-        {list.length > 0 && <Pagination totalCount={totalCount} />}
+        {list.length > 0 && <Pagination totalCount={totalCount} currentPage={page} pageSize={pageSize} />}
       </Container>
 
       <TopButton />

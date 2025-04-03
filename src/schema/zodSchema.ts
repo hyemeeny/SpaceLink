@@ -66,7 +66,7 @@ export const LinkAddSchema = z.object({
 
 export const LinkFolderAddSchema = z.object({
   url: LinkSchema,
-  folderId: z.number().min(1, { message: "폴더를 선택해주세요." }),
+  folderId: z.number().optional(),
 });
 
 // 링크 수정 스키마

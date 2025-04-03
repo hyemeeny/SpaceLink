@@ -1,17 +1,19 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { LinkType } from "@/types/links";
 import LinkCard from "@/components/Links/LinkCard";
 import LinkNone from "@/components/Links/LinkNone";
 import SkeletonCard from "@/ui/SkeletonCard";
 
-const LinkList = ({ currentLinks }: { currentLinks: LinkType[] | null }) => {
+const LinkList = ({ links }: { links: LinkType[] | null }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (currentLinks !== null) {
+    if (links !== null) {
       setIsLoading(false);
     }
-  }, [currentLinks]);
+  }, [links]);
 
   return (
     <>
@@ -21,9 +23,9 @@ const LinkList = ({ currentLinks }: { currentLinks: LinkType[] | null }) => {
             <SkeletonCard key={index} />
           ))}
         </ul>
-      ) : currentLinks && currentLinks.length > 0 ? (
+      ) : links && links.length > 0 ? (
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {currentLinks.map((link) => (
+          {links.map((link) => (
             <LinkCard key={link.id} link={link} />
           ))}
         </ul>

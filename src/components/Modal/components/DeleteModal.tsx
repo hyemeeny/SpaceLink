@@ -1,11 +1,11 @@
 import { FormEvent } from "react";
-import { deleteFolders } from "@/actions/folders";
-import { ModalContainer, Content, Header } from "@/components/Modal/ModalContainer";
+import { useRouter } from "next/navigation";
 import { deleteLinks } from "@/actions/links";
+import { deleteFolders } from "@/actions/folders";
+import { useModalStore } from "@/store/useModalStore";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
-import CtaButton from "@/components/Button/CtaButton";
-import { useModalStore } from "@/store/useModalStore";
+import Modal from "@/components/Modal/Modal";
 
 interface DeleteModalProps {
   selectedItem: { id: number; name?: string; url?: string };
@@ -14,6 +14,7 @@ interface DeleteModalProps {
 }
 
 const DeleteModal = ({ selectedItem, itemType, onDelete }: DeleteModalProps) => {
+  const router = useRouter();
   const { closeModal } = useModalStore();
 
   const handleDelete = async (e: FormEvent<HTMLFormElement>) => {
@@ -28,6 +29,8 @@ const DeleteModal = ({ selectedItem, itemType, onDelete }: DeleteModalProps) => 
       } else if (itemType === "folder") {
         await deleteFolders(selectedItem.id);
         toast.success(toastMessages.success.deleteFolder);
+
+        router.push("/links?page=1&pageSize=9");
       }
 
       closeModal(`${itemType}Delete-${selectedItem.id}`);
@@ -41,17 +44,16 @@ const DeleteModal = ({ selectedItem, itemType, onDelete }: DeleteModalProps) => 
   };
 
   return (
-    <ModalContainer modalId={`${itemType}Delete-${selectedItem.id}`}>
-      <Header>{itemType === "folder" ? "폴더 삭제" : "링크 삭제"}</Header>
-      <Content onSubmit={handleDelete}>
-        <p className="text-sm text-gray04 text-center mb-3 text-overflow2">
-          {itemType === "folder" ? selectedItem.name : selectedItem.url}
-        </p>
-        <CtaButton type="submit" variant="red">
-          삭제하기
-        </CtaButton>
-      </Content>
-    </ModalContainer>
+    <Modal
+      modalId={`${itemType}Delete-${selectedItem.id}`}
+      title={itemType === "folder" ? "폴더 삭제" : "링크 삭제"}
+      onSubmit={handleDelete}
+      action="delete"
+    >
+      <p className="text-sm text-gray04 text-center mb-3 text-overflow2">
+        {itemType === "folder" ? selectedItem.name : selectedItem.url}
+      </p>
+    </Modal>
   );
 };
 

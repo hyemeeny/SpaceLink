@@ -1,12 +1,13 @@
+import { useEffect } from "react";
 import { putFolders } from "@/actions/folders";
 import { putLinks } from "@/actions/links";
 import { useModalStore } from "@/store/useModalStore";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LinkUpdateSchema, FolderUpdateSchema } from "@/schema/zodSchema";
-import { ModalContainer, Header, Content, Button } from "@/components/Modal/ModalContainer";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
+import Modal from "@/components/Modal/Modal";
 import BaseInput from "@/components/Input/BaseInput";
 
 interface FormValues {
@@ -20,7 +21,7 @@ interface UpdateModalProps {
   defaultName?: string;
 }
 
-const UpdateModal = ({ selectedItem, itemType, defaultName }: UpdateModalProps) => {
+const UpdateModal = ({ selectedItem, itemType }: UpdateModalProps) => {
   const { closeModal } = useModalStore();
   const schema = itemType === "link" ? LinkUpdateSchema : FolderUpdateSchema;
 
@@ -28,14 +29,24 @@ const UpdateModal = ({ selectedItem, itemType, defaultName }: UpdateModalProps) 
     register,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
+    reset,
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     mode: "onChange",
     defaultValues: {
-      value: defaultName,
-      itemId: selectedItem?.id || 0,
+      value: selectedItem.name || "",
+      itemId: selectedItem.id || 0,
     },
   });
+
+  useEffect(() => {
+    if (selectedItem) {
+      reset({
+        value: selectedItem.name || selectedItem.url || "",
+        itemId: selectedItem.id,
+      });
+    }
+  }, [selectedItem, reset]);
 
   const updateItem = async (data: FormValues) => {
     if (!selectedItem) return;
@@ -60,19 +71,22 @@ const UpdateModal = ({ selectedItem, itemType, defaultName }: UpdateModalProps) 
   };
 
   return (
-    <ModalContainer modalId={`${itemType}Update-${selectedItem.id}`}>
-      <Header>{itemType === "folder" ? "폴더 이름 변경" : "링크 URL 변경"}</Header>
-      <Content onSubmit={handleSubmit(updateItem)}>
-        <BaseInput
-          type="text"
-          id="value"
-          placeholder={itemType === "folder" ? "폴더 이름 입력" : "링크 URL 입력"}
-          {...register("value")}
-          errors={errors.value?.message}
-        />
-        <Button isValid={isValid} isSubmitting={isSubmitting} label="변경하기" />
-      </Content>
-    </ModalContainer>
+    <Modal
+      modalId={`${itemType}Update-${selectedItem.id}`}
+      title={itemType === "folder" ? "폴더 이름 변경" : "링크 URL 변경"}
+      onSubmit={handleSubmit(updateItem)}
+      action="update"
+      isValid={isValid}
+      isSubmitting={isSubmitting}
+    >
+      <BaseInput
+        type="text"
+        id="value"
+        placeholder={itemType === "folder" ? "폴더 이름 입력" : "링크 URL 입력"}
+        {...register("value")}
+        errors={errors.value?.message}
+      />
+    </Modal>
   );
 };
 
