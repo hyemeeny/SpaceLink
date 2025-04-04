@@ -90,7 +90,7 @@ const StarBackground = () => {
       {shootingStars.map((shootingStar) => (
         <div
           key={shootingStar.id}
-          className="absolute star"
+          className="absolute star hidden md:block"
           style={{
             left: shootingStar.left,
             top: shootingStar.top,
