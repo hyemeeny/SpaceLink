@@ -83,4 +83,6 @@ SPACELINK
 
 ## 📺 화면 구성
 
-<img src="https://github.com/user-attachments/assets/df0691e2-0905-49c7-9f9e-ed934c2779a1" width="162"/><img src="https://github.com/user-attachments/assets/26250fbe-bc06-44ca-b1f7-3ac49767544f" width="162"/><img src="https://github.com/user-attachments/assets/5ff9e116-26cc-444f-beb2-bae41700ec81" width="162"/><img src="https://github.com/user-attachments/assets/daefb206-3d3d-4c89-9a43-bbecba31bd40" width="162"/><img src="https://github.com/user-attachments/assets/dc265a54-8f63-4f46-a2d6-76c8fcf98f0f" width="162"/>
+<img src="https://github.com/user-attachments/assets/197d9867-0cf3-4304-b67f-9a4cea50a584" width="270"/><img src="https://github.com/user-attachments/assets/0e385635-bb44-4763-ae58-e6504b6f00ec" width="270"/><img src="https://github.com/user-attachments/assets/0d5e6411-429e-41d6-98ac-b1cc9219af2b" width="270"/><img src="https://github.com/user-attachments/assets/7d8e920d-4d98-46c5-bb32-f3fc041b8404" width="270"/>
+<img src="https://github.com/user-attachments/assets/a1d7a657-00e1-4019-86f7-63a6eb10fb42" width="270"/>
+<img src="https://github.com/user-attachments/assets/2f38cef7-dee7-4528-8758-29224d809bad" width="270"/>
