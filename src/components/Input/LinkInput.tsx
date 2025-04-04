@@ -36,7 +36,7 @@ const LinkInput = ({ folders }: { folders: FolderType[] }) => {
   };
 
   return (
-    <div className="w-full md:w-auto m-auto pb-8 pt-14 md:pb-24">
+    <div className="w-full md:w-auto m-auto pb-4 pt-14 md:pb-20">
       <form onSubmit={handleSubmit(onValid)} className="flex flex-col">
         <div className="flex items-center justify-end relative w-full h-[53px] md:w-[704px] md:h-[69px] lg:w-[800px]">
           <input
