@@ -21,11 +21,14 @@ const shareButtons: ShareButtonItem[] = [
 ];
 
 const FolderShareModal = ({ selectedItem }: { selectedItem: { id: number; name: string } }) => {
+  const { closeModal } = useModalStore();
+
   const handleShareToKakao = () => {
     const { Kakao, location } = window;
     Kakao.Share.sendScrap({
       requestUrl: location.href,
     });
+    closeModal(`folderShare-${selectedItem.id}`);
   };
 
   const copyToClipboard = async (text: string) => {
@@ -39,8 +42,9 @@ const FolderShareModal = ({ selectedItem }: { selectedItem: { id: number; name: 
   };
 
   const handleShareToCopy = () => {
-    const textToCopy = `${process.env.NEXT_PUBLIC_BASE_URL}/links/${selectedItem.id}`;
+    const textToCopy = `${process.env.NEXT_PUBLIC_BASE_URL}/links?folderId=${selectedItem.id}`;
     copyToClipboard(textToCopy);
+    closeModal(`folderShare-${selectedItem.id}`);
   };
 
   return (
@@ -50,7 +54,7 @@ const FolderShareModal = ({ selectedItem }: { selectedItem: { id: number; name: 
         {shareButtons.map((share) => (
           <button
             key={share.title}
-            onClick={share.title === "카카오톡" ? handleShareToKakao : handleShareToCopy}
+            onClick={share.title === "카카오톡 공유" ? handleShareToKakao : handleShareToCopy}
             className="flex flex-col items-center gap-3"
           >
             <div className="relative size-14">
@@ -64,6 +68,17 @@ const FolderShareModal = ({ selectedItem }: { selectedItem: { id: number; name: 
             <p className="text-sm text-gray06">{share.title}</p>
           </button>
         ))}
+        {/* <button onClick={handleShareToCopy} className="flex flex-col items-center gap-3">
+          <div className="relative size-14">
+            <Image
+              src={"/icons/copy.svg"}
+              fill
+              alt="클립보드 복사"
+              sizes="(max-width: 640px) 56px, (max-width: 1024px) 64px, 56px"
+            />
+          </div>
+          <p className="text-sm text-gray06">클립보드 복사</p>
+        </button> */}
       </div>
     </Modal>
   );
