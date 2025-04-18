@@ -25,7 +25,7 @@ const SignupPage = () => {
     handleSubmit,
     setFocus,
     setError,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isSubmitting },
   } = useForm<SignupFormValues>({
     resolver: zodResolver(SignupSchema),
     mode: "all",
@@ -132,8 +132,8 @@ const SignupPage = () => {
           {...register("confirmPassword")}
         />
 
-        <Button type="submit" size="large" disabled={!isValid}>
-          {isValid ? <LoadingSpinner /> : "회원가입"}
+        <Button type="submit" size="large" disabled={!isValid || isSubmitting}>
+          {isSubmitting ? <LoadingSpinner /> : "회원가입"}
         </Button>
       </form>
     </FormContainer>
