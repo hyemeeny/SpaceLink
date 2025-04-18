@@ -18,7 +18,7 @@ const LoginPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isSubmitting },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(LoginSchema),
     mode: "all",
@@ -66,8 +66,8 @@ const LoginPage = () => {
           {...register("password")}
         />
 
-        <Button type="submit" size="large" disabled={!isValid}>
-          {isValid ? <LoadingSpinner /> : "로그인"}
+        <Button type="submit" size="large" disabled={!isValid || isSubmitting}>
+          {isSubmitting ? <LoadingSpinner /> : "로그인"}
         </Button>
       </form>
     </FormContainer>
