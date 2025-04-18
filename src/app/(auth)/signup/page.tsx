@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { checkEmail, signUp } from "@/actions/auth";
 import { useForm } from "react-hook-form";
@@ -24,42 +24,45 @@ const SignupPage = () => {
     register,
     handleSubmit,
     setFocus,
+    setError,
     formState: { errors, isValid },
   } = useForm<SignupFormValues>({
     resolver: zodResolver(SignupSchema),
     mode: "all",
   });
 
+  const email = watch("email");
+
+  useEffect(() => {
+    setIsCheckEmail(false);
+  }, [email]);
+
   const handleCheckEmail = async () => {
-    const email = watch("email");
-
-    if (!email) {
-      toast.error("이메일을 입력해주세요.");
-      return;
-    }
-
     setIsLoading(true);
 
     try {
-      const response = await checkEmail({ email });
+      const status = await checkEmail({ email });
 
-      if (!response) {
-        toast.error(toastMessages.error.checkEmail);
-        return;
-      }
-
-      if (response.isUsableEmail) {
-        toast.success(toastMessages.success.checkEmail);
+      if (status === 200) {
         setIsCheckEmail(true);
-      } else if (response.message) {
+      } else if (status === 409) {
         setFocus("email");
         setIsCheckEmail(false);
-        toast.error(response.message);
+        setError("email", {
+          type: "manual",
+          message: "이미 사용 중인 이메일입니다.",
+        });
+      } else {
+        setError("email", {
+          type: "manual",
+          message: "이메일 확인 중 문제가 발생했습니다.",
+        });
       }
     } catch (error) {
-      console.error(error);
-      toast.error(toastMessages.error.checkEmail);
-      setIsCheckEmail(false);
+      setError("email", {
+        type: "manual",
+        message: "알 수 없는 오류가 발생했습니다.",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -89,7 +92,7 @@ const SignupPage = () => {
       easyTitle="간편 회원가입하기"
     >
       <form className="grid gap-4 md:gap-6" onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-start">
           <BaseInput
             label="이메일"
             id="email"
@@ -97,11 +100,12 @@ const SignupPage = () => {
             placeholder="이메일을 입력해주세요"
             className="flex-1"
             errors={errors.email?.message}
+            successMessage={isCheckEmail ? "사용 가능한 이메일입니다." : ""}
             {...register("email")}
           />
-          {/* <CtaButton className="mt-8" disabled={isLoading} onClick={handleCheckEmail}>
+          <CtaButton className="mt-[32px] md:mt-[34px]" disabled={isLoading} onClick={handleCheckEmail}>
             {isLoading ? <LoadingSpinner /> : "중복확인"}
-          </CtaButton> */}
+          </CtaButton>
         </div>
         <BaseInput
           label="닉네임"
