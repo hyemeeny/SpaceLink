@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { checkEmail, signUp } from "@/actions/auth";
 import { useForm } from "react-hook-form";
@@ -33,11 +33,8 @@ const SignupPage = () => {
 
   const email = watch("email");
 
-  useEffect(() => {
+  const handleCheckEmail = useCallback(async () => {
     setIsCheckEmail(false);
-  }, [email]);
-
-  const handleCheckEmail = async () => {
     setIsLoading(true);
 
     try {
@@ -66,7 +63,7 @@ const SignupPage = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [email, setFocus, setError]);
 
   const onSubmit = async (data: SignupFormValues) => {
     try {
