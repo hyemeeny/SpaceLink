@@ -11,6 +11,7 @@ interface InputProps {
   value?: string;
   placeholder?: string;
   errors?: string;
+  successMessage?: string;
   type?: string;
   className?: string;
   autoComplete?: string;
@@ -28,6 +29,7 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
       value,
       placeholder,
       errors,
+      successMessage,
       type = "text",
       className,
       autoComplete,
@@ -86,6 +88,7 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
         </div>
 
         {errors && <span className="pl-1 text-sm font-normal text-red01">{errors}</span>}
+        {!errors && successMessage && <span className="pl-1 text-sm font-normal text-sky01">{successMessage}</span>}
       </div>
     );
   },
