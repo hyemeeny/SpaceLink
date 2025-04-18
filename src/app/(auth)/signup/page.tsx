@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { checkEmail, signUp } from "@/actions/auth";
+import { signUp } from "@/actions/auth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SignupSchema, SignupFormValues } from "@/schema/zodSchema";
@@ -33,11 +33,15 @@ const SignupPage = () => {
 
   const email = watch("email");
 
-  const handleCheckEmail = useCallback(async () => {
+  useEffect(() => {
     setIsCheckEmail(false);
+  }, [email]);
+
+  const handleCheckEmail = useCallback(async () => {
     setIsLoading(true);
 
     try {
+      const { checkEmail } = await import("@/actions/auth");
       const status = await checkEmail({ email });
 
       if (status === 200) {
