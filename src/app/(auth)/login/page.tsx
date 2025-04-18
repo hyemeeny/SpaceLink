@@ -10,6 +10,7 @@ import toastMessages from "@/lib/toastMessage";
 import FormContainer from "@/components/Layout/FormContainer";
 import Button from "@/components/Button/CtaButton";
 import BaseInput from "@/components/Input/BaseInput";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -66,7 +67,7 @@ const LoginPage = () => {
         />
 
         <Button type="submit" size="large" disabled={!isValid}>
-          로그인
+          {isValid ? <LoadingSpinner /> : "로그인"}
         </Button>
       </form>
     </FormContainer>

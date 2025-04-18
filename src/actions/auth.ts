@@ -85,15 +85,9 @@ export const checkEmail = async ({ email }: { email: string }) => {
       body: JSON.stringify({ email }),
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("이메일 중복 검사 실패:", errorData);
-      return { message: errorData.message };
-    }
-
-    return await response.json();
+    return response.status;
   } catch (error) {
     console.error("이메일 중복 확인 중 오류 발생", error);
-    return { message: "서버 오류가 발생했습니다." };
+    return 500;
   }
 };
