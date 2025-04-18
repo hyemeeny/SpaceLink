@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { signUp } from "@/actions/auth";
+import { checkEmail, signUp } from "@/actions/auth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SignupSchema, SignupFormValues } from "@/schema/zodSchema";
@@ -37,11 +37,10 @@ const SignupPage = () => {
     setIsCheckEmail(false);
   }, [email]);
 
-  const handleCheckEmail = useCallback(async () => {
+  const handleCheckEmail = async () => {
     setIsLoading(true);
 
     try {
-      const { checkEmail } = await import("@/actions/auth");
       const status = await checkEmail({ email });
 
       if (status === 200) {
@@ -67,7 +66,7 @@ const SignupPage = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [email, setFocus, setError]);
+  };
 
   const onSubmit = async (data: SignupFormValues) => {
     try {
@@ -134,7 +133,7 @@ const SignupPage = () => {
         />
 
         <Button type="submit" size="large" disabled={!isValid}>
-          회원가입
+          {isValid ? <LoadingSpinner /> : "회원가입"}
         </Button>
       </form>
     </FormContainer>
