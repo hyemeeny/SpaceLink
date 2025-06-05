@@ -40,8 +40,8 @@ const Pretendard = localFont({
 
 const PyeongChangPeace = localFont({
   src: [
-    { path: "../fonts/PyeongChangPeace-Light.ttf", weight: "400", style: "normal" },
-    { path: "../fonts/PyeongChangPeace-Bold.ttf", weight: "700", style: "bold" },
+    { path: "../fonts/PyeongChangPeace-Light.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/PyeongChangPeace-Bold.woff2", weight: "700", style: "bold" },
   ],
   display: "swap",
   variable: "--font-PyeongChangPeace",
