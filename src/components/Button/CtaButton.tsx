@@ -1,11 +1,13 @@
 import { ReactNode } from "react";
 import clsx from "clsx";
+import Link from "next/link";
 
 interface ButtonProps {
   children: ReactNode;
   type?: "button" | "reset" | "submit";
   disabled?: boolean;
   className?: string;
+  url?: string;
   variant?: "gradient" | "red";
   size?: "small" | "medium" | "large";
   onClick?: () => void;
@@ -16,6 +18,7 @@ const CtaButton = ({
   type = "button",
   disabled = false,
   className,
+  url,
   variant = "gradient",
   size = "medium",
   onClick,
@@ -31,20 +34,25 @@ const CtaButton = ({
     red: "text-white bg-red01",
   };
 
+  const baseStyles = clsx(
+    "flex items-center justify-center rounded-xl font-semibold transition duration-300 ease-in-out",
+    sizeStyles[size],
+    disabled ? "bg-gray02 text-gray04 cursor-not-allowed" : variantStyles[variant],
+    className,
+  );
+
   return (
-    <button
-      type={type}
-      className={clsx(
-        "rounded-xl font-semibold transition duration-300 ease-in-out",
-        sizeStyles[size],
-        disabled ? "bg-gray02 text-gray04 cursor-not-allowed" : variantStyles[variant],
-        className,
+    <>
+      {url ? (
+        <Link href={url} className={baseStyles}>
+          {children}
+        </Link>
+      ) : (
+        <button type={type} className={baseStyles} disabled={disabled} onClick={onClick}>
+          {children}
+        </button>
       )}
-      disabled={disabled}
-      onClick={onClick}
-    >
-      {children}
-    </button>
+    </>
   );
 };
 
