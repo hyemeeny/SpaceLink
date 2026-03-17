@@ -17,7 +17,7 @@ const getUser = async () => {
         Authorization: `Bearer ${accessToken}`,
       },
       next: { tags: ["users"] },
-      cache: "no-store",
+      cache: "force-cache",
     });
 
     if (!response.ok) throw new Error("유저 정보를 가져오지 못했습니다.");
@@ -40,20 +40,14 @@ const Header = async () => {
             src="/icons/saturn.png"
             width={60}
             height={60}
-            alt=""
+            alt="saturn icon"
             className="w-[40px] h-[40px] md:w-[60px] md:h-[60px]"
             aria-hidden="true"
           />
           <h1 className="font-pyeongChangPeace text-xl md:text-3xl font-bold text-purple01">SpaceLink</h1>
         </Link>
 
-        {user ? (
-          <UserMenu user={user} />
-        ) : (
-          <CtaButton>
-            <Link href="/login">로그인</Link>
-          </CtaButton>
-        )}
+        {user ? <UserMenu user={user} /> : <CtaButton url="/login">로그인</CtaButton>}
       </Container>
     </header>
   );
