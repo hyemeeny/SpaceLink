@@ -1,4 +1,3 @@
-import Link from "next/link";
 import rocket from "@/assets/lotties/rocket.json";
 import Container from "@/components/Layout/Container";
 import CtaButton from "@/components/Button/CtaButton";
@@ -14,9 +13,9 @@ const MainSection = () => {
           <span>나만의 특별한 공간에서 소중한 링크를 모아보세요. 🚀</span>
         </p>
         <h2 className="font-pyeongChangPeace text-4xl md:text-7xl font-bold pb-4 gradient-text">SpaceLink</h2>
-        <Link href={"/links"} className="mt-4 md:mt-10">
-          <CtaButton size="large">링크 둘러보기</CtaButton>
-        </Link>
+        <CtaButton url="/links" size="large" className="mt-4 md:mt-10">
+          링크 둘러보기
+        </CtaButton>
       </div>
       <Lottie animationData={rocket} className={"w-[300px] md:w-[500px] lg:w-[600px] mx-auto lg:mx-0"} />
     </Container>

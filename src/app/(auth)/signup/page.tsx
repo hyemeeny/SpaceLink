@@ -9,7 +9,6 @@ import { SignupSchema, SignupFormValues } from "@/schema/zodSchema";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
 import FormContainer from "@/components/Layout/FormContainer";
-import Button from "@/components/Button/CtaButton";
 import CtaButton from "@/components/Button/CtaButton";
 import BaseInput from "@/components/Input/BaseInput";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
@@ -132,9 +131,9 @@ const SignupPage = () => {
           {...register("confirmPassword")}
         />
 
-        <Button type="submit" size="large" disabled={!isValid || isSubmitting}>
+        <CtaButton type="submit" size="large" disabled={!isValid || isSubmitting}>
           {isSubmitting ? <LoadingSpinner /> : "회원가입"}
-        </Button>
+        </CtaButton>
       </form>
     </FormContainer>
   );
