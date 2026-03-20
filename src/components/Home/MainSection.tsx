@@ -1,3 +1,4 @@
+import { useInView } from "react-intersection-observer";
 import rocket from "@/assets/lotties/rocket.json";
 import Container from "@/components/Layout/Container";
 import CtaButton from "@/components/Button/CtaButton";
@@ -5,9 +6,11 @@ import dynamic from "next/dynamic";
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 const MainSection = () => {
+  const { ref, inView } = useInView({ triggerOnce: true });
+
   return (
     <Container className="flex flex-col lg:flex-row lg:items-center justify-center lg:justify-between gap-y-4 md:gap-y-0 screen-height">
-      <div className="flex flex-col gap-y-2 md:gap-y-5 text-center lg:text-left">
+      <div ref={ref} className="flex flex-col gap-y-2 md:gap-y-5 text-center lg:text-left">
         <p className="flex flex-col gap-1 md:gap-2 font-pyeongChangPeace text-sm md:text-base lg:text-xl font-normal">
           <span>우주의 별처럼 반짝이는 링크를 한곳에 ✨</span>
           <span>나만의 특별한 공간에서 소중한 링크를 모아보세요. 🚀</span>
@@ -17,7 +20,7 @@ const MainSection = () => {
           링크 둘러보기
         </CtaButton>
       </div>
-      <Lottie animationData={rocket} className={"w-[300px] md:w-[500px] lg:w-[600px] mx-auto lg:mx-0"} />
+      {inView && <Lottie animationData={rocket} className={"w-[300px] md:w-[500px] lg:w-[600px] mx-auto lg:mx-0"} />}
     </Container>
   );
 };
