@@ -6,12 +6,6 @@ import Header from "@/components/Layout/Header/Header";
 import StarBackground from "@/components/common/StarBackground";
 import KakaoScript from "@/components/common/KakaoScript";
 
-declare global {
-  interface Window {
-    Kakao: any;
-  }
-}
-
 export const metadata: Metadata = {
   title: "SPACELINK",
   description: "우주의 별처럼 반짝이는 링크를 한곳에 ✨ 나만의 특별한 공간에서 소중한 링크를 모아보세요. 🚀",
@@ -40,8 +34,8 @@ const Pretendard = localFont({
 
 const PyeongChangPeace = localFont({
   src: [
-    { path: "../fonts/PyeongChangPeace-Light.ttf", weight: "400", style: "normal" },
-    { path: "../fonts/PyeongChangPeace-Bold.ttf", weight: "700", style: "bold" },
+    { path: "../fonts/PyeongChangPeace-Light.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/PyeongChangPeace-Bold.woff2", weight: "700", style: "bold" },
   ],
   display: "swap",
   variable: "--font-PyeongChangPeace",
