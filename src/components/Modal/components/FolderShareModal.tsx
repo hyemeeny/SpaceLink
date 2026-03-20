@@ -10,40 +10,50 @@ interface ShareButtonItem {
 }
 
 const shareButtons: ShareButtonItem[] = [
-  {
-    title: "카카오톡 공유",
-    image: "/icons/kakao.svg",
-  },
-  {
-    title: "클립보드 복사",
-    image: "/icons/copy.svg",
-  },
+  { title: "카카오톡 공유", image: "/icons/kakao.svg" },
+  { title: "클립보드 복사", image: "/icons/copy.svg" },
 ];
 
 const FolderShareModal = ({ selectedItem }: { selectedItem: { id: number; name: string } }) => {
   const { closeModal } = useModalStore();
+  const shareUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/links?folderId=${selectedItem.id}`;
 
   const handleShareToKakao = () => {
-    const { Kakao, location } = window;
-    Kakao.Share.sendScrap({
-      requestUrl: location.href,
+    const { Kakao } = window;
+
+    Kakao.Share.sendDefault({
+      objectType: "feed",
+      content: {
+        title: "나만의 링크 공간, SpaceLink 🚀",
+        description: "좋아하는 링크들을 한 곳에 모아 공유해보세요.",
+        imageUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/opengraph-image.jpg`,
+        link: {
+          mobileWebUrl: shareUrl,
+          webUrl: shareUrl,
+        },
+      },
+      buttons: [
+        {
+          title: "링크 보러가기",
+          link: {
+            mobileWebUrl: shareUrl,
+            webUrl: shareUrl,
+          },
+        },
+      ],
     });
+
     closeModal(`folderShare-${selectedItem.id}`);
   };
 
-  const copyToClipboard = async (text: string) => {
+  const handleShareToCopy = async () => {
     try {
-      await navigator.clipboard.writeText(text);
+      await navigator.clipboard.writeText(shareUrl);
       toast.success(toastMessages.success.ShareCopy);
     } catch (error) {
       toast.error(toastMessages.error.ShareCopy);
       console.error("클립보드 복사 실패:", error);
     }
-  };
-
-  const handleShareToCopy = () => {
-    const textToCopy = `${process.env.NEXT_PUBLIC_BASE_URL}/links?folderId=${selectedItem.id}`;
-    copyToClipboard(textToCopy);
     closeModal(`folderShare-${selectedItem.id}`);
   };
 
@@ -54,6 +64,7 @@ const FolderShareModal = ({ selectedItem }: { selectedItem: { id: number; name: 
         {shareButtons.map((share) => (
           <button
             key={share.title}
+            type="button"
             onClick={share.title === "카카오톡 공유" ? handleShareToKakao : handleShareToCopy}
             className="flex flex-col items-center gap-3"
           >
@@ -68,17 +79,6 @@ const FolderShareModal = ({ selectedItem }: { selectedItem: { id: number; name: 
             <p className="text-sm text-gray06">{share.title}</p>
           </button>
         ))}
-        {/* <button onClick={handleShareToCopy} className="flex flex-col items-center gap-3">
-          <div className="relative size-14">
-            <Image
-              src={"/icons/copy.svg"}
-              fill
-              alt="클립보드 복사"
-              sizes="(max-width: 640px) 56px, (max-width: 1024px) 64px, 56px"
-            />
-          </div>
-          <p className="text-sm text-gray06">클립보드 복사</p>
-        </button> */}
       </div>
     </Modal>
   );
