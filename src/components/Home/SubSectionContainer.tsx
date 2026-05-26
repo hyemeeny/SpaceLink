@@ -19,7 +19,9 @@ const SubSectionContainer = ({ children, image, lottie }: { children: ReactNode;
         </div>
         <div className="flex flex-col gap-y-1 md:gap-y-5 text-center lg:text-left">{children}</div>
       </div>
-      {inView && <Lottie animationData={lottie} className="w-[300px] md:w-[500px] mx-auto lg:mx-0 hidden lg:block" />}
+      <div className="w-[300px] lg:w-[500px] h-[300px] lg:h-[500px] mx-auto lg:mx-0 hidden lg:flex lg:items-center lg:justify-center">
+        {inView && <Lottie animationData={lottie} className="size-full" />}
+      </div>
     </Container>
   );
 };
