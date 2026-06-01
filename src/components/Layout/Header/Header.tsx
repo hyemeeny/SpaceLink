@@ -1,36 +1,24 @@
-import { cookies } from "next/headers";
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import API_URL from "@/constants/config";
 import UserMenu from "@/components/Layout/Header/UserMenu";
 import Container from "@/components/Layout/Container";
 import CtaButton from "@/components/Button/CtaButton";
+import { useUser } from "@/hooks/queries/useUser";
 
-const getUser = async () => {
-  const accessToken = cookies().get("accessToken")?.value;
-  if (!accessToken) return null;
+const Header = () => {
+  const { data: user, isLoading } = useUser();
 
-  try {
-    const response = await fetch(`${API_URL}/users`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      next: { tags: ["users"] },
-      cache: "force-cache",
-    });
-
-    if (!response.ok) throw new Error("유저 정보를 가져오지 못했습니다.");
-
-    return response.json();
-  } catch (error) {
-    console.error("유저 정보 조회 실패:", error);
-    return null;
+  if (isLoading) {
+    return (
+      <header>
+        <Container className="py-4 md:py-8">
+          <div className="h-[40px]" /> {/* skeleton 자리 */}
+        </Container>
+      </header>
+    );
   }
-};
-
-const Header = async () => {
-  const user = await getUser();
 
   return (
     <header>
