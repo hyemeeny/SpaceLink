@@ -11,33 +11,31 @@ import FormContainer from "@/components/Layout/FormContainer";
 import CtaButton from "@/components/Button/CtaButton";
 import BaseInput from "@/components/Input/BaseInput";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
+import { useLogin } from "@/hooks/mutations/useLogin";
 
 const LoginPage = () => {
   const router = useRouter();
+  const { mutate: loginMutation, isPending } = useLogin();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors, isValid },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(LoginSchema),
     mode: "all",
   });
 
-  const onSubmit = async (data: LoginFormValues) => {
-    try {
-      const response = await login(data);
-
-      if (response && response.message) {
-        toast.error(response.message);
-      } else {
+  const onSubmit = (data: LoginFormValues) => {
+    loginMutation(data, {
+      onSuccess: () => {
         toast.success(toastMessages.success.login);
         router.push("/");
-      }
-    } catch (error) {
-      console.error("로그인에 실패하였습니다.", error);
-      toast.error(toastMessages.error.login);
-    }
+      },
+      onError: (error) => {
+        toast.error(error?.message || toastMessages.error.login);
+      },
+    });
   };
 
   return (
@@ -66,8 +64,8 @@ const LoginPage = () => {
           {...register("password")}
         />
 
-        <CtaButton type="submit" size="large" disabled={!isValid || isSubmitting}>
-          {isSubmitting ? <LoadingSpinner /> : "로그인"}
+        <CtaButton type="submit" size="large" disabled={!isValid || isPending}>
+          {isPending ? <LoadingSpinner /> : "로그인"}
         </CtaButton>
       </form>
     </FormContainer>

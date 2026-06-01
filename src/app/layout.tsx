@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 import Header from "@/components/Layout/Header/Header";
 import StarBackground from "@/components/common/StarBackground";
 import KakaoScript from "@/components/common/KakaoScript";
+import QueryProvider from "@/providers/QueryProvider";
 
 export const metadata: Metadata = {
   title: "SPACELINK",
@@ -53,10 +54,12 @@ export default function RootLayout({
   return (
     <html lang="ko" className={`${Pretendard.variable} ${PyeongChangPeace.variable}`}>
       <body>
-        <StarBackground />
-        <ToastProvider />
-        <Header />
-        {children}
+        <QueryProvider>
+          <StarBackground />
+          <ToastProvider />
+          <Header />
+          {children}
+        </QueryProvider>
       </body>
       <KakaoScript />
     </html>
