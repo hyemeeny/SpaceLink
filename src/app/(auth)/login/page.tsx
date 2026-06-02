@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { login } from "@/actions/auth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema, LoginFormValues } from "@/schema/zodSchema";
@@ -11,11 +10,11 @@ import FormContainer from "@/components/Layout/FormContainer";
 import CtaButton from "@/components/Button/CtaButton";
 import BaseInput from "@/components/Input/BaseInput";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
-import { useLogin } from "@/hooks/mutations/useLogin";
+import { useLogin } from "@/services/auth/hooks";
 
 const LoginPage = () => {
   const router = useRouter();
-  const { mutate: loginMutation, isPending } = useLogin();
+  const { mutate: login, isPending } = useLogin();
 
   const {
     register,
@@ -26,14 +25,14 @@ const LoginPage = () => {
     mode: "all",
   });
 
-  const onSubmit = (data: LoginFormValues) => {
-    loginMutation(data, {
+  const onSubmit = async (data: LoginFormValues) => {
+    login(data, {
       onSuccess: () => {
         toast.success(toastMessages.success.login);
         router.push("/");
       },
       onError: (error) => {
-        toast.error(error?.message || toastMessages.error.login);
+        toast.error(error.message || toastMessages.error.login);
       },
     });
   };
