@@ -2,16 +2,10 @@
 const nextConfig = {
   reactStrictMode: false,
   images: {
-    dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; img-src 'self' data: https:;",
     remotePatterns: [
       {
-        protocol: "http",
-        hostname: "**",
-      },
-      {
         protocol: "https",
-        hostname: "**",
+        hostname: "sprint-fe-project.s3.ap-northeast-2.amazonaws.com",
       },
     ],
   },

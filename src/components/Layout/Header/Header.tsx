@@ -5,7 +5,7 @@ import Image from "next/image";
 import UserMenu from "@/components/Layout/Header/UserMenu";
 import Container from "@/components/Layout/Container";
 import CtaButton from "@/components/Button/CtaButton";
-import { useUser } from "@/hooks/queries/useUser";
+import { useUser } from "@/services/user/hooks";
 
 const Header = () => {
   const { data: user, isLoading } = useUser();

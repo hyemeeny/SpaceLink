@@ -2,8 +2,8 @@ import clsx from "clsx";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
-import { logout } from "@/actions/auth";
 import { FiLink, FiStar, FiLogOut } from "react-icons/fi";
+import { useLogout } from "@/services/auth/hooks";
 
 interface MenuLinksProps {
   setIsOpen?: Dispatch<SetStateAction<boolean>>;
@@ -12,11 +12,17 @@ interface MenuLinksProps {
 const MenuLinks = ({ setIsOpen }: MenuLinksProps) => {
   const router = useRouter();
   const pathname = usePathname();
+  const { mutateAsync: logout } = useLogout();
 
   const handleLogout = async () => {
-    await logout();
-    router.push("/login");
-    setIsOpen?.(false);
+    try {
+      await logout();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      router.replace("/login");
+      setIsOpen?.(false);
+    }
   };
 
   const navLinkBase =

@@ -1,13 +1,13 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { UserProps } from "@/types/auth";
+import { User } from "@/services/user/types";
 import clsx from "clsx";
 import Image from "next/image";
 import useOnClickOutside from "@/hooks/useOnClickOutside";
 import MenuLinks from "@/components/Layout/Header/MenuLinks";
 
-const UserMenu = ({ user }: { user: UserProps | null }) => {
+const UserMenu = ({ user }: { user: User | null }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -20,7 +20,7 @@ const UserMenu = ({ user }: { user: UserProps | null }) => {
       {user && (
         <div className="relative flex items-center gap-2 md:gap-3 cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
           <div className="size-5 md:size-8">
-            <Image src={"/icons/profile.svg"} width={32} height={32} alt={user.name} />
+            <Image src={user.imageSource} width={32} height={32} alt={user.name} />
           </div>
           <p className="text-sm md:text-xl">{user.name}</p>
 
