@@ -33,6 +33,6 @@ export const POST = async (req: Request) => {
     return NextResponse.json(data, { status: 200 });
   } catch (error) {
     console.error("로그인 중 오류 발생", error);
-    return NextResponse.json({ success: false, message: "서버 오류가 발생했습니다." }, { status: 500 });
+    return NextResponse.json({ message: "서버 오류가 발생했습니다." }, { status: 500 });
   }
 };
