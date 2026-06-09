@@ -17,7 +17,8 @@ import TopButton from "@/components/Button/TopButton";
 
 const fetchWithAuth = async (url: string, tags: string[]) => {
   const accessToken = cookies().get("accessToken")?.value;
-  if (!accessToken) throw new Error("인증 정보가 유효하지 않습니다.");
+  // if (!accessToken) throw new Error("인증 정보가 유효하지 않습니다.");
+  if (!accessToken) return null;
 
   const response = await fetch(url, {
     headers: {
@@ -27,10 +28,14 @@ const fetchWithAuth = async (url: string, tags: string[]) => {
     next: { tags },
   });
 
+  // if (!response.ok) {
+  //   const errorData = await response.json();
+  //   throw new Error(errorData.message);
+  // }
   if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message);
+    return null;
   }
+
   return response.json();
 };
 
