@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import localFont from "next/font/local";
 import "@/styles/globals.scss";
 import { Toaster } from "react-hot-toast";
+import API_URL from "@/constants/config";
 import Header from "@/components/Layout/Header/Header";
 import StarBackground from "@/components/common/StarBackground";
 import KakaoScript from "@/components/common/KakaoScript";
@@ -46,15 +48,39 @@ const ToastProvider = () => {
   return <Toaster />;
 };
 
-export default function RootLayout({
+const getUser = async () => {
+  const token = cookies().get("accessToken")?.value;
+
+  if (!token) return null;
+
+  try {
+    const res = await fetch(`${API_URL}/users`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    });
+
+    if (!res.ok) return null;
+
+    return res.json();
+  } catch {
+    return null;
+  }
+};
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await getUser();
+
   return (
     <html lang="ko" className={`${Pretendard.variable} ${PyeongChangPeace.variable}`}>
       <body>
-        <QueryProvider>
+        <QueryProvider initialUser={user}>
           <StarBackground />
           <ToastProvider />
           <Header />
