@@ -1,5 +1,6 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "@/constants/queryKeys";
+import { ApiError } from "@/types/api";
 import { user, checkEmail } from "./api";
 
 export const useUser = () => {
@@ -11,8 +12,12 @@ export const useUser = () => {
   });
 };
 
-export const useCheckEmail = () => {
-  return useMutation({
-    mutationFn: (email: string) => checkEmail(email),
+export const useCheckEmail = (email: string) => {
+  return useQuery<boolean, ApiError>({
+    queryKey: queryKeys.checkEmail(email),
+    queryFn: () => checkEmail(email),
+    enabled: !!email,
+    retry: false,
+    staleTime: 1000 * 60 * 5,
   });
 };

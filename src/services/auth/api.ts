@@ -1,3 +1,4 @@
+import { ApiError } from "@/types/api";
 import { Signup, Login } from "./types";
 
 export const signUp = async (data: Signup): Promise<void> => {
@@ -12,7 +13,9 @@ export const signUp = async (data: Signup): Promise<void> => {
   const result = await res.json();
 
   if (!res.ok) {
-    throw new Error(result.message || "회원가입 실패");
+    const error = new Error(result.message || "회원가입 실패") as ApiError;
+    error.field = result.field;
+    throw error;
   }
 
   return result;
@@ -31,7 +34,9 @@ export const login = async (data: Login) => {
   const result = await res.json();
 
   if (!res.ok) {
-    throw new Error(result.message || "로그인 실패");
+    const error = new Error(result.message || "로그인 실패") as ApiError;
+    error.field = result.field;
+    throw error;
   }
 
   return result;
@@ -44,6 +49,10 @@ export const logout = async () => {
   });
 
   const result = await res.json();
+
+  if (res.status === 401) {
+    return null;
+  }
 
   if (!res.ok) {
     throw new Error(result.message || "로그아웃 실패");

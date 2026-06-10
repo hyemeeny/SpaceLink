@@ -1,3 +1,4 @@
+import { ApiError } from "@/types/api";
 import { User } from "./types";
 
 export const user = async (): Promise<User | null> => {
@@ -31,8 +32,10 @@ export const checkEmail = async (email: string) => {
   const data = await res.json();
 
   if (!res.ok) {
-    throw new Error(data.message || "이메일 확인 실패");
+    const error = new Error(data.message) as ApiError;
+    error.status = res.status;
+    throw error;
   }
 
-  return data;
+  return true;
 };
