@@ -22,10 +22,10 @@ const LoginPage = () => {
     formState: { errors, isValid },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(LoginSchema),
-    mode: "all",
+    mode: "onBlur",
   });
 
-  const onSubmit = async (data: LoginFormValues) => {
+  const onSubmit = (data: LoginFormValues) => {
     login(data, {
       onSuccess: () => {
         toast.success(toastMessages.success.login);

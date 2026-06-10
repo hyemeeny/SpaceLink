@@ -1,8 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { checkEmail, signUp } from "@/actions/auth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SignupSchema, SignupFormValues } from "@/schema/zodSchema";
@@ -12,74 +10,50 @@ import FormContainer from "@/components/Layout/FormContainer";
 import CtaButton from "@/components/Button/CtaButton";
 import BaseInput from "@/components/Input/BaseInput";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
+import { useSignUp } from "@/services/auth/hooks";
+import { useCheckEmail } from "@/services/user/hooks";
+import { useDebounce } from "@/hooks/useDebounce";
+import { ApiError } from "@/types/api";
 
 const SignupPage = () => {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [isCheckEmail, setIsCheckEmail] = useState(false);
+  const { mutate: signUp, isPending } = useSignUp();
 
   const {
     watch,
     register,
     handleSubmit,
-    setFocus,
     setError,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors, isValid },
   } = useForm<SignupFormValues>({
     resolver: zodResolver(SignupSchema),
-    mode: "all",
+    mode: "onChange",
   });
 
   const email = watch("email");
+  const debouncedEmail = useDebounce(email, 500);
+  const { data, isLoading, error } = useCheckEmail(debouncedEmail);
 
-  useEffect(() => {
-    setIsCheckEmail(false);
-  }, [email]);
+  const onSubmit = (formData: SignupFormValues) => {
+    if (isLoading) return;
 
-  const handleCheckEmail = async () => {
-    setIsLoading(true);
-
-    try {
-      const status = await checkEmail({ email });
-
-      if (status === 200) {
-        setIsCheckEmail(true);
-      } else if (status === 409) {
-        setFocus("email");
-        setIsCheckEmail(false);
-        setError("email", {
-          type: "manual",
-          message: "이미 사용 중인 이메일입니다.",
-        });
-      } else {
-        setError("email", {
-          type: "manual",
-          message: "이메일 확인 중 문제가 발생했습니다.",
-        });
-      }
-    } catch (error) {
-      setError("email", {
-        type: "manual",
-        message: "알 수 없는 오류가 발생했습니다.",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const onSubmit = async (data: SignupFormValues) => {
-    try {
-      const response = await signUp(data);
-
-      if (response && response.message) {
-        toast.error(response.message);
-      } else {
+    signUp(formData, {
+      onSuccess: () => {
         toast.success(toastMessages.success.signUp);
         router.push("/login");
-      }
-    } catch (error) {
-      toast.error(toastMessages.error.signUp);
-    }
+      },
+      onError: (error: ApiError) => {
+        if (error.field) {
+          setError(error.field as keyof SignupFormValues, {
+            type: "server",
+            message: error.message,
+          });
+          return;
+        }
+
+        toast.error(error.message || toastMessages.error.signUp);
+      },
+    });
   };
 
   return (
@@ -98,13 +72,10 @@ const SignupPage = () => {
             type="email"
             placeholder="이메일을 입력해주세요"
             className="flex-1"
-            errors={errors.email?.message}
-            successMessage={isCheckEmail ? "사용 가능한 이메일입니다." : ""}
+            errors={errors.email?.message || (error?.status === 409 ? "이미 사용 중인 이메일입니다." : undefined)}
+            successMessage={!errors.email && !isLoading && data ? "사용 가능한 이메일입니다." : ""}
             {...register("email")}
           />
-          <CtaButton className="mt-[32px] md:mt-[34px]" disabled={isLoading} onClick={handleCheckEmail}>
-            {isLoading ? <LoadingSpinner /> : "중복확인"}
-          </CtaButton>
         </div>
         <BaseInput
           label="닉네임"
@@ -131,8 +102,8 @@ const SignupPage = () => {
           {...register("confirmPassword")}
         />
 
-        <CtaButton type="submit" size="large" disabled={!isValid || isSubmitting}>
-          {isSubmitting ? <LoadingSpinner /> : "회원가입"}
+        <CtaButton type="submit" size="large" disabled={!isValid || isPending}>
+          {isPending ? <LoadingSpinner /> : "회원가입"}
         </CtaButton>
       </form>
     </FormContainer>
