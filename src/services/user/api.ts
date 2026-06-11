@@ -7,16 +7,15 @@ export const user = async (): Promise<User | null> => {
     credentials: "include",
   });
 
-  const data = await res.json();
-
   if (res.status === 401) {
     return null;
   }
 
   if (!res.ok) {
-    throw new Error(data.message || "유저 조회 실패");
+    throw new Error("유저 조회 실패");
   }
 
+  const data = await res.json();
   return data;
 };
 

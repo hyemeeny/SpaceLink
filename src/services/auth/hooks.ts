@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { queryKeys } from "@/constants/queryKeys";
+import { userQueryOptions } from "@/constants/queryKeys";
 import { signUp, login, logout } from "./api";
 
 export const useSignUp = () => {
@@ -14,7 +14,7 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: login,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.user });
+      queryClient.invalidateQueries({ queryKey: userQueryOptions.queryKey });
     },
   });
 };
@@ -25,7 +25,8 @@ export const useLogout = () => {
   return useMutation({
     mutationFn: logout,
     onSuccess: () => {
-      queryClient.setQueryData(queryKeys.user, null);
+      queryClient.setQueryData(userQueryOptions.queryKey, null);
+      queryClient.removeQueries({ queryKey: userQueryOptions.queryKey });
     },
   });
 };

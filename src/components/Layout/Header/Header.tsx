@@ -8,17 +8,7 @@ import CtaButton from "@/components/Button/CtaButton";
 import { useUser } from "@/services/user/hooks";
 
 const Header = () => {
-  const { data: user, isLoading } = useUser();
-
-  if (isLoading) {
-    return (
-      <header>
-        <Container className="py-4 md:py-8">
-          <div className="h-[40px]" /> {/* skeleton 자리 */}
-        </Container>
-      </header>
-    );
-  }
+  const { data: user } = useUser();
 
   return (
     <header>

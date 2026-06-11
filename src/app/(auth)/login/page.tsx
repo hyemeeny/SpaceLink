@@ -22,7 +22,7 @@ const LoginPage = () => {
     formState: { errors, isValid },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(LoginSchema),
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   const onSubmit = (data: LoginFormValues) => {
