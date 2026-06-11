@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import API_URL from "@/constants/config";
+export const dynamic = "force-dynamic";
 
 export const POST = async (req: Request) => {
   try {

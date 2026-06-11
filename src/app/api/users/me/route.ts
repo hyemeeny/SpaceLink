@@ -1,19 +1,20 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import API_URL from "@/constants/config";
+export const dynamic = "force-dynamic";
 
 export const GET = async () => {
   try {
-    const token = cookies().get("accessToken")?.value;
+    const accessToken = cookies().get("accessToken")?.value;
 
-    if (!token) {
+    if (!accessToken) {
       return NextResponse.json({ message: "로그인이 필요합니다.", code: "NO_TOKEN" }, { status: 401 });
     }
 
     const response = await fetch(`${API_URL}/users`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${accessToken}`,
       },
       cache: "no-store",
     });
