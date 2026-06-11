@@ -3,6 +3,8 @@ import API_URL from "@/constants/config";
 
 export const middleware = async (request: NextRequest) => {
   const accessToken = request.cookies.get("accessToken")?.value;
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 3000);
 
   if (!accessToken) return redirectToLogin(request);
 
@@ -13,7 +15,9 @@ export const middleware = async (request: NextRequest) => {
         Authorization: `Bearer ${accessToken}`,
       },
       cache: "no-store",
+      signal: controller.signal,
     });
+    clearTimeout(timeoutId);
 
     // 401만 진짜 인증 실패로 보고 로그인으로
     if (apiResponse.status === 401) return redirectToLogin(request);
@@ -21,7 +25,8 @@ export const middleware = async (request: NextRequest) => {
     // 그 외 서버 오류, 네트워크 오류는 토큰 있으니 통과
     return NextResponse.next();
   } catch {
-    // API 서버 문제일 수 있으니 토큰 있으면 통과
+    clearTimeout(timeoutId);
+    // 타임아웃 포함 모든 오류는 토큰 있으니 통과
     return NextResponse.next();
   }
 };
