@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export const middleware = async (request: NextRequest) => {
+export const middleware = (request: NextRequest) => {
   const accessToken = request.cookies.get("accessToken")?.value;
 
   if (!accessToken) return redirectToLogin(request);
