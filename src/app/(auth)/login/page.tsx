@@ -29,7 +29,7 @@ const LoginPage = () => {
     login(data, {
       onSuccess: () => {
         toast.success(toastMessages.success.login);
-        router.push("/");
+        window.location.href = "/links";
       },
       onError: (error) => {
         toast.error(error.message || toastMessages.error.login);
