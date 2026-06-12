@@ -1,8 +1,9 @@
+import API_URL from "@/constants/config";
 import { ApiError } from "@/types/api";
 import { Signup, Login } from "./types";
 
 export const signUp = async (data: Signup): Promise<void> => {
-  const res = await fetch("/api/auth/signup", {
+  const res = await fetch(`${API_URL}/auth/sign-up`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
