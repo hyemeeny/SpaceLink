@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema, LoginFormValues } from "@/schema/zodSchema";
@@ -12,9 +11,14 @@ import BaseInput from "@/components/Input/BaseInput";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import { useLogin } from "@/services/auth/hooks";
 
+const GUEST_CREDENTIALS = {
+  email: process.env.NEXT_PUBLIC_GUEST_EMAIL!,
+  password: process.env.NEXT_PUBLIC_GUEST_PASSWORD!,
+};
+
 const LoginPage = () => {
-  const router = useRouter();
   const { mutate: login, isPending } = useLogin();
+  const { mutate: guestLogin, isPending: isGuestPending } = useLogin();
 
   const {
     register,
@@ -25,8 +29,8 @@ const LoginPage = () => {
     mode: "onChange",
   });
 
-  const onSubmit = (data: LoginFormValues) => {
-    login(data, {
+  const handleLogin = (payload: LoginFormValues, mutationFn = login) => {
+    mutationFn(payload, {
       onSuccess: () => {
         toast.success(toastMessages.success.login);
         window.location.href = "/links";
@@ -35,6 +39,14 @@ const LoginPage = () => {
         toast.error(error.message || toastMessages.error.login);
       },
     });
+  };
+
+  const onSubmit = (data: LoginFormValues) => {
+    handleLogin(data);
+  };
+
+  const onGuestSubmit = () => {
+    handleLogin(GUEST_CREDENTIALS, guestLogin);
   };
 
   return (
@@ -65,6 +77,11 @@ const LoginPage = () => {
 
         <CtaButton type="submit" size="large" disabled={!isValid || isPending}>
           {isPending ? <LoadingSpinner /> : "로그인"}
+        </CtaButton>
+
+        {/* 게스트 로그인 */}
+        <CtaButton size="large" onClick={onGuestSubmit} disabled={isGuestPending}>
+          {isGuestPending ? <LoadingSpinner /> : "게스트로 체험하기"}
         </CtaButton>
       </form>
     </FormContainer>
