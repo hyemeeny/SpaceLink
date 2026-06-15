@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { User } from "@/services/user/types";
+import { User } from "@/types/user";
 import clsx from "clsx";
 import Image from "next/image";
 import useOnClickOutside from "@/hooks/useOnClickOutside";
@@ -51,7 +51,6 @@ const UserMenu = ({ user }: { user: User | null }) => {
                   isOpen ? "opacity-100 visible" : "opacity-0 invisible",
                 )}
               />
-
               <nav
                 className={clsx(
                   "fixed md:hidden top-0 right-0 h-full w-3/4 max-w-xs bg-black02 shadow-lg transform transition-transform duration-300",
@@ -59,7 +58,7 @@ const UserMenu = ({ user }: { user: User | null }) => {
                 )}
               >
                 <div className="pt-16 px-2">
-                  <MenuLinks setIsOpen={setIsOpen} />
+                  <MenuLinks />
                 </div>
               </nav>
             </>

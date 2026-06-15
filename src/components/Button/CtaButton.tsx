@@ -24,9 +24,9 @@ const CtaButton = ({
   onClick,
 }: ButtonProps) => {
   const sizeStyles = {
-    small: "px-4 h-[36px] text-xs md:text-sm",
-    medium: "px-6 h-[43px] md:h-[53px] text-sm md:text-base",
-    large: "px-8 h-[50px] md:h-[60px] text-base md:text-lg",
+    small: "px-4 h-[36px] text-xs lg:text-sm",
+    medium: "px-6 h-[43px] lg:h-[53px] text-sm lg:text-base",
+    large: "px-8 h-[50px] lg:h-[60px] text-base lg:text-lg",
   };
 
   const variantStyles = {

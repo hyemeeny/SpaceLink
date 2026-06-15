@@ -12,12 +12,12 @@ const MainSection = () => {
           <span>우주의 별처럼 반짝이는 링크를 한곳에 ✨</span>
           <span>나만의 특별한 공간에서 소중한 링크를 모아보세요. 🚀</span>
         </p>
-        <h2 className="font-pyeongChangPeace text-4xl md:text-7xl font-bold pb-4 gradient-text">SpaceLink</h2>
-        <CtaButton url="/links" size="large" className="mt-4 md:mt-10">
+        <h2 className="font-pyeongChangPeace text-4xl lg:text-7xl font-bold pb-4 gradient-text">SpaceLink</h2>
+        <CtaButton url="/links" size="large" className="mt-4 lg:mt-10">
           링크 둘러보기
         </CtaButton>
       </div>
-      <div className="w-[300px] md:w-[500px] lg:w-[600px] h-[300px] md:h-[500px] lg:h-[600px] mx-auto lg:mx-0">
+      <div className="w-[300px] lg:w-[600px] h-[300px] lg:h-[600px] mx-auto lg:mx-0">
         <Lottie animationData={rocket} className="size-full" />
       </div>
     </Container>

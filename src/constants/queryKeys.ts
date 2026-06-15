@@ -1,12 +1,14 @@
-import { queryOptions } from "@tanstack/react-query";
-import { user } from "@/services/user/api";
-
-export const userQueryOptions = queryOptions({
-  queryKey: ["users"],
-  queryFn: user,
-  staleTime: 1000 * 60 * 5,
-});
-
 export const queryKeys = {
-  checkEmail: (email: string) => ["users", "check-email", email] as const,
+  checkEmail: (email: string) => ["check-email", email] as const,
+
+  links: {
+    all: () => ["links"] as const,
+    list: (folderId?: number) => ["links", folderId] as const,
+    detail: (linkId: number) => ["links", linkId] as const,
+  },
+
+  folders: {
+    all: () => ["folders"] as const,
+    detail: (folderId: number) => ["folders", folderId] as const,
+  },
 };

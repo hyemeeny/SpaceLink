@@ -1,28 +1,16 @@
+"use client";
+
 import clsx from "clsx";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
-import { Dispatch, SetStateAction } from "react";
+import { usePathname } from "next/navigation";
 import { FiLink, FiStar, FiLogOut } from "react-icons/fi";
-import { useLogout } from "@/services/auth/hooks";
+import { logoutAction } from "@/actions/auth";
 
-interface MenuLinksProps {
-  setIsOpen?: Dispatch<SetStateAction<boolean>>;
-}
-
-const MenuLinks = ({ setIsOpen }: MenuLinksProps) => {
-  const router = useRouter();
+const MenuLinks = () => {
   const pathname = usePathname();
-  const { mutateAsync: logout } = useLogout();
 
   const handleLogout = async () => {
-    try {
-      await logout();
-    } catch (error) {
-      console.error(error);
-    } finally {
-      router.replace("/login");
-      setIsOpen?.(false);
-    }
+    await logoutAction();
   };
 
   const navLinkBase =
