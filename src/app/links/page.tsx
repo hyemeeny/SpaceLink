@@ -65,6 +65,10 @@ const LinksPage = async ({ searchParams }: { searchParams: { [key: string]: stri
       folderId ? getLinksByFolder({ page, pageSize, folderId }) : getAllLinks({ page, pageSize, search }),
     ]);
 
+    if (!folders || !linksData) {
+      return <Notfound />;
+    }
+
     const { list, totalCount } = linksData;
     const selectedFolder = folders.find((folder: FolderType) => folder.id === folderId);
 

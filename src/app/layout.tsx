@@ -48,39 +48,15 @@ const ToastProvider = () => {
   return <Toaster />;
 };
 
-const getUser = async () => {
-  const token = cookies().get("accessToken")?.value;
-
-  if (!token) return null;
-
-  try {
-    const res = await fetch(`${API_URL}/users`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      cache: "no-store",
-    });
-
-    if (!res.ok) return null;
-
-    return res.json();
-  } catch {
-    return null;
-  }
-};
-
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await getUser();
-
   return (
     <html lang="ko" className={`${Pretendard.variable} ${PyeongChangPeace.variable}`}>
       <body>
-        <QueryProvider initialUser={user}>
+        <QueryProvider>
           <StarBackground />
           <ToastProvider />
           <Header />
