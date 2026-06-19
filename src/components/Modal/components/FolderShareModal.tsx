@@ -49,9 +49,9 @@ const FolderShareModal = ({ selectedItem }: { selectedItem: { id: number; name: 
   const handleShareToCopy = async () => {
     try {
       await navigator.clipboard.writeText(shareUrl);
-      toast.success(toastMessages.success.ShareCopy);
+      toast.success(toastMessages.success.shareCopy);
     } catch (error) {
-      toast.error(toastMessages.error.ShareCopy);
+      toast.error(toastMessages.error.shareCopy);
       console.error("클립보드 복사 실패:", error);
     }
     closeModal(`folderShare-${selectedItem.id}`);
