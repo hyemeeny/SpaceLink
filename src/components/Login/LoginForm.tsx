@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 import { loginAction } from "@/actions/auth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,15 +20,6 @@ const GUEST_CREDENTIALS = {
 const LoginForm = () => {
   const [isPending, setIsPending] = useState(false);
   const [isGuestPending, setIsGuestPending] = useState(false);
-  const searchParams = useSearchParams();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (searchParams.get("signup") === "success") {
-      toast.success(toastMessages.success.signUp);
-      router.replace("/login");
-    }
-  }, [router, searchParams]);
 
   const {
     register,
