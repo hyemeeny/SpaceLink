@@ -10,7 +10,7 @@ import FormContainer from "@/components/Layout/FormContainer";
 import CtaButton from "@/components/Button/CtaButton";
 import BaseInput from "@/components/Input/BaseInput";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
-import { useCheckEmail } from "@/services/checkEmail";
+import { useCheckEmail } from "@/services/useCheckEmail";
 import { useDebounce } from "@/hooks/useDebounce";
 import { signUpAction } from "@/actions/auth";
 
@@ -59,7 +59,7 @@ const SignupForm = () => {
       }
 
       // 7. 그 외 일반 에러 (서버 오류 등)
-      toast.error(error?.message || toastMessages.error.signUp);
+      toast.error(error?.message || toastMessages.error.signup);
       setIsPending(false); // 8. 일반 에러 → 로딩 해제
     }
   };

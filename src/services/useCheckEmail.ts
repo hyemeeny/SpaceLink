@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "@/constants/queryKeys";
 import { ApiError } from "@/types/api";
 
-export const checkEmail = async (email: string) => {
+const checkEmail = async (email: string) => {
   const res = await fetch(`${API_URL}/users/check-email`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
