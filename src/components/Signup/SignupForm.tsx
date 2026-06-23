@@ -10,7 +10,7 @@ import FormContainer from "@/components/Layout/FormContainer";
 import CtaButton from "@/components/Button/CtaButton";
 import BaseInput from "@/components/Input/BaseInput";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
-import { useCheckEmail } from "@/services/useCheckEmail";
+import { useCheckEmail } from "@/hooks/queries/useCheckEmail";
 import { useDebounce } from "@/hooks/useDebounce";
 import { signUpAction } from "@/actions/auth";
 
