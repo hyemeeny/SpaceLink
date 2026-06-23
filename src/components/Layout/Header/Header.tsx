@@ -3,7 +3,7 @@ import Image from "next/image";
 import UserMenu from "@/components/Layout/Header/UserMenu";
 import Container from "@/components/Layout/Container";
 import CtaButton from "@/components/Button/CtaButton";
-import getUser from "@/lib/getUser";
+import getUser from "@/services/server/getUser";
 
 const Header = async () => {
   const user = await getUser();
