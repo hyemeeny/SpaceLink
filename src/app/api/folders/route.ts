@@ -7,7 +7,6 @@ export const GET = async () => {
   if (!token) return NextResponse.json(null, { status: 401 });
 
   const res = await fetch(`${API_URL}/folders`, {
-    method: "GET",
     headers: { Authorization: `Bearer ${token}` },
     cache: "no-store",
   });
