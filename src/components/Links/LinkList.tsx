@@ -26,12 +26,13 @@ const LinkList = ({ links, isLoading, isFetching }: LinkListProps) => {
 
   return (
     <ul
+      aria-busy={isFetching}
       className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 transition-opacity ${
-        isFetching ? "opacity-60" : "opacity-100"
+        isFetching ? "opacity-60 pointer-events-none" : "opacity-100"
       }`}
     >
-      {links.map((link) => (
-        <LinkCard key={link.id} link={link} />
+      {links.map((link, index) => (
+        <LinkCard key={link.id} link={link} priority={index < 3} />
       ))}
     </ul>
   );

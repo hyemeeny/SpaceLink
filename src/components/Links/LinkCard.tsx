@@ -1,10 +1,8 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { putFavoriteLinks } from "@/actions/links";
-import { LinkType } from "@/types/links";
+import { Link as LinkType } from "@/types/link";
 import { useModalStore } from "@/store/useModalStore";
 import { formatDate, formatRelativeTime } from "@/utils/dateFormat";
 import toast from "react-hot-toast";
@@ -16,18 +14,12 @@ import useOnClickOutside from "@/hooks/useOnClickOutside";
 import { GoKebabHorizontal } from "react-icons/go";
 import { FaRegStar, FaStar } from "react-icons/fa";
 
-// 상대 시간 표시 (Hydration 오류 방지)
-const RelativeTimeComponent = ({ timestamp }: { timestamp: string }) => {
-  const [relativeTime, setRelativeTime] = useState<string>("");
+interface LinkCardProps {
+  link: LinkType;
+  priority?: boolean;
+}
 
-  useEffect(() => {
-    setRelativeTime(formatRelativeTime(timestamp));
-  }, [timestamp]);
-
-  return <span>{relativeTime}</span>;
-};
-
-const LinkCard = ({ link }: { link: LinkType }) => {
+const LinkCard = ({ link, priority = false }: LinkCardProps) => {
   const { openModals, openModal } = useModalStore();
   const [isOpen, setIsOpen] = useState(false);
   const [favorite, setFavorite] = useState(link.favorite);
@@ -64,9 +56,10 @@ const LinkCard = ({ link }: { link: LinkType }) => {
             fill
             alt={link.title}
             className="object-cover"
-            priority
+            priority={priority}
+            unoptimized
             onError={handleImageError}
-            sizes="(max-width: 768px) 100vw, 50vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         </div>
       </Link>
@@ -81,8 +74,8 @@ const LinkCard = ({ link }: { link: LinkType }) => {
 
       <div className="relative p-4 flex flex-col gap-[10px]">
         <div className="flex justify-between">
-          <p className="text-gray02 text-sm">
-            <RelativeTimeComponent timestamp={link.createdAt} />
+          <p className="text-gray02 text-sm" suppressHydrationWarning>
+            {formatRelativeTime(link.createdAt)}
           </p>
 
           <button
