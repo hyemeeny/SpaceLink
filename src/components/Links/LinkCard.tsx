@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { putFavoriteLinks } from "@/actions/links";
 import { Link as LinkType } from "@/types/link";
 import { useModalStore } from "@/store/useModalStore";
