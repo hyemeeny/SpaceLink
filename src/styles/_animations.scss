@@ -1,0 +1,104 @@
+/* twinkle */
+.twinkle {
+  @apply bg-white rounded-full bg-opacity-80;
+  animation: animate-twinkle infinite alternate ease-in-out;
+}
+
+/* dot */
+.dot-blink {
+  animation: dot-blink 1.4s ease-in-out infinite;
+}
+
+/* star */
+.star {
+  position: relative;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0px 0px 10px #c77eff;
+  animation: animate-star 4s ease-in infinite;
+  opacity: 0;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: calc(50% - 1px);
+    left: -950%;
+    width: 2000%;
+    height: 2px;
+    background: linear-gradient(to left, #fff0, #eee);
+    transform: rotateZ(-45deg) translateX(50%);
+  }
+
+  &:nth-child(2) {
+    transform: translateX(300px);
+    animation-delay: 5.1s;
+  }
+
+  &:nth-child(3) {
+    transform: translateX(450px);
+    animation-delay: 1s;
+  }
+}
+
+/* shimmer */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.45) 50%, transparent 100%);
+    animation: shimmer 2.2s infinite;
+  }
+}
+
+/* ================== keyframes ================== */
+
+@keyframes animate-twinkle {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes animate-star {
+  0% {
+    top: -10vh;
+    transform: translateX(0px);
+    opacity: 0.8;
+  }
+  100% {
+    top: 110vh;
+    transform: translateX(-120vh);
+    opacity: 0.8;
+  }
+}
+
+@keyframes dot-blink {
+  0%,
+  80%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}

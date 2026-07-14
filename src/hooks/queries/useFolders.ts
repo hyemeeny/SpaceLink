@@ -4,8 +4,9 @@ import fetchFolders from "@/services/client/fetchFolders";
 import { Folder } from "@/types/folder";
 
 export const useFolders = () => {
-  return useQuery<Folder[] | null>({
+  return useQuery<Folder[]>({
     queryKey: queryKeys.folders.all(),
     queryFn: fetchFolders,
+    staleTime: 1000 * 60 * 5,
   });
 };

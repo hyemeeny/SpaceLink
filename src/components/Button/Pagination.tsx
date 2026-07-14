@@ -1,6 +1,3 @@
-"use client";
-
-import { useRouter, useSearchParams } from "next/navigation";
 import {
   MdKeyboardDoubleArrowLeft,
   MdKeyboardArrowLeft,
@@ -8,27 +5,19 @@ import {
   MdKeyboardDoubleArrowRight,
 } from "react-icons/md";
 
-const Pagination = ({
-  totalCount,
-  currentPage,
-  pageSize,
-}: {
+interface PaginationProps {
   totalCount: number;
   currentPage: number;
   pageSize: number;
-}) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  onPageChange: (page: number) => void;
+}
+
+const Pagination = ({ totalCount, currentPage, pageSize, onPageChange }: PaginationProps) => {
   const totalPages = Math.ceil(totalCount / pageSize);
 
   const navigateToPage = (page: number) => {
     if (page < 1 || page > totalPages) return;
-
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("page", String(page));
-    params.set("pageSize", String(pageSize));
-
-    router.push(`?${params.toString()}`);
+    onPageChange(page);
   };
 
   const buttonStyle =

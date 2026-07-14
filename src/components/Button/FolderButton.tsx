@@ -10,13 +10,14 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const FolderButton = ({ children, type, isSelected = false, className, onClick }: ButtonProps) => {
-  const baseStyle =
-    "border-[1px] border-purple01 rounded-lg md:rounded-xl px-3 py-2 text-sm md:text-md font-normal transition duration-300 ease-in-out";
-
   return (
     <button
       type={type}
-      className={clsx(baseStyle, isSelected && "bg-purple01 text-black02 font-semibold", className)}
+      className={clsx(
+        "border-[1px] border-purple01 rounded-md md:rounded-lg px-3 py-2 text-sm md:text-md font-normal transition duration-300 ease-in-out",
+        isSelected && "bg-purple01 text-black02 font-semibold",
+        className,
+      )}
       onClick={onClick}
     >
       {children}

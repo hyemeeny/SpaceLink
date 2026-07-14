@@ -1,12 +1,15 @@
 import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 import API_URL from "@/constants/config";
-import { NextResponse } from "next/server";
 
-export const GET = async () => {
+export const GET = async (req: NextRequest, { params }: { params: { folderId: string } }) => {
   const token = cookies().get("accessToken")?.value;
   if (!token) return NextResponse.json(null, { status: 401 });
 
-  const res = await fetch(`${API_URL}/folders`, {
+  const { searchParams } = new URL(req.url);
+  const { folderId } = params;
+
+  const res = await fetch(`${API_URL}/folders/${folderId}/links?${searchParams.toString()}`, {
     headers: { Authorization: `Bearer ${token}` },
     cache: "no-store",
   });
@@ -14,5 +17,5 @@ export const GET = async () => {
   if (!res.ok) return NextResponse.json(null, { status: res.status });
 
   const data = await res.json();
-  return NextResponse.json(data);
+  return NextResponse.json(data, { status: res.status });
 };
