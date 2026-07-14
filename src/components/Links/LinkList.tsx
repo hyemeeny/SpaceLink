@@ -28,7 +28,7 @@ const LinkList = ({ links, isLoading, isFetching }: LinkListProps) => {
     <ul
       aria-busy={isFetching}
       className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 transition-opacity ${
-        isFetching ? "opacity-60 pointer-events-none" : "opacity-100"
+        isFetching ? "opacity-60" : "opacity-100"
       }`}
     >
       {links.map((link, index) => (
