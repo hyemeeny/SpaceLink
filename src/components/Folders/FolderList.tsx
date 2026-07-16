@@ -1,8 +1,8 @@
-import { FolderType } from "@/types/folders";
+import { Folder } from "@/types/folder";
 import FolderButton from "@/components/Button/FolderButton";
 
 interface FolderListProps {
-  folders: FolderType[];
+  folders: Folder[];
   folderId: number | null;
   onSelect: (folderId: number | null) => void;
 }

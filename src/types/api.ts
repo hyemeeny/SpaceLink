@@ -1,4 +1,4 @@
-export type ApiError = Error & {
+export interface ApiError extends Error {
+  status: number;
   field?: string;
-  status?: number;
-};
+}
