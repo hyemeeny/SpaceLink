@@ -3,14 +3,14 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LinkAddSchema, LinkAddFormValues } from "@/schema/zodSchema";
-import { FolderType } from "@/types/folders";
+import { Folder } from "@/types/folder";
 import { useModalStore } from "@/store/useModalStore";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
 import LinkAddModal from "@/components/Modal/components/LinkAddModal";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 
-const LinkInput = ({ folders }: { folders: FolderType[] }) => {
+const LinkInput = ({ folders }: { folders: Folder[] }) => {
   const { openModals, openModal } = useModalStore();
 
   const {

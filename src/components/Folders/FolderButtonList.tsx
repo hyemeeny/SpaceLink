@@ -1,10 +1,10 @@
 "use client";
 
 import { useModalStore } from "@/store/useModalStore";
-import { SelectedFolderProps } from "@/types/folders";
+import { Folder } from "@/types/folder";
 import { FaShare, FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 
-const FolderButtonList = ({ selectedFolder }: SelectedFolderProps) => {
+const FolderButtonList = ({ selectedFolder }: { selectedFolder: Folder | null }) => {
   const { openModal } = useModalStore();
 
   const buttons = [

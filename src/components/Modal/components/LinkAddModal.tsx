@@ -7,13 +7,13 @@ import clsx from "clsx";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
 import { postLinks } from "@/actions/links";
-import { FolderType } from "@/types/folders";
+import { Folder } from "@/types/folder";
 import { useModalStore } from "@/store/useModalStore";
 import Modal from "@/components/Modal/Modal";
 import { IoCheckmarkCircle } from "react-icons/io5";
 
 interface LinkAddModalProps {
-  folders: FolderType[];
+  folders: Folder[];
   url: string;
   reset: UseFormReset<LinkAddFormValues>;
 }
