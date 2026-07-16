@@ -5,6 +5,11 @@ interface LinkListParams {
   search?: string;
 }
 
+interface FavoriteListParams {
+  page?: number;
+  pageSize?: number;
+}
+
 export const queryKeys = {
   checkEmail: (email: string) => ["check-email", email] as const,
 
@@ -12,6 +17,7 @@ export const queryKeys = {
     all: () => ["links"] as const,
     list: (params: LinkListParams) => [...queryKeys.links.all(), "list", params] as const,
     detail: (linkId: number) => [...queryKeys.links.all(), "detail", linkId] as const,
+    favorites: (params: FavoriteListParams) => [...queryKeys.links.all(), "favorites", params] as const,
   },
 
   folders: {
