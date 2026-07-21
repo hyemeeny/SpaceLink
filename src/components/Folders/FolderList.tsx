@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useFolders } from "@/hooks/queries/useFolders";
-import FolderButton from "@/components/Button/FolderButton";
+import clsx from "clsx";
 
 interface FolderListProps {
   folderId: number | null;
@@ -33,19 +33,21 @@ const FolderList = ({ folderId, onSelect }: FolderListProps) => {
           const isSelected = folderId === folder.id;
 
           return (
-            <FolderButton
+            <button
               key={key}
               ref={(el) => {
                 tabRefs.current[key] = el;
               }}
               role="tab"
               aria-selected={isSelected}
-              isSelected={isSelected}
               onClick={() => onSelect(folder.id)}
-              className="whitespace-nowrap"
+              className={clsx(
+                "border border-purple01 rounded-md px-3 py-2 text-sm md:text-md font-light transition duration-200 whitespace-nowrap",
+                isSelected && "bg-purple01 text-black02 font-semibold",
+              )}
             >
               {folder.name}
-            </FolderButton>
+            </button>
           );
         })}
       </div>
