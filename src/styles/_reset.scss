@@ -33,34 +33,3 @@ em {
 input {
   outline: none;
 }
-
-/* navigation */
-.Navigation {
-  z-index: 1 !important;
-
-  .Navigation-Anchor {
-    background-color: white !important;
-  }
-
-  @media (max-width: 768px) {
-    right: -10px !important;
-
-    .Navigation-Anchor {
-      padding: 3px !important;
-    }
-  }
-}
-
-/* scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: linear-gradient(320deg, #877cb1 0, #332a4e 100%);
-}
-
-::-webkit-scrollbar-thumb {
-  background: #d4bcff;
-  border-radius: 10px;
-}
