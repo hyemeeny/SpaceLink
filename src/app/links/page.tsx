@@ -1,9 +1,10 @@
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import LinksContent from "@/components/Links/LinksContent";
-import getFolders from "@/services/server/getFolders";
-import getLinks from "@/services/server/getLinks";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { getQueryClient } from "@/lib/queryClient";
 import { queryKeys } from "@/constants/queryKeys";
 import { DEFAULT_PAGE_SIZE } from "@/constants/constants";
+import getFolders from "@/services/server/getFolders";
+import getLinks from "@/services/server/getLinks";
+import LinksContent from "@/components/Links/LinksContent";
 
 interface LinksPageProps {
   searchParams: {
@@ -13,7 +14,7 @@ interface LinksPageProps {
 }
 
 const LinksPage = async ({ searchParams }: LinksPageProps) => {
-  const queryClient = new QueryClient();
+  const queryClient = getQueryClient();
   const page = searchParams.page ? Number(searchParams.page) : 1;
   const search = searchParams.search;
 

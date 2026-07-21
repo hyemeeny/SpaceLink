@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { RiSearchLine } from "react-icons/ri";
 import { TiDelete } from "react-icons/ti";
 
-const SearchInput = ({ search: initialSearch }: { search: string }) => {
+const SearchInput = ({ search: initialSearch }: { search?: string }) => {
   const router = useRouter();
   const [search, setSearch] = useState(initialSearch);
 

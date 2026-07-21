@@ -7,20 +7,15 @@ import { useModalStore } from "@/store/useModalStore";
 import { formatDate, formatRelativeTime } from "@/utils/dateFormat";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
+import useOnClickOutside from "@/hooks/useOnClickOutside";
 import Dropdown from "@/components/Dropdown/Dropdown";
 import UpdateModal from "@/components/Modal/components/UpdateModal";
 import DeleteModal from "@/components/Modal/components/DeleteModal";
-import useOnClickOutside from "@/hooks/useOnClickOutside";
 import { GoKebabHorizontal } from "react-icons/go";
 import { FaRegStar, FaStar } from "react-icons/fa";
 
-interface LinkCardProps {
-  link: LinkType;
-  priority?: boolean;
-}
-
-const LinkCard = ({ link, priority = false }: LinkCardProps) => {
-  const { openModals, openModal } = useModalStore();
+const LinkCard = ({ link }: { link: LinkType }) => {
+  const { activeModal, openModal } = useModalStore();
   const [isOpen, setIsOpen] = useState(false);
   const [favorite, setFavorite] = useState(link.favorite);
   const dropdownRef = useRef<HTMLLIElement>(null);
@@ -56,7 +51,6 @@ const LinkCard = ({ link, priority = false }: LinkCardProps) => {
             fill
             alt={link.title}
             className="object-cover"
-            priority={priority}
             unoptimized
             onError={handleImageError}
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -104,12 +98,12 @@ const LinkCard = ({ link, priority = false }: LinkCardProps) => {
       </div>
 
       {/* 링크 수정 모달 */}
-      {openModals.has(`linkUpdate-${link.id}`) && (
+      {activeModal === `linkUpdate-${link.id}` && (
         <UpdateModal selectedItem={link} itemType="link" defaultName={link.url} />
       )}
 
       {/* 링크 삭제 모달 */}
-      {openModals.has(`linkDelete-${link.id}`) && <DeleteModal selectedItem={link} itemType="link" />}
+      {activeModal === `linkDelete-${link.id}` && <DeleteModal selectedItem={link} itemType="link" />}
     </li>
   );
 };

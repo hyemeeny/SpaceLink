@@ -1,13 +1,14 @@
 "use client";
 
-import { useModalStore } from "@/store/useModalStore";
 import Image from "next/image";
-import { ReactNode, FormEventHandler } from "react";
+import { createPortal } from "react-dom";
+import { ReactNode, FormEventHandler, useEffect, useState } from "react";
+import { useModalStore } from "@/store/useModalStore";
 import CtaButton from "@/components/Button/CtaButton";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 interface ModalProps {
-  modalId: string | number;
+  modalId: string;
   title: string;
   children: ReactNode;
   onSubmit?: FormEventHandler<HTMLFormElement>;
@@ -17,12 +18,33 @@ interface ModalProps {
 }
 
 const Modal = ({ modalId, title, children, onSubmit, action, isValid = true, isSubmitting = false }: ModalProps) => {
-  const { openModals, closeModal } = useModalStore();
-  const isOpen = openModals.has(modalId);
+  const { activeModal, closeModal } = useModalStore();
+  const isOpen = activeModal === modalId;
+  const [mounted, setMounted] = useState(false);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  return (
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeModal(modalId);
+    };
+
+    document.addEventListener("keydown", handleEsc);
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.removeEventListener("keydown", handleEsc);
+      document.body.style.overflow = "";
+    };
+  }, [isOpen, modalId, closeModal]);
+
+  if (!isOpen || !mounted) return null;
+
+  return createPortal(
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
       <div className="relative p-6 w-[90%] md:w-[360px] rounded-2xl bg-white shadow-lg flex flex-col items-center">
         <button onClick={() => closeModal(modalId)} className="absolute top-3 right-3 text-gray-500">
@@ -53,7 +75,8 @@ const Modal = ({ modalId, title, children, onSubmit, action, isValid = true, isS
           )}
         </form>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };
 
