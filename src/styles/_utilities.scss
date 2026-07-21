@@ -30,4 +30,34 @@
   .screen-height {
     @apply h-[calc(100vh-75px)] md:h-[calc(100vh-124px)];
   }
+
+  @media (max-width: 768px) {
+    .folder-scroll {
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 24px;
+        height: 100%;
+        pointer-events: none;
+        background: linear-gradient(to right, #100725, transparent);
+        z-index: 10;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 24px;
+        height: 100%;
+        pointer-events: none;
+        background: linear-gradient(to left, #281e41, transparent);
+        z-index: 10;
+      }
+    }
+  }
 }

@@ -1,35 +1,56 @@
-import { Folder } from "@/types/folder";
-import FolderButton from "@/components/Button/FolderButton";
+import { useEffect, useRef } from "react";
+import { useFolders } from "@/hooks/queries/useFolders";
+import clsx from "clsx";
 
 interface FolderListProps {
-  folders: Folder[];
   folderId: number | null;
   onSelect: (folderId: number | null) => void;
 }
 
-const FolderList = ({ folders, folderId, onSelect }: FolderListProps) => {
-  return (
-    <div role="tablist" className="flex flex-wrap mr-auto gap-2">
-      <FolderButton
-        onClick={() => onSelect(null)}
-        role="tab"
-        aria-selected={folderId === null}
-        isSelected={folderId === null}
-      >
-        전체
-      </FolderButton>
+const FolderList = ({ folderId, onSelect }: FolderListProps) => {
+  const { data: folders = [] } = useFolders();
+  const tabRefs = useRef<Record<string | number, HTMLButtonElement | null>>({});
+  const allFolders = [{ id: null, name: "전체" }, ...folders];
 
-      {folders.map((folder) => (
-        <FolderButton
-          key={folder.id}
-          role="tab"
-          aria-selected={folderId === folder.id}
-          isSelected={folderId === folder.id}
-          onClick={() => onSelect(folder.id)}
-        >
-          {folder.name}
-        </FolderButton>
-      ))}
+  useEffect(() => {
+    const key = folderId ?? "all";
+    const el = tabRefs.current[key];
+
+    if (el) {
+      el.scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "nearest",
+      });
+    }
+  }, [folderId]);
+
+  return (
+    <div className="w-full overflow-hidden folder-scroll">
+      <div role="tablist" className="flex flex-nowrap overflow-x-auto gap-2">
+        {allFolders.map((folder) => {
+          const key = folder.id ?? "all";
+          const isSelected = folderId === folder.id;
+
+          return (
+            <button
+              key={key}
+              ref={(el) => {
+                tabRefs.current[key] = el;
+              }}
+              role="tab"
+              aria-selected={isSelected}
+              onClick={() => onSelect(folder.id)}
+              className={clsx(
+                "border border-purple01 rounded-md px-3 py-2 text-sm md:text-md font-light transition duration-200 whitespace-nowrap",
+                isSelected && "bg-purple01 text-black02 font-semibold",
+              )}
+            >
+              {folder.name}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 };

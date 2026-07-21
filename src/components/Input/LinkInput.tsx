@@ -3,20 +3,19 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LinkAddSchema, LinkAddFormValues } from "@/schema/zodSchema";
-import { Folder } from "@/types/folder";
 import { useModalStore } from "@/store/useModalStore";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
 import LinkAddModal from "@/components/Modal/components/LinkAddModal";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 
-const LinkInput = ({ folders }: { folders: Folder[] }) => {
-  const { openModals, openModal } = useModalStore();
+const LinkInput = () => {
+  const { activeModal, openModal } = useModalStore();
 
   const {
     register,
     reset,
-    watch,
+    getValues,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<LinkAddFormValues>({
@@ -55,7 +54,7 @@ const LinkInput = ({ folders }: { folders: Folder[] }) => {
         </div>
         {errors.url && <p className="pl-2 mt-1 text-red01 text-sm font-normal">{errors.url.message}</p>}
       </form>
-      {openModals.has("addLink") && <LinkAddModal folders={folders} url={watch("url")} reset={reset} />}
+      {activeModal === "addLink" && <LinkAddModal url={getValues("url")} reset={reset} />}
     </div>
   );
 };

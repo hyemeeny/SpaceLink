@@ -7,4 +7,4 @@ export const MAX_STAR_COUNT = 10;
 export const colors = ["#c77eff", "#f6ff7e", "#ff8d7e", "#ffffff"];
 
 // pagination
-export const DEFAULT_PAGE_SIZE = 10;
+export const DEFAULT_PAGE_SIZE = 9;
