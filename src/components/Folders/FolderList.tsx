@@ -42,7 +42,7 @@ const FolderList = ({ folderId, onSelect }: FolderListProps) => {
               aria-selected={isSelected}
               onClick={() => onSelect(folder.id)}
               className={clsx(
-                "border border-purple01 rounded-md px-3 py-2 text-sm md:text-md font-light transition duration-200 whitespace-nowrap",
+                "border border-purple01 rounded-md md:rounded-lg px-3 py-2 text-xs md:text-sm font-light transition duration-200 whitespace-nowrap",
                 isSelected && "bg-purple01 text-black02 font-semibold",
               )}
             >
