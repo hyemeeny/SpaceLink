@@ -45,7 +45,7 @@ const LinkCard = ({ link }: { link: LinkType }) => {
       ref={dropdownRef}
     >
       <Link href={link.url} target="_blank" rel="noopener noreferrer">
-        <div className="relative w-full h-[192px] md:h-[200px]">
+        <div className="relative w-full aspect-[16/8] md:aspect-[16/9]">
           <Image
             src={imageSrc}
             fill
@@ -60,7 +60,7 @@ const LinkCard = ({ link }: { link: LinkType }) => {
 
       <button
         onClick={handleFavoriteClick}
-        className="absolute top-4 right-4 text-2xl"
+        className="absolute top-4 right-4 text-xl md:text-2xl"
         aria-label={favorite ? "즐겨찾기 해제" : "즐겨찾기 추가"}
       >
         {favorite ? <FaStar className="text-yellow-400" /> : <FaRegStar className="text-gray04" />}
@@ -68,7 +68,7 @@ const LinkCard = ({ link }: { link: LinkType }) => {
 
       <div className="relative p-4 flex flex-col gap-[10px]">
         <div className="flex justify-between">
-          <p className="text-gray02 text-sm" suppressHydrationWarning>
+          <p className="text-gray02 text-xs md:text-sm" suppressHydrationWarning>
             {formatRelativeTime(link.createdAt)}
           </p>
 
@@ -90,11 +90,11 @@ const LinkCard = ({ link }: { link: LinkType }) => {
         </div>
 
         <div>
-          <h3 className="text-base font-semibold text-overflow">{link.title}</h3>
-          <p className="text-base text-overflow2">{link.description}</p>
+          <h3 className="text-sm md:text-base font-semibold text-overflow">{link.title}</h3>
+          <p className="text-xs md:text-sm text-overflow2">{link.description}</p>
         </div>
 
-        <p className="text-gray02 text-sm">{formatDate(link.createdAt)}</p>
+        <p className="text-gray02 text-xs md:text-sm">{formatDate(link.createdAt)}</p>
       </div>
 
       {/* 링크 수정 모달 */}
