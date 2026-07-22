@@ -1,4 +1,4 @@
-import { postFolders } from "@/actions/folders";
+import { useAddFolder } from "@/hooks/mutations/useFolder";
 import { useModalStore } from "@/store/useModalStore";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,32 +10,27 @@ import BaseInput from "@/components/Input/BaseInput";
 
 const FolderAddModal = () => {
   const { closeModal } = useModalStore();
+  const { mutateAsync: addFolder, isPending } = useAddFolder();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors, isValid, isDirty },
+    reset,
   } = useForm<FolderAddFormValues>({
     resolver: zodResolver(FolderAddSchema),
     mode: "onChange",
-    defaultValues: {
-      name: "",
-    },
+    defaultValues: { name: "" },
   });
 
   const handleAddFolder = async (data: FolderAddFormValues) => {
     try {
-      const response = await postFolders({ name: data.name });
-
-      if (!response) {
-        toast.error(toastMessages.error.addFolder);
-        return;
-      }
-
-      toast.success(toastMessages.success.addFolder);
+      await addFolder(data);
+      reset();
       closeModal("addFolder");
+      toast.success(toastMessages.success.addFolder);
     } catch (error) {
-      toast.error(toastMessages.error.addFolder);
+      toast.error(error instanceof Error ? error.message : toastMessages.error.addFolder);
     }
   };
 
@@ -45,8 +40,8 @@ const FolderAddModal = () => {
       title="폴더 추가"
       onSubmit={handleSubmit(handleAddFolder)}
       action="add"
-      isValid={isValid}
-      isSubmitting={isSubmitting}
+      isValid={isValid && isDirty}
+      isPending={isPending}
     >
       <BaseInput
         type="text"
