@@ -77,7 +77,7 @@ const UpdateModal = ({ selectedItem, itemType }: UpdateModalProps) => {
       onSubmit={handleSubmit(updateItem)}
       action="update"
       isValid={isValid}
-      isSubmitting={isSubmitting}
+      isPending={isSubmitting}
     >
       <BaseInput
         type="text"

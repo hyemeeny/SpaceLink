@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { Link } from "@/types/link";
 import LinkCard from "@/components/Links/LinkCard";
 import LinkNone from "@/components/Links/LinkNone";
@@ -10,7 +11,7 @@ interface LinkListProps {
 }
 
 const LinkList = ({ links, isLoading, isFetching }: LinkListProps) => {
-  if (isLoading && !links) {
+  if (isLoading) {
     return (
       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {Array.from({ length: 9 }).map((_, index) => (
@@ -25,7 +26,13 @@ const LinkList = ({ links, isLoading, isFetching }: LinkListProps) => {
   }
 
   return (
-    <ul aria-busy={isFetching} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 transition-opacity">
+    <ul
+      aria-busy={isFetching}
+      className={clsx(
+        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 transition-opacity",
+        isFetching && "opacity-60",
+      )}
+    >
       {links.map((link) => (
         <LinkCard key={link.id} link={link} />
       ))}

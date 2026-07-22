@@ -1,7 +1,13 @@
-"use client";
-
 import clsx from "clsx";
-import { useState, forwardRef, ChangeEventHandler, FocusEventHandler, KeyboardEventHandler } from "react";
+import {
+  useState,
+  useEffect,
+  forwardRef,
+  ReactNode,
+  ChangeEventHandler,
+  FocusEventHandler,
+  KeyboardEventHandler,
+} from "react";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 
 interface InputProps {
@@ -14,7 +20,12 @@ interface InputProps {
   successMessage?: string;
   type?: string;
   className?: string;
+  inputClassName?: string;
+  bordered?: boolean;
   autoComplete?: string;
+  leftElement?: ReactNode;
+  rightElement?: ReactNode;
+  ariaLabel?: string;
   onChange?: ChangeEventHandler;
   onKeyDown?: KeyboardEventHandler;
   onBlur?: FocusEventHandler;
@@ -32,7 +43,12 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
       successMessage,
       type = "text",
       className,
+      inputClassName,
+      bordered = true,
       autoComplete,
+      leftElement,
+      rightElement,
+      ariaLabel,
       onChange,
       onBlur,
       onKeyDown,
@@ -40,16 +56,39 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
     ref,
   ) => {
     const [inputType, setInputType] = useState(type);
-    const [password, setPassword] = useState(false);
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-    const handleIconClick = () => {
-      setInputType(password ? "password" : "text");
-      setPassword((prev) => !prev);
+    useEffect(() => {
+      setInputType(type);
+    }, [type]);
+
+    const handleTogglePassword = () => {
+      setIsPasswordVisible((prev) => {
+        setInputType(prev ? "password" : "text");
+        return !prev;
+      });
     };
 
     const defaultAutoComplete =
       autoComplete ??
       (type === "email" ? "email" : type === "password" ? "new-password" : type === "name" ? "name" : "off");
+
+    const resolvedRightElement =
+      rightElement ??
+      (type === "password" && (
+        <button
+          type="button"
+          onClick={handleTogglePassword}
+          aria-label={isPasswordVisible ? "비밀번호 숨기기" : "비밀번호 표시"}
+          className="absolute right-4 top-1/2 -translate-y-1/2"
+        >
+          {isPasswordVisible ? (
+            <IoEyeOutline className="text-xl text-gray04" />
+          ) : (
+            <IoEyeOffOutline className="text-xl text-gray04" />
+          )}
+        </button>
+      ));
 
     return (
       <div className={clsx("relative grid gap-2", className)}>
@@ -60,31 +99,27 @@ const BaseInput = forwardRef<HTMLInputElement, InputProps>(
         )}
 
         <div className="relative">
+          {leftElement}
           <input
             className={clsx(
-              "w-full p-4 text-sm md:text-base text-gray06 placeholder-gray04 rounded-xl outline-none ring-inset ring-[1px] transition-all duration-300 focus:outline-none",
-              errors ? "ring-red01" : "ring-gray03 focus:ring-purple01",
+              "w-full p-4 text-sm md:text-base text-gray06 placeholder-gray04 rounded-lg md:rounded-xl outline-none transition-all duration-300 focus:outline-none",
+              bordered &&
+                (errors ? "ring-inset ring-[1px] ring-red01" : "ring-inset ring-[1px] ring-gray03 focus:ring-purple01"),
+              inputClassName,
             )}
             id={id}
             name={name}
             value={value}
             type={inputType}
             autoComplete={defaultAutoComplete}
+            aria-label={ariaLabel}
             onChange={onChange}
             onBlur={onBlur}
             onKeyDown={onKeyDown}
             placeholder={placeholder}
             ref={ref}
           />
-          {type === "password" && (
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer" onClick={handleIconClick}>
-              {password ? (
-                <IoEyeOutline className="text-xl text-gray04" />
-              ) : (
-                <IoEyeOffOutline className="text-xl text-gray04" />
-              )}
-            </span>
-          )}
+          {resolvedRightElement}
         </div>
 
         {errors && <span className="pl-1 text-sm font-normal text-red01">{errors}</span>}

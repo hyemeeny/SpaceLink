@@ -14,10 +14,10 @@ interface ModalProps {
   onSubmit?: FormEventHandler<HTMLFormElement>;
   action?: "add" | "update" | "delete";
   isValid?: boolean;
-  isSubmitting?: boolean;
+  isPending?: boolean;
 }
 
-const Modal = ({ modalId, title, children, onSubmit, action, isValid = true, isSubmitting = false }: ModalProps) => {
+const Modal = ({ modalId, title, children, onSubmit, action, isValid = true, isPending = false }: ModalProps) => {
   const { activeModal, closeModal } = useModalStore();
   const isOpen = activeModal === modalId;
   const [mounted, setMounted] = useState(false);
@@ -59,10 +59,10 @@ const Modal = ({ modalId, title, children, onSubmit, action, isValid = true, isS
           {action && (
             <CtaButton
               type="submit"
-              disabled={isSubmitting || (action === "add" && !isValid)}
+              disabled={isPending || (action === "add" && !isValid)}
               variant={action === "delete" ? "red" : undefined}
             >
-              {isSubmitting ? (
+              {isPending ? (
                 <LoadingSpinner />
               ) : action === "update" ? (
                 "변경하기"

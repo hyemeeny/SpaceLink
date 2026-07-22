@@ -7,7 +7,7 @@ import clsx from "clsx";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
 import { useFolders } from "@/hooks/queries/useFolders";
-import { useAddLink } from "@/hooks/mutations/useAddLink";
+import { useAddLink } from "@/hooks/mutations/useLink";
 import { useModalStore } from "@/store/useModalStore";
 import Modal from "@/components/Modal/Modal";
 import { IoCheckmarkCircle } from "react-icons/io5";
@@ -27,8 +27,6 @@ const LinkAddModal = ({ url, reset }: LinkAddModalProps) => {
 
   const selectedFolder = folders.find((folder) => folder.id === folderIdState);
   const modalTitle = selectedFolder ? `${selectedFolder.name}에 추가` : "폴더에 추가";
-
-  console.log("LinkAddModal - folders:", folders);
 
   const {
     handleSubmit,
@@ -52,9 +50,9 @@ const LinkAddModal = ({ url, reset }: LinkAddModalProps) => {
     const validData = { ...data, folderId: data.folderId ?? 0 };
     try {
       await addLink(validData);
-      toast.success(toastMessages.success.addLink);
-      closeModal("addLink");
       reset();
+      closeModal("addLink");
+      toast.success(toastMessages.success.addLink);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : toastMessages.error.addLink);
     }
@@ -72,7 +70,7 @@ const LinkAddModal = ({ url, reset }: LinkAddModalProps) => {
       onSubmit={handleSubmit(handleAddLink)}
       action="add"
       isValid={isValid}
-      isSubmitting={isPending}
+      isPending={isPending}
     >
       <ul className="flex flex-col gap-2">
         {folders.map((folder) => (
