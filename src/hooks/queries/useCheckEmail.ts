@@ -1,23 +1,9 @@
-import API_URL from "@/constants/config";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "@/constants/queryKeys";
 import { ApiError } from "@/types/api";
+import { checkEmail } from "@/services/client/auth";
 
-const checkEmail = async (email: string) => {
-  const res = await fetch(`${API_URL}/users/check-email`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email }),
-  });
-
-  if (!res.ok) {
-    const error = await res.json();
-    throw { status: res.status, message: error.message };
-  }
-
-  return res.json();
-};
-
+// 브라우저에서 실행되는 이메일 체크 fetch 함수
 export const useCheckEmail = (email: string) => {
   return useQuery<boolean, ApiError>({
     queryKey: queryKeys.checkEmail(email),

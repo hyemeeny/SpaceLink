@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { LinkFolderAddSchema, LinkAddFormValues, LinkFolderAddFormValues } from "@/schema/zodSchema";
-import { useForm, UseFormReset } from "react-hook-form";
 import clsx from "clsx";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
@@ -14,43 +11,33 @@ import { IoCheckmarkCircle } from "react-icons/io5";
 
 interface LinkAddModalProps {
   url: string;
-  reset: UseFormReset<LinkAddFormValues>;
+  onAdded: () => void;
 }
 
-const LinkAddModal = ({ url, reset }: LinkAddModalProps) => {
+const LinkAddModal = ({ url, onAdded }: LinkAddModalProps) => {
   const { data: folders = [] } = useFolders();
   const { closeModal } = useModalStore();
   const searchParams = useSearchParams();
-  const folderId = Number(searchParams.get("folderId"));
-  const [folderIdState, setFolderIdState] = useState(folderId);
+  const [folderId, setFolderId] = useState<number | null>(() => {
+    const param = searchParams.get("folderId");
+    return param ? Number(param) : null;
+  });
   const { mutateAsync: addLink, isPending } = useAddLink();
 
-  const selectedFolder = folders.find((folder) => folder.id === folderIdState);
+  const selectedFolder = folders.find((folder) => folder.id === folderId);
   const modalTitle = selectedFolder ? `${selectedFolder.name}에 추가` : "폴더에 추가";
 
-  const {
-    handleSubmit,
-    setValue,
-    formState: { isValid },
-  } = useForm<LinkFolderAddFormValues>({
-    resolver: zodResolver(LinkFolderAddSchema),
-    mode: "onChange",
-    defaultValues: { url, folderId: folderId },
-  });
-
   useEffect(() => {
-    if (!folderIdState && folders.length > 0) {
-      const defaultId = folders[0].id;
-      setFolderIdState(defaultId);
-      setValue("folderId", defaultId);
+    if (folderId === null && folders.length > 0) {
+      setFolderId(folders[0].id);
     }
-  }, [folders, folderIdState, setValue]);
+  }, [folders, folderId]);
 
-  const handleAddLink = async (data: LinkFolderAddFormValues) => {
-    const validData = { ...data, folderId: data.folderId ?? 0 };
+  const handleAddLink = async () => {
+    if (folderId === null) return;
     try {
-      await addLink(validData);
-      reset();
+      await addLink({ url, folderId });
+      onAdded();
       closeModal("addLink");
       toast.success(toastMessages.success.addLink);
     } catch (error) {
@@ -58,18 +45,13 @@ const LinkAddModal = ({ url, reset }: LinkAddModalProps) => {
     }
   };
 
-  const handleFolderSelection = (id: number) => {
-    setFolderIdState(id);
-    setValue("folderId", id);
-  };
-
   return (
     <Modal
       modalId="addLink"
       title={modalTitle}
-      onSubmit={handleSubmit(handleAddLink)}
+      onSubmit={handleAddLink}
       action="add"
-      isValid={isValid}
+      isValid={folderId !== null}
       isPending={isPending}
     >
       <ul className="flex flex-col gap-2">
@@ -78,17 +60,13 @@ const LinkAddModal = ({ url, reset }: LinkAddModalProps) => {
             key={folder.id}
             className={clsx(
               "text-sm rounded-lg px-3 py-2",
-              folder.id === folderIdState ? "bg-gray01 text-purple01" : "text-gray06",
+              folder.id === folderId ? "bg-gray01 text-purple01" : "text-gray06",
             )}
           >
-            <button
-              type="button"
-              onClick={() => handleFolderSelection(folder.id)}
-              className="flex items-center gap-4 w-full"
-            >
+            <button type="button" onClick={() => setFolderId(folder.id)} className="flex items-center gap-4 w-full">
               {folder.name}
               <span className="text-sm text-gray04">{folder.linkCount}개 링크</span>
-              {folder.id === folderIdState && <IoCheckmarkCircle className="ml-auto text-xl text-purple01" />}
+              {folder.id === folderId && <IoCheckmarkCircle className="ml-auto text-xl text-purple01" />}
             </button>
           </li>
         ))}

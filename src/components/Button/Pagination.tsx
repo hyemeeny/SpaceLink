@@ -29,7 +29,6 @@ const Pagination = ({ totalCount, currentPage, pageSize, onPageChange }: Paginat
       {/* 첫 페이지 */}
       <button
         onClick={() => navigateToPage(1)}
-        disabled={currentPage === 1}
         className={`${buttonStyle} ${currentPage === 1 ? disabledStyle : ""}`}
         aria-label="첫 페이지"
         aria-disabled={currentPage === 1}
@@ -40,7 +39,6 @@ const Pagination = ({ totalCount, currentPage, pageSize, onPageChange }: Paginat
       {/* 이전 페이지 */}
       <button
         onClick={() => navigateToPage(currentPage - 1)}
-        disabled={currentPage === 1}
         className={`${buttonStyle} ${currentPage === 1 ? disabledStyle : ""}`}
         aria-label="이전 페이지"
         aria-disabled={currentPage === 1}
@@ -64,7 +62,6 @@ const Pagination = ({ totalCount, currentPage, pageSize, onPageChange }: Paginat
       {/* 다음 페이지 */}
       <button
         onClick={() => navigateToPage(currentPage + 1)}
-        disabled={currentPage === totalPages}
         className={`${buttonStyle} ${currentPage === totalPages ? disabledStyle : ""}`}
         aria-label="다음 페이지"
         aria-disabled={currentPage === totalPages}
@@ -75,7 +72,6 @@ const Pagination = ({ totalCount, currentPage, pageSize, onPageChange }: Paginat
       {/* 마지막 페이지 */}
       <button
         onClick={() => navigateToPage(totalPages)}
-        disabled={currentPage === totalPages}
         className={`${buttonStyle} ${currentPage === totalPages ? disabledStyle : ""}`}
         aria-label="마지막 페이지"
         aria-disabled={currentPage === totalPages}

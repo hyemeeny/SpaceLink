@@ -51,7 +51,6 @@ const LinkCard = ({ link }: { link: LinkType }) => {
             fill
             alt={link.title}
             className="object-cover"
-            unoptimized
             onError={handleImageError}
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
@@ -89,18 +88,16 @@ const LinkCard = ({ link }: { link: LinkType }) => {
           />
         </div>
 
-        <div>
-          <h3 className="text-sm md:text-base font-semibold text-overflow">{link.title}</h3>
-          <p className="text-xs md:text-sm text-overflow2">{link.description}</p>
+        <div className="min-h-[56px] md:min-h-[68px] flex flex-col gap-1">
+          <h3 className="text-sm md:text-base font-semibold text-overflow line-clamp-1">{link.title}</h3>
+          <p className="text-xs md:text-sm text-overflow2 line-clamp-2">{link.description}</p>
         </div>
 
         <p className="text-gray02 text-xs md:text-sm">{formatDate(link.createdAt)}</p>
       </div>
 
       {/* 링크 수정 모달 */}
-      {activeModal === `linkUpdate-${link.id}` && (
-        <UpdateModal selectedItem={link} itemType="link" defaultName={link.url} />
-      )}
+      {activeModal === `linkUpdate-${link.id}` && <UpdateModal selectedItem={link} itemType="link" />}
 
       {/* 링크 삭제 모달 */}
       {activeModal === `linkDelete-${link.id}` && <DeleteModal selectedItem={link} itemType="link" />}

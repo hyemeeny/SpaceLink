@@ -29,7 +29,7 @@ const LinkInput = () => {
     try {
       openModal("addLink");
     } catch (error) {
-      toast.error(toastMessages.error.addLink);
+      toast.error(error instanceof Error ? error.message : toastMessages.error.addLink);
     }
   };
 
@@ -54,7 +54,7 @@ const LinkInput = () => {
           }
         />
       </form>
-      {activeModal === "addLink" && <LinkAddModal url={getValues("url")} reset={reset} />}
+      {activeModal === "addLink" && <LinkAddModal url={getValues("url")} onAdded={reset} />}
     </div>
   );
 };

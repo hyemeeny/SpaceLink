@@ -1,38 +1,31 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { FormEvent, useEffect, useState } from "react";
+import { useLinksViewStore } from "@/store/useLinksViewStore";
+import BaseInput from "@/components/Input/BaseInput";
 import { RiSearchLine } from "react-icons/ri";
 import { TiDelete } from "react-icons/ti";
-import BaseInput from "@/components/Input/BaseInput";
 
-const SearchInput = ({ search }: { search?: string }) => {
-  const router = useRouter();
+const SearchInput = () => {
+  const search = useLinksViewStore((s) => s.search);
+  const setSearch = useLinksViewStore((s) => s.setSearch);
   const [draft, setDraft] = useState(search ?? "");
 
   useEffect(() => {
     setDraft(search ?? "");
   }, [search]);
 
-  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const newSearch = draft.trim();
-
-    if (!newSearch) {
-      router.replace("?");
-      return;
-    }
-
-    const updatedSearchParams = new URLSearchParams();
-    updatedSearchParams.set("search", newSearch);
-    router.replace(`?${updatedSearchParams.toString()}`);
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const trimmed = draft.trim();
+    setSearch(trimmed || undefined);
   };
 
   const handleReset = () => {
     setDraft("");
-    router.replace("?");
+    setSearch(undefined);
   };
 
   return (
-    <form onSubmit={handleSearch} className="flex flex-col gap-4 md:gap-6">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 md:gap-6">
       <BaseInput
         name="search"
         value={draft}
