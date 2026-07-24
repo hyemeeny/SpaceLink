@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useLinks } from "@/hooks/queries/useLinks";
 import { DEFAULT_PAGE_SIZE } from "@/constants/constants";
@@ -14,17 +14,23 @@ import FolderActions from "@/components/Folders/FolderActions";
 import FolderAddButton from "@/components/Folders/FolderAddButton";
 import LinkList from "@/components/Links/LinkList";
 import Pagination from "@/components/Button/Pagination";
+import { useLinksViewStore } from "@/store/useLinksViewStore";
 
 const LinksContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { folderId, page, search, setPage, initFromUrl } = useLinksViewStore();
 
-  const folderIdParam = searchParams.get("folderId");
-  const folderId = folderIdParam ? Number(folderIdParam) : null;
-  const page = Number(searchParams.get("page") ?? "1");
-  const search = searchParams.get("search") ?? undefined;
+  useEffect(() => {
+    initFromUrl(searchParams);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // 마운트 시 1회만 — URL 최신값으로 스토어 덮어쓰기
 
-  const { data, isLoading, isFetching } = useLinks({ folderId, page, search });
+  const { data, isLoading, isFetching } = useLinks({
+    folderId,
+    page,
+    search: folderId === null ? search : undefined,
+  });
   const links = data?.list ?? [];
   const totalCount = data?.totalCount ?? 0;
 
@@ -38,57 +44,23 @@ const LinksContent = () => {
     }
   }, [router, searchParams]);
 
-  const updateParams = useCallback(
-    (updates: Record<string, string | null>) => {
-      const params = new URLSearchParams(searchParams.toString());
-      Object.entries(updates).forEach(([key, value]) => {
-        if (value === null) {
-          params.delete(key);
-        } else {
-          params.set(key, value);
-        }
-      });
-      router.replace(`/links?${params.toString()}`, { scroll: false });
-    },
-    [router, searchParams],
-  );
-
-  const handleFolderSelect = useCallback(
-    (newFolderId: number | null) => {
-      updateParams({
-        folderId: newFolderId === null ? null : String(newFolderId),
-        page: null,
-      });
-    },
-    [updateParams],
-  );
-
-  const handlePageChange = useCallback(
-    (newPage: number) => {
-      updateParams({ page: String(newPage) });
-    },
-    [updateParams],
-  );
-
   return (
     <Container className="mt-10 mb-20 pb-8 md:pb-32 flex flex-col gap-6">
       <LinkInput />
+
       <div className="flex flex-col md:flex-row md:items-center md:justify-between items-center">
-        <FolderList folderId={folderId} onSelect={handleFolderSelect} />
+        <FolderList />
         <FolderAddButton />
       </div>
 
-      <SearchInput search={search} />
+      {folderId === null && <SearchInput />}
 
-      <FolderActions folderId={folderId} />
+      <FolderActions />
+
       <LinkList links={links} isLoading={isLoading} isFetching={isFetching} />
+
       {totalCount > 0 && (
-        <Pagination
-          totalCount={totalCount}
-          currentPage={page}
-          pageSize={DEFAULT_PAGE_SIZE}
-          onPageChange={handlePageChange}
-        />
+        <Pagination totalCount={totalCount} currentPage={page} pageSize={DEFAULT_PAGE_SIZE} onPageChange={setPage} />
       )}
     </Container>
   );

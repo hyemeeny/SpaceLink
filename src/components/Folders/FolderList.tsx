@@ -1,14 +1,12 @@
 import { useEffect, useRef } from "react";
 import { useFolders } from "@/hooks/queries/useFolders";
+import { useLinksViewStore } from "@/store/useLinksViewStore";
 import clsx from "clsx";
 
-interface FolderListProps {
-  folderId: number | null;
-  onSelect: (folderId: number | null) => void;
-}
-
-const FolderList = ({ folderId, onSelect }: FolderListProps) => {
+const FolderList = () => {
   const { data: folders = [] } = useFolders();
+  const folderId = useLinksViewStore((s) => s.folderId);
+  const setFolderId = useLinksViewStore((s) => s.setFolderId);
   const tabRefs = useRef<Record<string | number, HTMLButtonElement | null>>({});
   const allFolders = [{ id: null, name: "전체" }, ...folders];
 
@@ -40,7 +38,7 @@ const FolderList = ({ folderId, onSelect }: FolderListProps) => {
               }}
               role="tab"
               aria-selected={isSelected}
-              onClick={() => onSelect(folder.id)}
+              onClick={() => setFolderId(folder.id)}
               className={clsx(
                 "border border-purple01 rounded-md md:rounded-lg px-3 py-2 text-xs md:text-sm font-light transition duration-200 whitespace-nowrap",
                 isSelected && "bg-purple01 text-black02 font-semibold",

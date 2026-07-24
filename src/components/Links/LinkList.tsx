@@ -30,7 +30,7 @@ const LinkList = ({ links, isLoading, isFetching }: LinkListProps) => {
       aria-busy={isFetching}
       className={clsx(
         "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 transition-opacity",
-        isFetching && "opacity-60",
+        isFetching && "opacity-80",
       )}
     >
       {links.map((link) => (
