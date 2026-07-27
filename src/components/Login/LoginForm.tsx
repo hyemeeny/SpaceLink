@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { loginAction } from "@/actions/auth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema, LoginFormValues } from "@/schema/zodSchema";
+import { loginAction } from "@/actions/auth";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
 import FormContainer from "@/components/Layout/FormContainer";
@@ -30,21 +30,14 @@ const LoginForm = () => {
     mode: "onChange",
   });
 
-  const handleLogin = async (payload: LoginFormValues, setLoading: (v: boolean) => void) => {
-    setLoading(true); // 1. 로딩 시작 → 스피너 표시
-    try {
-      await loginAction(payload); // 2. 서버 액션 호출
-    } catch (error: any) {
-      // 3. loginAction 내부에서 redirect()가 실행되면
-      //    Next.js가 내부적으로 에러를 throw함
-      //    → catch로 떨어지는데 이건 진짜 에러가 아니라 정상 동작
-      if (error?.digest?.startsWith("NEXT_REDIRECT")) {
-        return; // 4. 그냥 return → setLoading(false) 안 함 → 스피너 유지
-        //    페이지가 전환되면서 컴포넌트 자체가 사라지기 때문에 상태 관리 불필요
-      }
-      // 5. 진짜 에러(로그인 실패, 서버 오류 등)일 때만 여기 도달
-      toast.error(error?.message || toastMessages.error.login);
-      setLoading(false); // 6. 에러일 때만 로딩 해제 → 스피너 숨김
+  const handleLogin = async (formData: LoginFormValues, setLoading: (v: boolean) => void) => {
+    setLoading(true);
+
+    const result = await loginAction(formData);
+
+    if (result?.success === false) {
+      toast.error(result.message || toastMessages.error.login);
+      setLoading(false);
     }
   };
 
