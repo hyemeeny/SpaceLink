@@ -1,7 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "@/constants/queryKeys";
-import { ApiError } from "@/types/api";
 import { checkEmail } from "@/services/client/auth";
+
+interface ApiError extends Error {
+  status: number;
+  field?: string;
+}
 
 // 브라우저에서 실행되는 이메일 체크 fetch 함수
 export const useCheckEmail = (email: string) => {
