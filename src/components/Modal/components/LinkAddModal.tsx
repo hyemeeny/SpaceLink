@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import clsx from "clsx";
+import { useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
 import { useFolders } from "@/hooks/queries/useFolders";
@@ -18,6 +18,9 @@ const LinkAddModal = ({ url, onAdded }: LinkAddModalProps) => {
   const { data: folders = [] } = useFolders();
   const { closeModal } = useModalStore();
   const searchParams = useSearchParams();
+
+  // 페이지 전체 뷰 상태(useLinksViewStore)와 별개인, 이 모달 안에서만 쓰는 로컬 선택값.
+  // 전역 store의 folderId를 그대로 쓰면 모달에서 고른 폴더가 배후 페이지 뷰까지 바꿔버림.
   const [folderId, setFolderId] = useState<number | null>(() => {
     const param = searchParams.get("folderId");
     return param ? Number(param) : null;

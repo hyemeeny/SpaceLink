@@ -36,6 +36,6 @@ export const deleteFolders = async (folderId: number) => {
   const res = await fetch(`/api/folders/${folderId}`, { method: "DELETE" });
   if (!res.ok) {
     const error = await res.json();
-    throw new Error(error.message);
+    throw new Error(error.message || "폴더 삭제 실패");
   }
 };

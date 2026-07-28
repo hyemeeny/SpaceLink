@@ -53,7 +53,16 @@ const Modal = ({ modalId, title, children, onSubmit, action, isValid = true, isP
 
         <h3 className="text-gray06 text-xl font-bold">{title}</h3>
 
-        <form onSubmit={onSubmit} className="flex flex-col gap-4 mt-6 w-[280px]">
+        <form
+          onSubmit={(e) => {
+            // react-hook-form의 handleSubmit이 아닌 순수 async 함수를 onSubmit으로 받는
+            // 컴포넌트(DeleteModal, LinkAddModal 등)에서 preventDefault 누락 시
+            // 네이티브 폼 제출 → 풀 페이지 네비게이션이 발생하는 걸 막기 위한 공통 처리.
+            e.preventDefault();
+            onSubmit?.(e);
+          }}
+          className="flex flex-col gap-4 mt-6 w-[280px]"
+        >
           {children}
 
           {action && (

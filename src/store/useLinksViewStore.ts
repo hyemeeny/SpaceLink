@@ -15,7 +15,8 @@ const syncUrl = (updates: Record<string, string | null>) => {
   Object.entries(updates).forEach(([key, value]) => {
     value === null ? params.delete(key) : params.set(key, value);
   });
-  window.history.replaceState(null, "", `/links?${params.toString()}`);
+  const query = params.toString();
+  window.history.replaceState(null, "", query ? `/links?${query}` : "/links");
 };
 
 export const useLinksViewStore = create<LinksViewState>((set) => ({
