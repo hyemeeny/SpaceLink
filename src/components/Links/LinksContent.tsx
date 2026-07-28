@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useLinks } from "@/hooks/queries/useLinks";
+import { useFolders } from "@/hooks/queries/useFolders";
 import { DEFAULT_PAGE_SIZE } from "@/constants/constants";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
@@ -19,12 +20,25 @@ import { useLinksViewStore } from "@/store/useLinksViewStore";
 const LinksContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { folderId, page, search, setPage, initFromUrl } = useLinksViewStore();
 
+  // 마운트당 1회, useLinks 호출 전(렌더 중)에 store를 URL 기준으로 동기화.
+  // useEffect로 하면 첫 렌더가 이전 값으로 요청 → 버려짐 → 재요청하는 이중 fetch가 생김.
+  const didInit = useRef(false);
+  if (!didInit.current) {
+    useLinksViewStore.getState().initFromUrl(searchParams);
+    didInit.current = true;
+  }
+
+  const { folderId, page, search, setPage, setFolderId } = useLinksViewStore();
+  const { data: folders = [], isLoading: isFoldersLoading } = useFolders();
+
+  // 현재 보고 있는 folderId가 folders 목록에 더 이상 없으면 자동으로 "전체"로 복귀
   useEffect(() => {
-    initFromUrl(searchParams);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // 마운트 시 1회만 — URL 최신값으로 스토어 덮어쓰기
+    if (isFoldersLoading) return;
+    if (folderId !== null && !folders.some((f) => f.id === folderId)) {
+      setFolderId(null);
+    }
+  }, [folders, isFoldersLoading, folderId, setFolderId]);
 
   const { data, isLoading, isFetching } = useLinks({
     folderId,

@@ -11,9 +11,9 @@ export const fetchLinks = async ({ folderId, page = 1, pageSize, search }: GetLi
   const params = new URLSearchParams();
   params.set("page", String(page));
   if (pageSize) params.set("pageSize", String(pageSize));
+  if (search) params.set("search", search);
 
   const endpoint = folderId ? `/api/folders/${folderId}/links` : "/api/links";
-  if (!folderId && search) params.set("search", search);
 
   const res = await fetch(`${endpoint}?${params.toString()}`);
   if (!res.ok) throw new Error("링크 조회 실패");
@@ -60,7 +60,7 @@ export const deleteLinks = async (linkId: number) => {
   const res = await fetch(`/api/links/${linkId}`, { method: "DELETE" });
   if (!res.ok) {
     const error = await res.json();
-    throw new Error(error.message);
+    throw new Error(error.message || "링크 삭제 실패");
   }
 };
 
