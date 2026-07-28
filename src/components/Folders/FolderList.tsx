@@ -1,7 +1,7 @@
+import clsx from "clsx";
 import { useEffect, useRef } from "react";
 import { useFolders } from "@/hooks/queries/useFolders";
 import { useLinksViewStore } from "@/store/useLinksViewStore";
-import clsx from "clsx";
 
 const FolderList = () => {
   const { data: folders = [] } = useFolders();

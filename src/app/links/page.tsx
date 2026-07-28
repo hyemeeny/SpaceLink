@@ -13,6 +13,10 @@ interface LinksPageProps {
   };
 }
 
+export const metadata = {
+  title: "링크 페이지 | SPACELINK",
+};
+
 const LinksPage = async ({ searchParams }: LinksPageProps) => {
   const queryClient = getQueryClient();
   const page = searchParams.page ? Number(searchParams.page) : 1;
