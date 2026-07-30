@@ -1,37 +1,28 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { putFavoriteLinks } from "@/actions/links";
 import { Link as LinkType } from "@/types/link";
 import { useModalStore } from "@/store/useModalStore";
 import { formatDate, formatRelativeTime } from "@/utils/dateFormat";
-import toast from "react-hot-toast";
-import toastMessages from "@/lib/toastMessage";
 import useOnClickOutside from "@/hooks/useOnClickOutside";
 import Dropdown from "@/components/Dropdown/Dropdown";
 import UpdateModal from "@/components/Modal/components/UpdateModal";
 import DeleteModal from "@/components/Modal/components/DeleteModal";
 import { GoKebabHorizontal } from "react-icons/go";
 import { FaRegStar, FaStar } from "react-icons/fa";
+import { useToggleFavorite } from "@/hooks/mutations/useToggleFavorite";
 
 const LinkCard = ({ link }: { link: LinkType }) => {
   const { activeModal, openModal } = useModalStore();
+  const { mutate: toggleFavorite } = useToggleFavorite();
   const [isOpen, setIsOpen] = useState(false);
-  const [favorite, setFavorite] = useState(link.favorite);
   const dropdownRef = useRef<HTMLLIElement>(null);
   const [imageSrc, setImageSrc] = useState(link.imageSource || "/images/none_image.svg");
 
   useOnClickOutside(dropdownRef, () => setIsOpen(false));
 
-  const handleFavoriteClick = async () => {
-    const newFavoriteState = !favorite;
-    try {
-      await putFavoriteLinks({ favorite: newFavoriteState, linkId: link.id });
-      setFavorite(newFavoriteState);
-      toast.success(newFavoriteState ? toastMessages.success.favoriteLink : toastMessages.success.unfavoriteLink);
-    } catch (error) {
-      toast.error(toastMessages.error.favoriteLink);
-    }
+  const handleFavoriteClick = () => {
+    toggleFavorite({ linkId: link.id, favorite: !link.favorite });
   };
 
   const handleImageError = () => {
@@ -60,9 +51,9 @@ const LinkCard = ({ link }: { link: LinkType }) => {
       <button
         onClick={handleFavoriteClick}
         className="absolute top-4 right-4 text-xl md:text-2xl"
-        aria-label={favorite ? "즐겨찾기 해제" : "즐겨찾기 추가"}
+        aria-label={link.favorite ? "즐겨찾기 해제" : "즐겨찾기 추가"}
       >
-        {favorite ? <FaStar className="text-yellow-400" /> : <FaRegStar className="text-gray04" />}
+        {link.favorite ? <FaStar className="text-yellow-400" /> : <FaRegStar className="text-gray04" />}
       </button>
 
       <div className="relative p-4 flex flex-col gap-[10px]">

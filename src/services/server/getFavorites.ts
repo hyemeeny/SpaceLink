@@ -1,14 +1,13 @@
 import { cookies } from "next/headers";
 import API_URL from "@/constants/config";
 import { DEFAULT_PAGE_SIZE } from "@/constants/constants";
-import { LinksParams, LinksResponse } from "@/types/link";
+import { LinksResponse } from "@/types/link";
+import { FavoritesParams } from "@/types/favorite";
 
-const getLinks = async ({
-  folderId,
+const getFavorites = async ({
   page = 1,
   pageSize = DEFAULT_PAGE_SIZE,
-  search,
-}: LinksParams): Promise<LinksResponse | null> => {
+}: FavoritesParams): Promise<LinksResponse | null> => {
   const token = cookies().get("accessToken")?.value;
   if (!token) return null;
 
@@ -17,16 +16,7 @@ const getLinks = async ({
   searchParams.set("pageSize", String(pageSize));
 
   try {
-    let url: string;
-
-    if (folderId) {
-      url = `${API_URL}/folders/${folderId}/links?${searchParams.toString()}`;
-    } else {
-      if (search) searchParams.set("search", search);
-      url = `${API_URL}/links?${searchParams.toString()}`;
-    }
-
-    const res = await fetch(url, {
+    const res = await fetch(`${API_URL}/favorites?${searchParams.toString()}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
       cache: "no-store",
@@ -39,4 +29,4 @@ const getLinks = async ({
   }
 };
 
-export default getLinks;
+export default getFavorites;

@@ -1,18 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { putFavoriteLinks } from "@/services/client/links";
+import { putFavorites } from "@/services/client/favorites";
 import { queryKeys } from "@/constants/queryKeys";
 import type { LinksResponse } from "@/types/link";
-
-interface ToggleFavoriteParams {
-  linkId: number;
-  favorite: boolean;
-}
+import type { ToggleFavoriteParams } from "@/types/favorite";
+import toast from "react-hot-toast";
+import toastMessages from "@/lib/toastMessage";
 
 export const useToggleFavorite = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ linkId, favorite }: ToggleFavoriteParams) => putFavoriteLinks({ linkId, favorite }),
+    mutationFn: ({ linkId, favorite }: ToggleFavoriteParams) => putFavorites({ linkId, favorite }),
 
     onMutate: async ({ linkId, favorite }) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.links.all() });
@@ -30,10 +28,15 @@ export const useToggleFavorite = () => {
       return { previousQueries };
     },
 
+    onSuccess: (_data, { favorite }) => {
+      toast.success(favorite ? toastMessages.success.favoriteLink : toastMessages.success.unfavoriteLink);
+    },
+
     onError: (_err, _variables, context) => {
       context?.previousQueries.forEach(([queryKey, data]) => {
         queryClient.setQueryData(queryKey, data);
       });
+      toast.error(toastMessages.error.favoriteLink);
     },
 
     onSettled: () => {

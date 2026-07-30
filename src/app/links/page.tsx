@@ -1,7 +1,8 @@
+import { redirect } from "next/navigation";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getQueryClient } from "@/lib/queryClient";
 import { queryKeys } from "@/constants/queryKeys";
-import { DEFAULT_PAGE_SIZE } from "@/constants/constants";
+import getUser from "@/services/server/getUser";
 import getFolders from "@/services/server/getFolders";
 import getLinks from "@/services/server/getLinks";
 import LinksContent from "@/components/Links/LinksContent";
@@ -18,8 +19,10 @@ export const metadata = {
 };
 
 const LinksPage = async ({ searchParams }: LinksPageProps) => {
+  const user = await getUser();
+  if (!user) redirect("/login");
+
   const queryClient = getQueryClient();
-  const page = searchParams.page ? Number(searchParams.page) : 1;
   const search = searchParams.search;
 
   await Promise.all([
@@ -28,8 +31,8 @@ const LinksPage = async ({ searchParams }: LinksPageProps) => {
       queryFn: getFolders,
     }),
     queryClient.prefetchQuery({
-      queryKey: queryKeys.links.list({ folderId: null, page, pageSize: DEFAULT_PAGE_SIZE, search }),
-      queryFn: () => getLinks({ folderId: null, page, pageSize: DEFAULT_PAGE_SIZE, search }),
+      queryKey: queryKeys.links.list({ folderId: null, search }),
+      queryFn: () => getLinks({ folderId: null, search }),
     }),
   ]);
 
