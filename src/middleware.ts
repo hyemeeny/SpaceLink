@@ -15,5 +15,5 @@ const redirectToLogin = (request: NextRequest) => {
 };
 
 export const config = {
-  matcher: ["/links/:path*", "/favorite/:path*"],
+  matcher: ["/links/:path*", "/favorites/:path*"],
 };
