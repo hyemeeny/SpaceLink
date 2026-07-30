@@ -12,7 +12,7 @@ import toastMessages from "@/lib/toastMessage";
 import FormContainer from "@/components/Layout/FormContainer";
 import CtaButton from "@/components/Button/CtaButton";
 import BaseInput from "@/components/Input/BaseInput";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
+import LoadingSpinner from "@/components/Common/LoadingSpinner";
 
 const SignupForm = () => {
   const [isPending, setIsPending] = useState(false);

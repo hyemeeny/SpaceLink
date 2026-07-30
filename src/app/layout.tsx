@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import localFont from "next/font/local";
 import "@/styles/globals.scss";
 import { Toaster } from "react-hot-toast";
-import API_URL from "@/constants/config";
 import Header from "@/components/Layout/Header/Header";
-import StarBackground from "@/components/common/StarBackground";
-import KakaoScript from "@/components/common/KakaoScript";
+import StarBackground from "@/components/Common/StarBackground";
+import KakaoScript from "@/components/Common/KakaoScript";
 import QueryProvider from "@/providers/QueryProvider";
 
 export const metadata: Metadata = {
