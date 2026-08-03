@@ -15,7 +15,10 @@ export const fetchLinks = async ({
   const endpoint = folderId ? `/api/folders/${folderId}/links` : "/api/links";
 
   const res = await fetch(`${endpoint}?${searchParams.toString()}`);
-  if (!res.ok) throw new Error("링크 조회 실패");
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message);
+  }
   return res.json();
 };
 
@@ -27,7 +30,7 @@ export const postLinks = async (linkData: CreateLinkParams) => {
   });
   if (!res.ok) {
     const error = await res.json();
-    throw new Error(error.message || "링크 생성 실패");
+    throw new Error(error.message);
   }
   return res.json();
 };
@@ -40,7 +43,7 @@ export const putLinks = async ({ url, linkId }: UpdateLinkParams) => {
   });
   if (!res.ok) {
     const error = await res.json();
-    throw new Error(error.message || "링크 수정 실패");
+    throw new Error(error.message);
   }
   return res.json();
 };
@@ -49,6 +52,6 @@ export const deleteLinks = async (linkId: number) => {
   const res = await fetch(`/api/links/${linkId}`, { method: "DELETE" });
   if (!res.ok) {
     const error = await res.json();
-    throw new Error(error.message || "링크 삭제 실패");
+    throw new Error(error.message);
   }
 };

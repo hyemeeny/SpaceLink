@@ -15,13 +15,16 @@ const toastMessages = {
   error: {
     login: "이메일이나 비밀번호를 다시 확인해주세요.",
     signup: "회원가입 중 문제가 생겼어요. 다시 시도해주세요.",
+    getLinks: "링크 조회에 실패했어요.",
+    getFolderLinks: "폴더별 링크 조회에 실패했어요.",
     addLink: "올바른 링크를 입력해주세요.",
     updateLink: "링크 수정에 실패했어요.",
     deleteLink: "링크 삭제에 실패했어요.",
+    getFolder: "폴더 조회에 실패했어요.",
     addFolder: "폴더 이름을 다시 확인해주세요.",
     updateFolder: "폴더 이름 변경에 실패했어요.",
     deleteFolder: "폴더 안 링크를 먼저 삭제해주세요.",
-    favoriteLink: "즐겨찾기 처리에 실패했어요.",
+    favoriteLink: "즐겨찾기 설정에 실패했어요.",
     shareCopy: "복사에 실패했어요. 다시 시도해주세요.",
   },
 };

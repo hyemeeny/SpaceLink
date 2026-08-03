@@ -1,12 +1,14 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import API_URL from "@/constants/config";
+import { getErrorMessage } from "@/lib/apiError";
+import toastMessages from "@/lib/toastMessage";
 
 // 링크 수정
 export const PUT = async (req: NextRequest, { params }: { params: { linkId: string } }) => {
   const token = cookies().get("accessToken")?.value;
   if (!token) {
-    return NextResponse.json({ message: "인증 정보가 유효하지 않습니다." }, { status: 401 });
+    return NextResponse.json({ message: "로그인이 필요해요." }, { status: 401 });
   }
 
   const { url } = await req.json();
@@ -24,13 +26,14 @@ export const PUT = async (req: NextRequest, { params }: { params: { linkId: stri
 
     if (!res.ok) {
       const errorData = await res.json();
-      return NextResponse.json({ message: errorData.message || "링크 수정 실패" }, { status: res.status });
+      const message = getErrorMessage(errorData, res.status, toastMessages.error.updateLink);
+      return NextResponse.json({ message }, { status: res.status });
     }
 
     return NextResponse.json(await res.json(), { status: res.status });
   } catch (error) {
     console.error("링크 수정 중 오류 발생", error);
-    return NextResponse.json({ message: "링크 수정 실패" }, { status: 500 });
+    return NextResponse.json({ message: "서버와 연결이 원활하지 않아요. 잠시 후 다시 시도해주세요." }, { status: 500 });
   }
 };
 
@@ -38,7 +41,7 @@ export const PUT = async (req: NextRequest, { params }: { params: { linkId: stri
 export const DELETE = async (_req: NextRequest, { params }: { params: { linkId: string } }) => {
   const token = cookies().get("accessToken")?.value;
   if (!token) {
-    return NextResponse.json({ message: "인증 정보가 유효하지 않습니다." }, { status: 401 });
+    return NextResponse.json({ message: "로그인이 필요해요." }, { status: 401 });
   }
 
   const { linkId } = params;
@@ -51,12 +54,13 @@ export const DELETE = async (_req: NextRequest, { params }: { params: { linkId: 
 
     if (!res.ok) {
       const errorData = await res.json();
-      return NextResponse.json({ message: errorData.message }, { status: res.status });
+      const message = getErrorMessage(errorData, res.status, toastMessages.error.deleteLink);
+      return NextResponse.json({ message }, { status: res.status });
     }
 
     return new NextResponse(null, { status: res.status });
   } catch (error) {
     console.error("링크 삭제 중 에러 발생", error);
-    return NextResponse.json({ message: "링크 삭제 실패" }, { status: 500 });
+    return NextResponse.json({ message: "서버와 연결이 원활하지 않아요. 잠시 후 다시 시도해주세요." }, { status: 500 });
   }
 };
