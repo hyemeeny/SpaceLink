@@ -22,7 +22,7 @@ const MenuLinks = () => {
         <FiStar className="size-5 md:size-6" /> 즐겨찾기
       </Link>
       <hr className="border-purple02 mx-2" />
-      <button onClick={logoutAction} className={navLinkBase}>
+      <button onClick={() => logoutAction()} className={navLinkBase}>
         <FiLogOut className="size-5 md:size-6" /> 로그아웃
       </button>
     </div>
