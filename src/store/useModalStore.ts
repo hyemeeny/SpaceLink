@@ -1,25 +1,19 @@
 import { create } from "zustand";
 
 interface ModalState {
-  openModals: Set<string | number>;
-  openModal: (id: string | number) => void;
-  closeModal: (id: string | number) => void;
+  activeModal: string | null;
+  openModal: (id: string) => void;
+  closeModal: (id?: string) => void;
 }
 
 export const useModalStore = create<ModalState>((set) => ({
-  openModals: new Set(),
+  activeModal: null,
 
-  openModal: (id: string | number) =>
-    set((state) => {
-      const modals = new Set(state.openModals);
-      modals.add(id);
-      return { openModals: modals };
-    }),
+  openModal: (id: string) => set({ activeModal: id }),
 
-  closeModal: (id: string | number) =>
+  closeModal: (id?: string) =>
     set((state) => {
-      const modals = new Set(state.openModals);
-      modals.delete(id);
-      return { openModals: modals };
+      if (id !== undefined && state.activeModal !== id) return state;
+      return { activeModal: null };
     }),
 }));

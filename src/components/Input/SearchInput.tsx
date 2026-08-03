@@ -1,61 +1,59 @@
-"use client";
-
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { FormEvent, useEffect, useState } from "react";
+import { useLinksViewStore } from "@/store/useLinksViewStore";
+import BaseInput from "@/components/Input/BaseInput";
 import { RiSearchLine } from "react-icons/ri";
 import { TiDelete } from "react-icons/ti";
 
-const SearchInput = ({ search: initialSearch }: { search: string }) => {
-  const router = useRouter();
-  const [search, setSearch] = useState(initialSearch);
+const SearchInput = () => {
+  const search = useLinksViewStore((s) => s.search);
+  const setSearch = useLinksViewStore((s) => s.setSearch);
+  const [draft, setDraft] = useState(search ?? "");
 
-  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const newSearch = formData.get("search") as string;
+  useEffect(() => {
+    setDraft(search ?? "");
+  }, [search]);
 
-    if (!newSearch.trim()) return;
-
-    setSearch(newSearch);
-    const updatedSearchParams = new URLSearchParams();
-    if (newSearch) updatedSearchParams.set("search", newSearch);
-
-    router.replace(`?${updatedSearchParams.toString()}`);
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const trimmed = draft.trim();
+    setSearch(trimmed || undefined);
   };
 
   const handleReset = () => {
-    setSearch("");
-    router.replace("?");
+    setDraft("");
+    setSearch(undefined);
   };
 
   return (
-    <form onSubmit={handleSearch} className="flex flex-col gap-4 md:gap-6 mb-4 md:mt-4 md:mb-8">
-      <div className="flex items-center justify-end relative h-[43px] md:h-[54px]">
-        <input
-          type="text"
-          name="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="링크를 검색해 보세요"
-          className="w-full h-full bg-white02 rounded-xl text-sm md:text-base font-medium placeholder-gray04 text-gray06 pl-11"
-          aria-label="검색어 입력"
-          aria-live="polite"
-        />
-        <button
-          type="submit"
-          className="absolute left-0 min-w-[50px] min-h-[50px] flex items-center justify-center"
-          aria-label="검색"
-        >
-          <RiSearchLine className="w-5 h-5 text-gray04" aria-hidden="true" />
-        </button>
-        {search && (
-          <button type="button" className="absolute right-4" onClick={handleReset} aria-label="검색어 지우기">
-            <TiDelete className="w-7 h-7 text-gray03" aria-hidden="true" />
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 md:gap-6">
+      <BaseInput
+        name="search"
+        value={draft}
+        onChange={(e) => setDraft((e.target as HTMLInputElement).value)}
+        placeholder="링크를 검색해 보세요"
+        bordered={false}
+        inputClassName="h-[43px] md:h-[54px] bg-white02 font-medium pl-11"
+        ariaLabel="검색어 입력"
+        leftElement={
+          <button type="submit" className="absolute p-4 left-0 top-1/2 -translate-y-1/2" aria-label="검색">
+            <RiSearchLine className="w-5 h-5 text-gray04" aria-hidden="true" />
           </button>
-        )}
-      </div>
+        }
+        rightElement={
+          draft ? (
+            <button
+              type="button"
+              className="absolute right-4 top-1/2 -translate-y-1/2"
+              onClick={handleReset}
+              aria-label="검색어 지우기"
+            >
+              <TiDelete className="w-7 h-7 text-gray03" aria-hidden="true" />
+            </button>
+          ) : null
+        }
+      />
       {search && (
-        <h4 className="text-2xl md:text-3xl text-gray03" aria-live="polite">
+        <h4 className="text-2xl md:text-3xl text-gray03">
           <span className="text-white font-semibold">{search}</span>로 검색한 결과입니다.
         </h4>
       )}

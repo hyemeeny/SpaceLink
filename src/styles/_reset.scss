@@ -1,0 +1,75 @@
+body {
+  height: 0;
+  min-height: 100vh;
+  color: #fff;
+  font-family: Pretendard, Roboto, "Noto Sans KR", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+li {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+em {
+  font-style: normal;
+}
+
+input {
+  outline: none;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: linear-gradient(320deg, #877cb1 0, #332a4e 100%);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d4bcff;
+  border-radius: 10px;
+}
+
+.Navigation {
+  z-index: 1 !important;
+
+  .Navigation-Anchor {
+    background-color: white !important;
+  }
+}
+
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  * {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .Navigation {
+    right: -10px !important;
+
+    .Navigation-Anchor {
+      padding: 3px !important;
+    }
+  }
+}

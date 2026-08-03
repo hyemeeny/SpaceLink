@@ -1,7 +1,4 @@
 import API_URL from "@/constants/config";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "@/constants/queryKeys";
-import { ApiError } from "@/types/api";
 
 export const checkEmail = async (email: string) => {
   const res = await fetch(`${API_URL}/users/check-email`, {
@@ -16,13 +13,4 @@ export const checkEmail = async (email: string) => {
   }
 
   return res.json();
-};
-
-export const useCheckEmail = (email: string) => {
-  return useQuery<boolean, ApiError>({
-    queryKey: queryKeys.checkEmail(email),
-    queryFn: () => checkEmail(email),
-    enabled: !!email,
-    staleTime: 1000 * 60 * 5,
-  });
 };

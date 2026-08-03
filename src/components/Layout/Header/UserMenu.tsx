@@ -7,7 +7,7 @@ import Image from "next/image";
 import useOnClickOutside from "@/hooks/useOnClickOutside";
 import MenuLinks from "@/components/Layout/Header/MenuLinks";
 
-const UserMenu = ({ user }: { user: User | null }) => {
+const UserMenu = ({ user }: { user: User }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 

@@ -35,7 +35,7 @@ const CtaButton = ({
   };
 
   const baseStyles = clsx(
-    "flex items-center justify-center rounded-xl font-semibold transition duration-300 ease-in-out",
+    "flex items-center justify-center rounded-lg md:rounded-xl font-semibold transition duration-300 ease-in-out",
     sizeStyles[size],
     disabled ? "bg-gray02 text-gray04 cursor-not-allowed" : variantStyles[variant],
     className,

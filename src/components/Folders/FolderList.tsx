@@ -1,44 +1,55 @@
-"use client";
+import clsx from "clsx";
+import { useEffect, useRef } from "react";
+import { useFolders } from "@/hooks/queries/useFolders";
+import { useLinksViewStore } from "@/store/useLinksViewStore";
 
-import { useSearchParams, useRouter } from "next/navigation";
-import { FolderType } from "@/types/folders";
-import FolderButton from "@/components/Button/FolderButton";
+const FolderList = () => {
+  const { data: folders = [] } = useFolders();
+  const folderId = useLinksViewStore((s) => s.folderId);
+  const setFolderId = useLinksViewStore((s) => s.setFolderId);
+  const tabRefs = useRef<Record<string | number, HTMLButtonElement | null>>({});
+  const allFolders = [{ id: null, name: "전체" }, ...folders];
 
-const FolderList = ({ folders, selectedFolderId }: { folders: FolderType[]; selectedFolderId: number | null }) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  useEffect(() => {
+    const key = folderId ?? "all";
+    const el = tabRefs.current[key];
 
-  const handleFolderClick = (folderId: number | null) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    params.set("page", "1");
-
-    if (folderId) {
-      params.set("folderId", String(folderId));
-    } else {
-      params.delete("folderId");
+    if (el) {
+      el.scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "nearest",
+      });
     }
-
-    router.push(`?${params.toString()}`);
-  };
+  }, [folderId]);
 
   return (
-    <ul className="flex flex-wrap mr-auto gap-2">
-      <li>
-        <FolderButton onClick={() => handleFolderClick(null)} isSelected={selectedFolderId === null}>
-          전체
-        </FolderButton>
-      </li>
-      {folders
-        .sort((a, b) => a.id - b.id)
-        .map((folder) => (
-          <li key={folder.id}>
-            <FolderButton onClick={() => handleFolderClick(folder.id)} isSelected={selectedFolderId === folder.id}>
+    <div className="w-full overflow-hidden folder-scroll">
+      <div role="tablist" className="flex flex-nowrap overflow-x-auto gap-2">
+        {allFolders.map((folder) => {
+          const key = folder.id ?? "all";
+          const isSelected = folderId === folder.id;
+
+          return (
+            <button
+              key={key}
+              ref={(el) => {
+                tabRefs.current[key] = el;
+              }}
+              role="tab"
+              aria-selected={isSelected}
+              onClick={() => setFolderId(folder.id)}
+              className={clsx(
+                "border border-purple01 rounded-md md:rounded-lg px-3 py-2 text-xs md:text-sm font-light transition duration-200 whitespace-nowrap",
+                isSelected && "bg-purple01 text-black02 font-semibold",
+              )}
+            >
               {folder.name}
-            </FolderButton>
-          </li>
-        ))}
-    </ul>
+            </button>
+          );
+        })}
+      </div>
+    </div>
   );
 };
 

@@ -4,15 +4,15 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SignupSchema, SignupFormValues } from "@/schema/zodSchema";
+import { signUpAction } from "@/actions/auth";
+import { useCheckEmail } from "@/hooks/queries/useCheckEmail";
+import { useDebounce } from "@/hooks/useDebounce";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
 import FormContainer from "@/components/Layout/FormContainer";
 import CtaButton from "@/components/Button/CtaButton";
 import BaseInput from "@/components/Input/BaseInput";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
-import { useCheckEmail } from "@/services/checkEmail";
-import { useDebounce } from "@/hooks/useDebounce";
-import { signUpAction } from "@/actions/auth";
+import LoadingSpinner from "@/components/Common/LoadingSpinner";
 
 const SignupForm = () => {
   const [isPending, setIsPending] = useState(false);
@@ -33,34 +33,23 @@ const SignupForm = () => {
   const { data, isLoading, error } = useCheckEmail(debouncedEmail);
 
   const onSubmit = async (formData: SignupFormValues) => {
-    if (isLoading) return; // 1. 이메일 체크 중이면 제출 차단
-    // (중복 이메일인지 확인 안 된 상태에서 제출 방지)
+    if (isLoading) return;
 
-    setIsPending(true); // 2. 로딩 시작 → 스피너 표시
+    setIsPending(true);
 
-    try {
-      await signUpAction(formData); // 3. 서버 액션 호출
-    } catch (error: any) {
-      if (error?.digest?.startsWith("NEXT_REDIRECT")) {
-        return; // 4. 회원가입 성공 → redirect() throw
-        // 로그인 페이지로 전환될 때까지 스피너 유지
-      }
+    const result = await signUpAction(formData);
 
-      if (error?.field) {
-        // 5. 서버에서 특정 필드 에러 반환한 경우
-        // ex) { field: "email", message: "이미 사용 중인 이메일입니다." }
-        // 해당 필드 아래에 에러 메시지 표시
-        setError(error.field as keyof SignupFormValues, {
+    if (result?.success === false) {
+      if (result.field) {
+        setError(result.field as keyof SignupFormValues, {
           type: "server",
-          message: error.message,
+          message: result.message,
         });
-        setIsPending(false); // 6. 필드 에러 → 로딩 해제
-        return;
+      } else {
+        toast.error(result.message || toastMessages.error.signup);
       }
 
-      // 7. 그 외 일반 에러 (서버 오류 등)
-      toast.error(error?.message || toastMessages.error.signUp);
-      setIsPending(false); // 8. 일반 에러 → 로딩 해제
+      setIsPending(false);
     }
   };
 

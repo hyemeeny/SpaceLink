@@ -1,57 +1,55 @@
-import { FormEvent } from "react";
-import { useRouter } from "next/navigation";
-import { deleteLinks } from "@/actions/links";
-import { deleteFolders } from "@/actions/folders";
 import { useModalStore } from "@/store/useModalStore";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
 import Modal from "@/components/Modal/Modal";
+import { useDeleteLink } from "@/hooks/mutations/useLink";
+import { useDeleteFolder } from "@/hooks/mutations/useFolder";
 
 interface DeleteModalProps {
   selectedItem: { id: number; name?: string; url?: string };
   itemType: "folder" | "link";
-  onDelete?: (deletedFolderId: number) => void;
 }
 
-const DeleteModal = ({ selectedItem, itemType, onDelete }: DeleteModalProps) => {
-  const router = useRouter();
+const DeleteModal = ({ selectedItem, itemType }: DeleteModalProps) => {
   const { closeModal } = useModalStore();
+  const { mutateAsync: deleteLink, isPending: isLinkPending } = useDeleteLink();
+  const { mutateAsync: deleteFolder, isPending: isFolderPending } = useDeleteFolder();
+  const isPending = itemType === "link" ? isLinkPending : isFolderPending;
 
-  const handleDelete = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const handleDelete = async () => {
     if (!selectedItem) return;
 
     try {
       if (itemType === "link") {
-        await deleteLinks(selectedItem.id);
+        await deleteLink(selectedItem.id);
         toast.success(toastMessages.success.deleteLink);
-      } else if (itemType === "folder") {
-        await deleteFolders(selectedItem.id);
+      } else {
+        await deleteFolder(selectedItem.id);
         toast.success(toastMessages.success.deleteFolder);
-
-        router.push("/links?page=1&pageSize=9");
       }
 
       closeModal(`${itemType}Delete-${selectedItem.id}`);
-
-      if (onDelete) {
-        onDelete(selectedItem.id);
-      }
     } catch (error) {
-      toast.error(itemType === "link" ? toastMessages.error.deleteLink : toastMessages.error.deleteFolder);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : itemType === "link"
+            ? toastMessages.error.deleteLink
+            : toastMessages.error.deleteFolder,
+      );
     }
   };
 
   return (
     <Modal
       modalId={`${itemType}Delete-${selectedItem.id}`}
-      title={itemType === "folder" ? "폴더 삭제" : "링크 삭제"}
+      title={itemType === "link" ? "링크 삭제" : "폴더 삭제"}
       onSubmit={handleDelete}
       action="delete"
+      isPending={isPending}
     >
       <p className="text-sm text-gray04 text-center mb-3 text-overflow2">
-        {itemType === "folder" ? selectedItem.name : selectedItem.url}
+        {itemType === "link" ? selectedItem.url : selectedItem.name}
       </p>
     </Modal>
   );

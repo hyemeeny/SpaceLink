@@ -1,90 +1,78 @@
-import { useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { LinkFolderAddSchema, LinkAddFormValues, LinkFolderAddFormValues } from "@/schema/zodSchema";
-import { useForm, UseFormReset } from "react-hook-form";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
+import { useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
-import { postLinks } from "@/actions/links";
-import { FolderType } from "@/types/folders";
+import { useFolders } from "@/hooks/queries/useFolders";
+import { useAddLink } from "@/hooks/mutations/useLink";
 import { useModalStore } from "@/store/useModalStore";
 import Modal from "@/components/Modal/Modal";
 import { IoCheckmarkCircle } from "react-icons/io5";
 
 interface LinkAddModalProps {
-  folders: FolderType[];
   url: string;
-  reset: UseFormReset<LinkAddFormValues>;
+  onAdded: () => void;
 }
 
-const LinkAddModal = ({ folders, url, reset }: LinkAddModalProps) => {
+const LinkAddModal = ({ url, onAdded }: LinkAddModalProps) => {
+  const { data: folders = [] } = useFolders();
   const { closeModal } = useModalStore();
   const searchParams = useSearchParams();
-  const folderId = Number(searchParams.get("folderId"));
-  const [folderIdState, setFolderIdState] = useState(folderId);
 
-  const selectedFolder = folders.find((folder) => folder.id === folderIdState);
+  // 페이지 전체 뷰 상태(useLinksViewStore)와 별개인, 이 모달 안에서만 쓰는 로컬 선택값.
+  // 전역 store의 folderId를 그대로 쓰면 모달에서 고른 폴더가 배후 페이지 뷰까지 바꿔버림.
+  const [folderId, setFolderId] = useState<number | null>(() => {
+    const param = searchParams.get("folderId");
+    return param ? Number(param) : null;
+  });
+  const { mutateAsync: addLink, isPending } = useAddLink();
+
+  const selectedFolder = folders.find((folder) => folder.id === folderId);
   const modalTitle = selectedFolder ? `${selectedFolder.name}에 추가` : "폴더에 추가";
 
-  const {
-    handleSubmit,
-    setValue,
-    formState: { isValid, isSubmitting },
-  } = useForm<LinkFolderAddFormValues>({
-    resolver: zodResolver(LinkFolderAddSchema),
-    mode: "onChange",
-    defaultValues: { url, folderId: folderId },
-  });
+  useEffect(() => {
+    if (folderId === null && folders.length > 0) {
+      setFolderId(folders[0].id);
+    }
+  }, [folders, folderId]);
 
-  const handleAddLink = async (data: LinkFolderAddFormValues) => {
-    const validData = { ...data, folderId: data.folderId ?? 0 };
+  const handleAddLink = async () => {
+    if (folderId === null) return;
     try {
-      await postLinks(validData);
-      toast.success(toastMessages.success.addLink);
+      await addLink({ url, folderId });
+      onAdded();
       closeModal("addLink");
-      reset();
+      toast.success(toastMessages.success.addLink);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : toastMessages.error.addLink);
     }
-  };
-
-  const handleFolderSelection = (id: number) => {
-    setFolderIdState(id);
-    setValue("folderId", id);
   };
 
   return (
     <Modal
       modalId="addLink"
       title={modalTitle}
-      onSubmit={handleSubmit(handleAddLink)}
+      onSubmit={handleAddLink}
       action="add"
-      isValid={isValid}
-      isSubmitting={isSubmitting}
+      isValid={folderId !== null}
+      isPending={isPending}
     >
       <ul className="flex flex-col gap-2">
-        {folders
-          .sort((a, b) => a.id - b.id)
-          .map((folder) => (
-            <li
-              key={folder.id}
-              className={clsx(
-                "text-base rounded-lg px-2 py-1",
-                folder.id === folderIdState ? "bg-gray01 text-purple01" : "text-gray06",
-              )}
-            >
-              <button
-                type="button"
-                onClick={() => handleFolderSelection(folder.id)}
-                className="flex items-center gap-4 w-full"
-              >
-                {folder.name}
-                <span className="text-sm text-gray04">{folder.linkCount}개 링크</span>
-                {folder.id === folderIdState && <IoCheckmarkCircle className="ml-auto text-xl text-purple01" />}
-              </button>
-            </li>
-          ))}
+        {folders.map((folder) => (
+          <li
+            key={folder.id}
+            className={clsx(
+              "text-sm rounded-lg px-3 py-2",
+              folder.id === folderId ? "bg-gray01 text-purple01" : "text-gray06",
+            )}
+          >
+            <button type="button" onClick={() => setFolderId(folder.id)} className="flex items-center gap-4 w-full">
+              {folder.name}
+              <span className="text-sm text-gray04">{folder.linkCount}개 링크</span>
+              {folder.id === folderId && <IoCheckmarkCircle className="ml-auto text-xl text-purple01" />}
+            </button>
+          </li>
+        ))}
       </ul>
     </Modal>
   );

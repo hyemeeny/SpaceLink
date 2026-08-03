@@ -1,28 +1,50 @@
 "use client";
 
-import { useModalStore } from "@/store/useModalStore";
 import Image from "next/image";
-import { ReactNode, FormEventHandler } from "react";
+import { createPortal } from "react-dom";
+import { ReactNode, FormEventHandler, useEffect, useState } from "react";
+import { useModalStore } from "@/store/useModalStore";
 import CtaButton from "@/components/Button/CtaButton";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
+import LoadingSpinner from "@/components/Common/LoadingSpinner";
 
 interface ModalProps {
-  modalId: string | number;
+  modalId: string;
   title: string;
   children: ReactNode;
   onSubmit?: FormEventHandler<HTMLFormElement>;
   action?: "add" | "update" | "delete";
   isValid?: boolean;
-  isSubmitting?: boolean;
+  isPending?: boolean;
 }
 
-const Modal = ({ modalId, title, children, onSubmit, action, isValid = true, isSubmitting = false }: ModalProps) => {
-  const { openModals, closeModal } = useModalStore();
-  const isOpen = openModals.has(modalId);
+const Modal = ({ modalId, title, children, onSubmit, action, isValid = true, isPending = false }: ModalProps) => {
+  const { activeModal, closeModal } = useModalStore();
+  const isOpen = activeModal === modalId;
+  const [mounted, setMounted] = useState(false);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  return (
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeModal(modalId);
+    };
+
+    document.addEventListener("keydown", handleEsc);
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.removeEventListener("keydown", handleEsc);
+      document.body.style.overflow = "";
+    };
+  }, [isOpen, modalId, closeModal]);
+
+  if (!isOpen || !mounted) return null;
+
+  return createPortal(
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
       <div className="relative p-6 w-[90%] md:w-[360px] rounded-2xl bg-white shadow-lg flex flex-col items-center">
         <button onClick={() => closeModal(modalId)} className="absolute top-3 right-3 text-gray-500">
@@ -31,16 +53,25 @@ const Modal = ({ modalId, title, children, onSubmit, action, isValid = true, isS
 
         <h3 className="text-gray06 text-xl font-bold">{title}</h3>
 
-        <form onSubmit={onSubmit} className="flex flex-col gap-4 mt-6 w-[280px]">
+        <form
+          onSubmit={(e) => {
+            // react-hook-form의 handleSubmit이 아닌 순수 async 함수를 onSubmit으로 받는
+            // 컴포넌트(DeleteModal, LinkAddModal 등)에서 preventDefault 누락 시
+            // 네이티브 폼 제출 → 풀 페이지 네비게이션이 발생하는 걸 막기 위한 공통 처리.
+            e.preventDefault();
+            onSubmit?.(e);
+          }}
+          className="flex flex-col gap-4 mt-6 w-[280px]"
+        >
           {children}
 
           {action && (
             <CtaButton
               type="submit"
-              disabled={isSubmitting || (action === "add" && !isValid)}
+              disabled={isPending || (action === "add" && !isValid)}
               variant={action === "delete" ? "red" : undefined}
             >
-              {isSubmitting ? (
+              {isPending ? (
                 <LoadingSpinner />
               ) : action === "update" ? (
                 "변경하기"
@@ -53,7 +84,8 @@ const Modal = ({ modalId, title, children, onSubmit, action, isValid = true, isS
           )}
         </form>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };
 

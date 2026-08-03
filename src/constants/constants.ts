@@ -5,3 +5,6 @@ export const ALL_FOLDERS_ID = 0;
 export const count = 5;
 export const MAX_STAR_COUNT = 10;
 export const colors = ["#c77eff", "#f6ff7e", "#ff8d7e", "#ffffff"];
+
+// pagination
+export const DEFAULT_PAGE_SIZE = 9;
