@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
 import BaseInput from "@/components/Input/BaseInput";
 import LinkAddModal from "@/components/Modal/components/LinkAddModal";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
+import LoadingSpinner from "@/components/Common/LoadingSpinner";
 
 const LinkInput = () => {
   const { activeModal, openModal } = useModalStore();

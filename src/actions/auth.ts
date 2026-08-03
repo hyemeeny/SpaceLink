@@ -56,7 +56,7 @@ export const signUpAction = async (data: SignupFormValues) => {
 };
 
 // 로그아웃
-export const logoutAction = async () => {
+export const logoutAction = () => {
   cookies().delete("accessToken");
   redirect("/login");
 };

@@ -1,3 +1,4 @@
+// types/link.ts
 export interface Link {
   id: number;
   favorite: boolean;
@@ -11,4 +12,21 @@ export interface Link {
 export interface LinksResponse {
   list: Link[];
   totalCount: number;
+}
+
+export interface LinksParams {
+  folderId?: number | null;
+  page?: number;
+  pageSize?: number;
+  search?: string;
+}
+
+export interface CreateLinkParams {
+  url: string;
+  folderId: number;
+}
+
+export interface UpdateLinkParams {
+  linkId: number;
+  url: string;
 }

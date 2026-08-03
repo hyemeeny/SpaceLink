@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { ReactNode, FormEventHandler, useEffect, useState } from "react";
 import { useModalStore } from "@/store/useModalStore";
 import CtaButton from "@/components/Button/CtaButton";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
+import LoadingSpinner from "@/components/Common/LoadingSpinner";
 
 interface ModalProps {
   modalId: string;
