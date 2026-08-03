@@ -6,7 +6,7 @@ export const fetchFolders = async (): Promise<Folder[]> => {
   return res.json();
 };
 
-export const postFolders = async (name: string) => {
+export const postFolders = async ({ name }: { name: string }) => {
   const res = await fetch(`/api/folders`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
