@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 const Pretendard = localFont({
   src: "../fonts/PretendardVariable.woff2",
   display: "swap",
-  weight: "45 920",
+  weight: "400 700",
   variable: "--font-Pretendard",
 });
 
@@ -60,8 +60,8 @@ export default async function RootLayout({
           <Header />
           {children}
         </QueryProvider>
+        {/* <KakaoScript /> */}
       </body>
-      <KakaoScript />
     </html>
   );
 }

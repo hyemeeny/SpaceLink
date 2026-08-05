@@ -7,8 +7,6 @@ import { useFolders } from "@/hooks/queries/useFolders";
 import { DEFAULT_PAGE_SIZE } from "@/constants/constants";
 import toast from "react-hot-toast";
 import toastMessages from "@/lib/toastMessage";
-import Container from "@/components/Layout/Container";
-import LinkInput from "@/components/Input/LinkInput";
 import SearchInput from "@/components/Input/SearchInput";
 import FolderList from "@/components/Folders/FolderList";
 import FolderActions from "@/components/Folders/FolderActions";
@@ -59,9 +57,7 @@ const LinksContent = () => {
   }, [router, searchParams]);
 
   return (
-    <Container className="mt-10 mb-20 pb-8 md:pb-32 flex flex-col gap-6">
-      <LinkInput />
-
+    <>
       <div className="flex flex-col md:flex-row md:items-center md:justify-between items-center">
         <FolderList />
         <FolderAddButton />
@@ -76,7 +72,7 @@ const LinksContent = () => {
       {totalCount > 0 && (
         <Pagination totalCount={totalCount} currentPage={page} pageSize={DEFAULT_PAGE_SIZE} onPageChange={setPage} />
       )}
-    </Container>
+    </>
   );
 };
 
