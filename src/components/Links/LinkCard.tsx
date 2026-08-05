@@ -12,7 +12,7 @@ import { GoKebabHorizontal } from "react-icons/go";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { useToggleFavorite } from "@/hooks/mutations/useToggleFavorite";
 
-const LinkCard = ({ link }: { link: LinkType }) => {
+const LinkCard = ({ link, priority }: { link: LinkType; priority: boolean }) => {
   const { activeModal, openModal } = useModalStore();
   const { mutate: toggleFavorite } = useToggleFavorite();
   const [isOpen, setIsOpen] = useState(false);
@@ -44,13 +44,14 @@ const LinkCard = ({ link }: { link: LinkType }) => {
             className="object-cover"
             onError={handleImageError}
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            priority={priority}
           />
         </div>
       </Link>
 
       <button
         onClick={handleFavoriteClick}
-        className="absolute top-4 right-4 text-xl md:text-2xl"
+        className="absolute p-4 top-0 right-0 text-xl md:text-2xl"
         aria-label={link.favorite ? "즐겨찾기 해제" : "즐겨찾기 추가"}
       >
         {link.favorite ? <FaStar className="text-yellow-400" /> : <FaRegStar className="text-gray04" />}
@@ -58,7 +59,7 @@ const LinkCard = ({ link }: { link: LinkType }) => {
 
       <div className="relative p-4 flex flex-col gap-[10px]">
         <div className="flex justify-between">
-          <p className="text-gray02 text-xs md:text-sm" suppressHydrationWarning>
+          <p className="text-xs md:text-sm" suppressHydrationWarning>
             {formatRelativeTime(link.createdAt)}
           </p>
 
@@ -84,7 +85,7 @@ const LinkCard = ({ link }: { link: LinkType }) => {
           <p className="text-xs md:text-sm text-overflow2 line-clamp-2">{link.description}</p>
         </div>
 
-        <p className="text-gray02 text-xs md:text-sm">{formatDate(link.createdAt)}</p>
+        <p className="text-xs md:text-sm">{formatDate(link.createdAt)}</p>
       </div>
 
       {/* 링크 수정 모달 */}

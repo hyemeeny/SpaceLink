@@ -9,11 +9,17 @@ declare global {
 }
 
 const KakaoScript = () => {
-  const onLoad = () => {
-    window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
-  };
-
-  return <Script src="https://developers.kakao.com/sdk/js/kakao.js" async onLoad={onLoad} />;
+  return (
+    <Script
+      src="https://developers.kakao.com/sdk/js/kakao.js"
+      strategy="afterInteractive"
+      onLoad={() => {
+        if (!window.Kakao?.isInitialized()) {
+          window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
+        }
+      }}
+    />
+  );
 };
 
 export default KakaoScript;
