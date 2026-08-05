@@ -1,14 +1,7 @@
 import clsx from "clsx";
 import { GoKebabHorizontal } from "react-icons/go";
 import { FaRegStar } from "react-icons/fa";
-
-interface SkeletonBarProps {
-  className?: string;
-}
-
-const SkeletonBar = ({ className }: SkeletonBarProps) => (
-  <div className={clsx("rounded bg-gray03/40 shimmer", className)} />
-);
+import SkeletonBar from "@/ui/SkeletonBar";
 
 const ICON_CLASS = "pointer-events-none text-gray04 opacity-60";
 

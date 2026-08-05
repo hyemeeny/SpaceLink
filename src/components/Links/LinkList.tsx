@@ -33,8 +33,8 @@ const LinkList = ({ links, isLoading, isFetching }: LinkListProps) => {
         isFetching && "opacity-80",
       )}
     >
-      {links.map((link) => (
-        <LinkCard key={link.id} link={link} />
+      {links.map((link, index) => (
+        <LinkCard key={link.id} link={link} priority={index === 0} />
       ))}
     </ul>
   );

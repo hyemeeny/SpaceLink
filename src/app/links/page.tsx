@@ -1,11 +1,10 @@
 import { redirect } from "next/navigation";
-import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { getQueryClient } from "@/lib/queryClient";
-import { queryKeys } from "@/constants/queryKeys";
+import { Suspense } from "react";
 import getUser from "@/services/server/getUser";
-import getFolders from "@/services/server/getFolders";
-import getLinks from "@/services/server/getLinks";
-import LinksContent from "@/components/Links/LinksContent";
+import LinksDataBoundary from "@/components/Links/LinksDataBoundary";
+import LinksSkeleton from "@/components/Links/LinksSkeleton";
+import Container from "@/components/Layout/Container";
+import LinkInput from "@/components/Input/LinkInput";
 
 interface LinksPageProps {
   searchParams: {
@@ -22,24 +21,13 @@ const LinksPage = async ({ searchParams }: LinksPageProps) => {
   const user = await getUser();
   if (!user) redirect("/login");
 
-  const queryClient = getQueryClient();
-  const search = searchParams.search;
-
-  await Promise.all([
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.folders.all(),
-      queryFn: getFolders,
-    }),
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.links.list({ folderId: null, search }),
-      queryFn: () => getLinks({ folderId: null, search }),
-    }),
-  ]);
-
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <LinksContent />
-    </HydrationBoundary>
+    <Container className="mt-10 mb-20 pb-8 md:pb-32 flex flex-col gap-6">
+      <LinkInput />
+      <Suspense fallback={<LinksSkeleton />}>
+        <LinksDataBoundary search={searchParams.search} />
+      </Suspense>
+    </Container>
   );
 };
 
