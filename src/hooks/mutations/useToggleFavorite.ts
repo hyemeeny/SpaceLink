@@ -17,19 +17,39 @@ export const useToggleFavorite = () => {
 
       const previousQueries = queryClient.getQueriesData<LinksResponse>({ queryKey: queryKeys.links.all() });
 
-      queryClient.setQueriesData<LinksResponse>({ queryKey: queryKeys.links.all() }, (old) => {
-        if (!old) return old;
-        return {
-          ...old,
-          list: old.list.map((link) => (link.id === linkId ? { ...link, favorite } : link)),
-        };
-      });
+      // 즐겨찾기 쿼리가 아닌 목록: favorite 필드만 업데이트
+      queryClient.setQueriesData<LinksResponse>(
+        {
+          queryKey: queryKeys.links.all(),
+          predicate: (query) => !query.queryKey.includes("favorites"),
+        },
+        (old) => {
+          if (!old) return old;
+          return {
+            ...old,
+            list: old.list.map((link) => (link.id === linkId ? { ...link, favorite } : link)),
+          };
+        },
+      );
+
+      // 즐겨찾기 쿼리: 해제 시 목록에서 제거
+      if (!favorite) {
+        queryClient.setQueriesData<LinksResponse>(
+          {
+            queryKey: queryKeys.links.all(),
+            predicate: (query) => query.queryKey.includes("favorites"),
+          },
+          (old) => {
+            if (!old) return old;
+            return {
+              ...old,
+              list: old.list.filter((link) => link.id !== linkId),
+            };
+          },
+        );
+      }
 
       return { previousQueries };
-    },
-
-    onSuccess: (_data, { favorite }) => {
-      toast.success(favorite ? toastMessages.success.favoriteLink : toastMessages.success.unfavoriteLink);
     },
 
     onError: (_err, _variables, context) => {
@@ -40,7 +60,7 @@ export const useToggleFavorite = () => {
     },
 
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.links.all() });
+      queryClient.invalidateQueries({ queryKey: queryKeys.links.all(), refetchType: "none" });
     },
   });
 };
