@@ -5,8 +5,6 @@ const toastMessages = {
     addLink: "링크를 추가했어요.",
     updateLink: "링크를 수정했어요.",
     deleteLink: "링크를 삭제했어요.",
-    favoriteLink: "즐겨찾기에 추가했어요.",
-    unfavoriteLink: "즐겨찾기를 해제했어요.",
     addFolder: "폴더를 만들었어요.",
     updateFolder: "폴더 이름을 바꿨어요.",
     deleteFolder: "폴더를 삭제했어요.",
