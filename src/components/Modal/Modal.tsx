@@ -55,9 +55,12 @@ const Modal = ({ modalId, title, children, onSubmit, action, isValid = true, isP
 
         <form
           onSubmit={(e) => {
-            // react-hook-form의 handleSubmit이 아닌 순수 async 함수를 onSubmit으로 받는
-            // 컴포넌트(DeleteModal, LinkAddModal 등)에서 preventDefault 누락 시
-            // 네이티브 폼 제출 → 풀 페이지 네비게이션이 발생하는 걸 막기 위한 공통 처리.
+            /**
+             * react-hook-form의 handleSubmit이 아닌 순수 async 함수를 onSubmit으로 받는
+             * 컴포넌트(DeleteModal, LinkAddModal 등)에서 preventDefault 누락 시
+             * 네이티브 폼 제출 → 풀 페이지 네비게이션이 발생하는 걸 막기 위한 공통 처리.
+             * -> React 앱 인스턴스 자체가 통째로 사라지고 완전히 새로운 인스턴스가 처음부터 다시 시작
+             */
             e.preventDefault();
             onSubmit?.(e);
           }}
