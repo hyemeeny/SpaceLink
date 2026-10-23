@@ -1,12 +1,17 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import Image from "next/image";
 import Container from "@/components/Layout/Container";
 import dynamic from "next/dynamic";
-const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+const Lottie = dynamic(() => import("lottie-light-react"), { ssr: false });
 
 const SubSectionContainer = ({ children, image, lottie }: { children: ReactNode; image: string; lottie: object }) => {
   const { ref, inView } = useInView({ triggerOnce: true });
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    setIsDesktop(window.matchMedia("(min-width: 1024px)").matches);
+  }, []);
 
   return (
     <Container className="flex flex-col lg:flex-row lg:items-center justify-center lg:justify-between gap-y-4 md:gap-y-0 screen-height">
@@ -20,7 +25,7 @@ const SubSectionContainer = ({ children, image, lottie }: { children: ReactNode;
         <div className="flex flex-col gap-y-1 md:gap-y-5 text-center lg:text-left">{children}</div>
       </div>
       <div className="w-[300px] lg:w-[500px] h-[300px] lg:h-[500px] mx-auto lg:mx-0 hidden lg:flex lg:items-center lg:justify-center">
-        {inView && <Lottie animationData={lottie} className="size-full" />}
+        {inView && isDesktop && <Lottie animationData={lottie} className="size-full" />}
       </div>
     </Container>
   );
