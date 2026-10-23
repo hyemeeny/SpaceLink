@@ -2,9 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import { useTopStore } from "@/store/useTopStore";
-import top from "@/assets/lotties/top.json";
-import dynamic from "next/dynamic";
-const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 const TopButton = () => {
   const setIsTopVisible = useTopStore((state) => state.setIsTopVisible);
@@ -31,7 +28,7 @@ const TopButton = () => {
 
   return (
     <button ref={topRef} onClick={handleScrollToTop} className="block w-[250px] m-auto text-white md:hidden">
-      <span className="text-base block -mb-4">맨 위로 이동</span> <Lottie animationData={top} className="mr-6" />
+      <span className="text-base block -mb-4">맨 위로 이동</span>
     </button>
   );
 };
