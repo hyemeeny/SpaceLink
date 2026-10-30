@@ -26,7 +26,7 @@ interface InputProps {
   leftElement?: ReactNode;
   rightElement?: ReactNode;
   ariaLabel?: string;
-  onChange?: ChangeEventHandler;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
   onKeyDown?: KeyboardEventHandler;
   onBlur?: FocusEventHandler;
 }
