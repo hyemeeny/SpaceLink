@@ -2,7 +2,15 @@ import type { Preview } from "@storybook/nextjs-vite";
 import "../src/styles/globals.scss";
 
 const preview: Preview = {
+  decorators: [
+    (Story) => (
+      <div className="flex min-h-screen items-center justify-center p-8 gradient-background">
+        <Story />
+      </div>
+    ),
+  ],
   parameters: {
+    layout: "fullscreen",
     controls: {
       matchers: {
         color: /(background|color)$/i,
