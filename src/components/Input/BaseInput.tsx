@@ -26,9 +26,9 @@ interface InputProps {
   leftElement?: ReactNode;
   rightElement?: ReactNode;
   ariaLabel?: string;
-  onChange?: ChangeEventHandler;
-  onKeyDown?: KeyboardEventHandler;
-  onBlur?: FocusEventHandler;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
+  onBlur?: FocusEventHandler<HTMLInputElement>;
 }
 
 const BaseInput = forwardRef<HTMLInputElement, InputProps>(

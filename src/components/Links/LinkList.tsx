@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { Link } from "@/types/link";
 import LinkCard from "@/components/Links/LinkCard";
-import LinkNone from "@/components/Links/LinkNone";
 import SkeletonCard from "@/ui/SkeletonCard";
 
 interface LinkListProps {
@@ -22,7 +21,7 @@ const LinkList = ({ links, isLoading, isFetching }: LinkListProps) => {
   }
 
   if (links.length === 0) {
-    return <LinkNone>아직 저장된 링크가 없습니다.</LinkNone>;
+    return <p className="mt-[20vh] text-center text-base text-gray01">아직 저장된 링크가 없습니다.</p>;
   }
 
   return (
@@ -34,7 +33,7 @@ const LinkList = ({ links, isLoading, isFetching }: LinkListProps) => {
       )}
     >
       {links.map((link, index) => (
-        <LinkCard key={link.id} link={link} priority={index === 0} />
+        <LinkCard key={link.id} link={link} />
       ))}
     </ul>
   );

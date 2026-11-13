@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SectionsContainer, Section } from "react-fullpage";
 import MainSection from "@/components/Home/MainSection";
 import SubSection01 from "@/components/Home/SubSection01";
@@ -12,8 +12,24 @@ type ScrollEvent = {
   activeSection: number;
 };
 
+const sectionLabels: Record<string, string> = {
+  MainSection: "메인",
+  SubSection01: "링크 저장",
+  SubSection02: "폴더 관리",
+  SubSection03: "즐겨찾기",
+  SubSection04: "링크 공유",
+};
+
 const FullpageContainer = () => {
   const [initialActiveSection, setInitialActiveSection] = useState<number | null>(null);
+
+  useEffect(() => {
+    document.querySelectorAll<HTMLAnchorElement>("a.Navigation-Anchor").forEach((el) => {
+      const id = el.getAttribute("href")?.replace("#", "") ?? "";
+      const label = sectionLabels[id];
+      if (label) el.setAttribute("aria-label", `${label} 섹션으로 이동`);
+    });
+  }, []);
 
   const onScroll = (page: ScrollEvent) => {
     if (initialActiveSection === null) setInitialActiveSection(page.activeSection);

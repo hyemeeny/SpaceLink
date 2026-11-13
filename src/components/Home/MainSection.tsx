@@ -2,7 +2,7 @@ import rocket from "@/assets/lotties/rocket.json";
 import Container from "@/components/Layout/Container";
 import CtaButton from "@/components/Button/CtaButton";
 import dynamic from "next/dynamic";
-const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+const Lottie = dynamic(() => import("lottie-light-react"), { ssr: false });
 
 const MainSection = () => {
   return (

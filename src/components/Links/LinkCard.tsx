@@ -12,7 +12,7 @@ import { GoKebabHorizontal } from "react-icons/go";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { useToggleFavorite } from "@/hooks/mutations/useToggleFavorite";
 
-const LinkCard = ({ link, priority }: { link: LinkType; priority: boolean }) => {
+const LinkCard = ({ link }: { link: LinkType }) => {
   const { activeModal, openModal } = useModalStore();
   const { mutate: toggleFavorite } = useToggleFavorite();
   const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +44,6 @@ const LinkCard = ({ link, priority }: { link: LinkType; priority: boolean }) => 
             className="object-cover"
             onError={handleImageError}
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            priority={priority}
           />
         </div>
       </Link>
