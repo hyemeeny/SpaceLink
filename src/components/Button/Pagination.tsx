@@ -25,7 +25,7 @@ const Pagination = ({ totalCount, currentPage, pageSize, onPageChange }: Paginat
   const disabledStyle = "opacity-50 cursor-not-allowed pointer-events-none";
 
   return (
-    <div className="flex gap-2 md:gap-3 mt-8 md:mt-12 items-center justify-center">
+    <div className="flex gap-2 md:gap-3 mt-16 md:mt-12 items-center justify-center">
       {/* 첫 페이지 */}
       <button
         onClick={() => navigateToPage(1)}

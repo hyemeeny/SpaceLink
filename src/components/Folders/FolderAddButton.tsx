@@ -6,15 +6,15 @@ import FolderAddModal from "@/components/Modal/components/FolderAddModal";
 
 const FolderAddButton = () => {
   const { activeModal, openModal } = useModalStore();
-  const isTopVisible = useTopStore((state) => state.isTopVisible);
+  const isPaginationVisible = useTopStore((state) => state.isPaginationVisible);
 
   return (
     <>
       <button
         onClick={() => openModal("addFolder")}
         className={clsx(
-          "flex items-center gap-1 text-sm md:text-base font-medium fixed z-[1] bg-purple01 text-white rounded-[20px] px-7 py-1 md:bg-transparent md:text-purple01 md:min-w-[90px] md:static md:rounded-none md:p-0 transition-all duration-700 ease-in-out",
-          isTopVisible ? "bottom-[90%]" : "bottom-8",
+          "flex items-center gap-1 text-sm md:text-base font-medium fixed z-[1] bg-purple01 text-black02 rounded-[20px] px-7 py-1 md:bg-transparent md:text-purple01 md:min-w-[90px] md:static md:rounded-none md:p-0 transition-all duration-700 ease-in-out",
+          isPaginationVisible ? "bottom-24" : "bottom-8",
         )}
       >
         폴더 추가 <FiPlus />

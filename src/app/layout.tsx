@@ -4,7 +4,6 @@ import "@/styles/globals.scss";
 import { Toaster } from "react-hot-toast";
 import Header from "@/components/Layout/Header/Header";
 import StarBackground from "@/components/Common/StarBackground";
-import KakaoScript from "@/components/Common/KakaoScript";
 import QueryProvider from "@/providers/QueryProvider";
 
 export const metadata: Metadata = {
@@ -60,7 +59,6 @@ export default async function RootLayout({
           <Header />
           {children}
         </QueryProvider>
-        {/* <KakaoScript /> */}
       </body>
     </html>
   );

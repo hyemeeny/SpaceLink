@@ -14,6 +14,7 @@ import FolderAddButton from "@/components/Folders/FolderAddButton";
 import LinkList from "@/components/Links/LinkList";
 import Pagination from "@/components/Button/Pagination";
 import { useLinksViewStore } from "@/store/useLinksViewStore";
+import { useTopStore } from "@/store/useTopStore";
 
 const LinksContent = () => {
   const router = useRouter();
@@ -45,6 +46,24 @@ const LinksContent = () => {
   });
   const links = data?.list ?? [];
   const totalCount = data?.totalCount ?? 0;
+  const paginationRef = useRef<HTMLDivElement>(null);
+  const setIsPaginationVisible = useTopStore((state) => state.setIsPaginationVisible);
+  const hasPagination = totalCount > 0;
+
+  useEffect(() => {
+    const el = paginationRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsPaginationVisible(entry.isIntersecting);
+    });
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+      setIsPaginationVisible(false);
+    };
+  }, [hasPagination, setIsPaginationVisible]);
 
   useEffect(() => {
     if (searchParams.get("login") === "success") {
@@ -69,8 +88,10 @@ const LinksContent = () => {
 
       <LinkList links={links} isLoading={isLoading} isFetching={isFetching} />
 
-      {totalCount > 0 && (
-        <Pagination totalCount={totalCount} currentPage={page} pageSize={DEFAULT_PAGE_SIZE} onPageChange={setPage} />
+      {hasPagination && (
+        <div ref={paginationRef}>
+          <Pagination totalCount={totalCount} currentPage={page} pageSize={DEFAULT_PAGE_SIZE} onPageChange={setPage} />
+        </div>
       )}
     </>
   );
